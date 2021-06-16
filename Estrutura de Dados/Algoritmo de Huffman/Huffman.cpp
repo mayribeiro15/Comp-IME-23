@@ -130,31 +130,39 @@ void writeArv(const char *arvName, no *raiz){
     arvFile.close();
 }
 
-void writeCod(const char *inputName, const char *codName){
+float writeCod(const char *inputName, const char *codName){
     char c;
-    ofstream out(codName);
+    float tam;
+    ofstream codFile(codName);
     ifstream inputFile(inputName);
     if (inputFile.is_open()){
         while(inputFile.get(c)){
-            out << tabelaHuff[c];
+            codFile << tabelaHuff[c];
         }
         inputFile.close();
     }
-    out.close();
+    codFile.seekp(0, ios::end);
+    tam = codFile.tellp();
+    codFile.close();
+    return tam;
 }
 
-void writeCtx(const char *inputName, const char *ctxName){
+float writeCtx(const char *inputName, const char *ctxName){
     char c;
-    ofstream out(ctxName);
+    float tam;
+    ofstream ctxFile(ctxName);
     ifstream inputFile(inputName);
     if (inputFile.is_open()){
         while(inputFile.get(c)){
-            out << tabelaHuff[c];
-            for(int i=tabelaHuff[c].size();i<8;i++) out << 0;
+            ctxFile << tabelaHuff[c];
+            for(int i=tabelaHuff[c].size();i<8;i++) ctxFile << 0;
         }
         inputFile.close();
     }
-    out.close();
+    ctxFile.seekp(0, ios::end);
+    tam = ctxFile.tellp();
+    ctxFile.close();
+    return tam;
 }
 
 void percArv(no *raiz, string cod){
@@ -225,13 +233,14 @@ void codifica(const char *inputName, const char *arvName, const char *codName, c
     no *raiz = newArvoreHuff(Lista);
 
     tabelaCod(frequencias, raiz);
-    writeCod(inputName, codName);
-    writeCtx(inputName, ctxName);
+    float tamCod = writeCod(inputName, codName);
+    float tamCtx = writeCtx(inputName, ctxName);
     writeArv(arvName, raiz);
 
     cout << "Codificado com sucesso!" << endl;
     cout << " - Entrada: " << inputName << endl;
     cout << " - Saida: " << codName << endl;
+    cout << " - Compressao: " << tamCod/tamCtx*100 << " %" << endl;
 }
 
 void decodifica(const char *outputName, const char *arvName, const char *codName){
