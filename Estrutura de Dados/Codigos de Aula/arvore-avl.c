@@ -252,9 +252,5 @@ int main(){
     print_pre(raiz);
     printf("\n");
 
-    remover_avl(40,&raiz,&red,0);
-    print_pre(raiz);
-    printf("\n");
-
     return 0;
 }

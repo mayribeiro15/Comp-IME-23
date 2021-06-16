@@ -20,13 +20,16 @@ typedef struct lista{
 
 map<char,string> tabelaHuff;
 
-map<char, int> getFrequencias(FILE *inputFile){
+map<char, int> getFrequencias(const char *inputName){
     map<char, int> frequencias;
     char c;
-    while (fread(&c, 1, 1, inputFile) >= 1){
-        frequencias[c]++;
+    ifstream inputFile(inputName);
+    if (inputFile.is_open()){
+        while(inputFile.get(c)){
+            frequencias[c]++;
+        }
+        inputFile.close();
     }
-    rewind(inputFile);
     return frequencias;
 }
 
@@ -101,46 +104,55 @@ no *newArvoreHuff(lista *Lista){
     return popLista(Lista);
 }
 
-void printPre(FILE *arvFile, no *raiz){
+void printPre(ofstream &arvFile, no *raiz){
     if (raiz){
-        if(!raiz->rotulo) fprintf(arvFile, "(#,%d), ", raiz->freq);
-        else fprintf(arvFile, "(%c,%d), ",raiz->rotulo,raiz->freq);
+        if(!raiz->rotulo) arvFile << "(#," << raiz->freq << "), ";
+        else arvFile << "(" << raiz->rotulo << "," << raiz->freq << "), ";
         printPre(arvFile, raiz->esq);
         printPre(arvFile, raiz->dir);
     }
 }
 
-void printSim(FILE *arvFile, no *raiz){
+void printSim(ofstream &arvFile, no *raiz){
     if (raiz){
         printSim(arvFile, raiz->esq);
-        if(!raiz->rotulo) fprintf(arvFile, "(#,%d), ", raiz->freq);
-        else fprintf(arvFile, "(%c,%d), ",raiz->rotulo,raiz->freq);
+        if(!raiz->rotulo) arvFile << "(#," << raiz->freq << "), ";
+        else arvFile << "(" << raiz->rotulo << "," << raiz->freq << "), ";
         printSim(arvFile, raiz->dir);
     }
 };
 
-void writeArv(FILE *arvFile, no *raiz){
+void writeArv(const char *arvName, no *raiz){
+    ofstream arvFile(arvName);
     printPre(arvFile, raiz);
-    fprintf(arvFile, "\n");
+    arvFile << "\n";
     printSim(arvFile, raiz);
+    arvFile.close();
 }
 
-void writeCod(FILE *inputFile, const char *codName){
+void writeCod(const char *inputName, const char *codName){
     char c;
     ofstream out(codName);
-    while (fread(&c, 1, 1, inputFile) >= 1){
-        out << tabelaHuff[c];
+    ifstream inputFile(inputName);
+    if (inputFile.is_open()){
+        while(inputFile.get(c)){
+            out << tabelaHuff[c];
+        }
+        inputFile.close();
     }
     out.close();
-    rewind(inputFile);
 }
 
-void writeCtx(FILE *inputFile, const char *ctxName){
+void writeCtx(const char *inputName, const char *ctxName){
     char c;
     ofstream out(ctxName);
-    while (fread(&c, 1, 1, inputFile) >= 1){
-        out << tabelaHuff[c];
-        for(int i=tabelaHuff[c].size();i<8;i++) out << 0;
+    ifstream inputFile(inputName);
+    if (inputFile.is_open()){
+        while(inputFile.get(c)){
+            out << tabelaHuff[c];
+            for(int i=tabelaHuff[c].size();i<8;i++) out << 0;
+        }
+        inputFile.close();
     }
     out.close();
 }
@@ -159,99 +171,77 @@ void tabelaCod(map<char, int> frequencias, no *raiz){
     percArv(raiz, cod);
 }
 
-map<char, int> readFreqArvoreHuff(FILE *arvFile){
-    rewind(arvFile);
-    char check, read[3];
+map<char, int> readFreqArvoreHuff(const char *arvName){
+    ifstream arvFile(arvName);
+    char c, read[3];
     map<char, int> frequencias;
-    fseek(arvFile, 1, SEEK_CUR);
-    while(!feof(arvFile)){
-        fread(read, sizeof(read), 1, arvFile);
+    arvFile.seekg(1, ios::cur);
+    while(!arvFile.eof()){
+        arvFile.read(read,3);
         if (read[0] != '#'){
             frequencias[read[0]] = read[2]-'0';
         }
-        fread(&check, 1, 1, arvFile);
-        while(isdigit(check)){
+        arvFile.get(c);
+        while(isdigit(c)){
             if (read[0] != '#'){
-                frequencias[read[0]] = frequencias[read[0]]*10 + check-'0';
+                frequencias[read[0]] = frequencias[read[0]]*10 + c-'0';
             }
-            fread(&check, 1, 1, arvFile);
+            arvFile.get(c);
         }
-        fseek(arvFile, 2, SEEK_CUR);
-        fread(&check, 1, 1, arvFile);
-        if(check=='\n') break;
+        arvFile.read(read,3);
+        if(read[2]=='\n') break;
     }
-    rewind(arvFile);
+    arvFile.close();
     return frequencias;
 }
 
-void writeText(FILE *codFile, const char *outputName, no *raiz){
-    rewind(codFile);
-    ofstream out(outputName);
+void writeText(const char *codName, const char *outputName, no *raiz){;
+    ofstream outFile(outputName);
+    ifstream codFile(codName);
     no *aux=raiz;
     char c;
-    while(fread(&c, 1, 1, codFile) >= 1){
-        if(c=='1'){
-            aux=aux->dir;
+    if (codFile.is_open()){
+        while(codFile.get(c)){
+           if(c=='1'){
+                aux=aux->dir;
+            }
+            else if(c=='0') {
+                aux=aux->esq;
+            }
+            if(aux->rotulo!= NULL){
+                outFile << aux->rotulo;
+                aux=raiz;
+            }
         }
-        else if(c=='0') {
-            aux=aux->esq;
-        }
-        if(aux->rotulo!= NULL){
-            out << aux->rotulo;
-            aux=raiz;
-        }
+        codFile.close();
     }
-    out.close();
+    outFile.close();
+    codFile.close();
 }
 
 void codifica(const char *inputName, const char *arvName, const char *codName, const char *ctxName){
-    FILE *inputFile = fopen(inputName, "rb");
-    if(!inputFile){
-        printf("Arquivo de entrada nao encontrado\n");
-        return;
-    }
-    map<char, int> frequencias = getFrequencias(inputFile);
+    map<char, int> frequencias = getFrequencias(inputName);
     lista *Lista = newLista(frequencias);
     no *raiz = newArvoreHuff(Lista);
 
     tabelaCod(frequencias, raiz);
-    writeCod(inputFile, codName);
-    writeCtx(inputFile, ctxName);
-    fclose(inputFile);
+    writeCod(inputName, codName);
+    writeCtx(inputName, ctxName);
+    writeArv(arvName, raiz);
 
-    FILE *arvFile = fopen(arvName, "wb");
-    if(!arvFile){
-        printf("Arquivo de arvore nao encontrado\n");
-        return;
-    }
-    writeArv(arvFile, raiz);
-    fclose(arvFile);
     cout << "Codificado com sucesso!" << endl;
     cout << " - Entrada: " << inputName << endl;
     cout << " - Saida: " << codName << endl;
 }
 
 void decodifica(const char *outputName, const char *arvName, const char *codName){
-    FILE *arvFile = fopen(arvName, "rb");
-    if(!arvFile){
-        printf("Arquivo de arvore nao encontrado\n");
-        return;
-    }
     char c;
-    map<char, int> frequencias = readFreqArvoreHuff(arvFile);
+    map<char, int> frequencias = readFreqArvoreHuff(arvName);
     lista *Lista = newLista(frequencias);
     no *raiz = newArvoreHuff(Lista);
     tabelaCod(frequencias, raiz);
-    fclose(arvFile);
-
-    FILE *codFile = fopen(codName, "rb");
-    if(!codFile){
-        printf("Arquivo de codificacao nao encontrado\n");
-        return;
-    }
     
-    writeText(codFile, outputName, raiz);
-    fclose(codFile);
+    writeText(codName, outputName, raiz);
 
     cout << "Decodificado com sucesso!" << endl;
     cout << " - Entrada: " << codName << endl;
