@@ -1,0 +1,4 @@
+regiao;estado;municipio;coduf;codmun;codRegiaoSaude;nomeRegiaoSaude;data;semanaEpi;populacaoTCU2019;casosAcumulado;casosNovos;obitosAcumulado;obitosNovos;Recuperadosnovos;emAcompanhamentoNovos;interior/metropolitana
+Brasil;;;76;;;;2021-01-01;53;210147125;7700578;24605;195411;462;6756284;748883;
+Sul;RS;Candiota;43;430435;43022;REGIAO 22;2021-04-02;13;9584;502;4;6;0;;;0
+Norte;RO;;11;;;;2021-01-10;2;1777225;101588;564;1911;3;;;
