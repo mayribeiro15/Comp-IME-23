@@ -13,6 +13,9 @@ public:
         //sintaxe acima especifica no construtor, tambem pode ser assim: (dentro do bloco)
         //r = zr;
         //i = zi;
+
+    ~Complexo(){
+    }
     float modulo(){
         return sqrt(r*r + i*i);
     }
@@ -49,7 +52,38 @@ public:
         ans.i = ans.i/(z.modulo()*z.modulo());
         return ans;
     }
+    
+    Complexo operator++(){
+        r++;
+        return *this;
+    }
+    Complexo operator++(int){
+        i++;
+        return *this;
+    }
+    Complexo operator+(Complexo c){
+        return Complexo(r+c.r, i+c.i);
+    }
+    Complexo operator=(Complexo c){
+        r=c.r;
+        i=c.i;
+        return *this;
+    }
+    bool operator==(Complexo c){
+        return r==c.r && i==c.i;
+    }
+
+    friend ostream &operator<<(ostream& os, const Complexo &c);
+    friend Complexo operator+(int x, Complexo c);
 };
+
+ostream &operator<<(ostream& os, const Complexo &c){
+    os << c.r << ((c.i>=0)?"+":"") << c.i << "i";
+}
+
+Complexo operator+(int x, Complexo c){
+    return Complexo(x+c.r,c.i);
+}
 
 int main(){
     Complexo c1(1,2), c2(2,4);
@@ -59,5 +93,13 @@ int main(){
     c1.conjugado().imprimir();
     Complexo c3 = c1.divisao(c2);
     c3.imprimir();
+
+    //Novos 
+    cout <<"\nNew\n" << c1 << endl;
+    cout << ++c1 << endl;
+    cout << c1++ << endl;
+    cout << c2 << endl;
+    cout << c1+c2 << endl;
+
     return 0;
 }
