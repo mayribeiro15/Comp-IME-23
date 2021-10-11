@@ -53,6 +53,7 @@ void caso2(struct no **p){ //regulagem direita p->bal=2
 
     if(z->bal==1){ //2a rotacao esquerda
         if (z->bal==1){
+            
             z->bal=0;
             (*p)->bal=0;
         }else{

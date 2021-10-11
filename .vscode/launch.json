@@ -5,6 +5,62 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "br.eb.ime.agenda.aplicacao.Main",
+            "projectName": "Comp-IME-23_cf72805d"
+        },
+        {
+            "type": "java",
+            "name": "Launch ConnectionFactory",
+            "request": "launch",
+            "mainClass": "br.eb.ime.factory.ConnectionFactory",
+            "projectName": "Comp-IME-23_cf72805d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Variaveis",
+            "request": "launch",
+            "mainClass": "br.eb.ime.udi1.Variaveis",
+            "projectName": "Comp-IME-23_cf72805d"
+        },
+        {
+            "type": "java",
+            "name": "Launch helloworld",
+            "request": "launch",
+            "mainClass": "br.eb.ime.udi1.helloworld",
+            "projectName": "Comp-IME-23_cf72805d"
+        },
+        {
+            "type": "java",
+            "name": "Launch helloworld",
+            "request": "launch",
+            "mainClass": "helloworld",
+            "projectName": "Comp-IME-23_cf72805d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Variaveis",
+            "request": "launch",
+            "mainClass": "Projeto.src.Variaveis",
+            "projectName": "Comp-IME-23_cf72805d"
+        },
+        {
+            "type": "java",
+            "name": "Launch VariaveisInteiras",
+            "request": "launch",
+            "mainClass": "Projeto0.src.VariaveisInteiras",
+            "projectName": "Comp-IME-23_cf72805d"
+        },
+        {
+            "type": "java",
+            "name": "Launch MeuPrograma",
+            "request": "launch",
+            "mainClass": "MeuPrograma",
+            "projectName": "Comp-IME-23_cf72805d"
+        },
+        {
             "name": "g++.exe - Criar e depurar o arquivo ativo",
             "type": "cppdbg",
             "request": "launch",

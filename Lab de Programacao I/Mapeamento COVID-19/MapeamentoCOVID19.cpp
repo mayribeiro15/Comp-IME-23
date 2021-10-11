@@ -16,9 +16,12 @@ public:
     }
     void create_data(string data, string casos, string obitos){
         char* end;
-        Data.push_back(data);
-        Casos[data]=strtoll(casos.c_str(),&end,10);
-        Obitos[data]=strtoll(obitos.c_str(),&end,10);
+        auto it = find(Data.begin(),Data.end(),data);
+        if(it==Data.end()){
+            Data.push_back(data);
+            Casos[data]=strtoll(casos.c_str(),&end,10);
+            Obitos[data]=strtoll(obitos.c_str(),&end,10);
+        }
     }
     ll get_casos(){
         string data;
@@ -56,25 +59,27 @@ public:
             cout << "Data Invalida" << endl;
             return 0;
         }
-        cout << "Total de casos na janela: " << (Casos[data2] - Casos[data1]) << endl;
-        return (Casos[data2] - Casos[data1]);
+        auto it = find(Data.begin(), Data.end(), data1);
+        cout << "Total de casos na janela: " << (Casos[data2] - Casos[*(it-1)]) << endl;
+        return (Casos[data2] - Casos[*(it-1)]);
     }
     ll get_obitos_janela(){
         string data1, data2;
         cout << "Insira a data inicial no formato (aaaa-mm-dd): ";
         cin >> data1;
-        if(Casos.find(data1)==Casos.end()){
+        if(Obitos.find(data1)==Obitos.end()){
             cout << "Data Invalida" << endl;
             return 0;
         }
         cout << "Insira a data final no formato (aaaa-mm-dd): ";
         cin >> data2;
-        if(Casos.find(data2)==Casos.end()){
+        if(Obitos.find(data2)==Obitos.end()){
             cout << "Data Invalida" << endl;
             return 0;
         }
-        cout << "Total de casos na janela: " << (Obitos[data2] - Obitos[data1]) << endl;
-        return (Obitos[data2] - Obitos[data1]);
+        auto it = find(Data.begin(), Data.end(), data1);
+        cout << "Total de obitos na janela: " << (Obitos[data2] - Obitos[*(it-1)]) << endl;
+        return (Obitos[data2] - Obitos[*(it-1)]);
     }
     float media_casos_janela(){
         string data; 
@@ -89,7 +94,7 @@ public:
         cout << "Insira o numero de dias: ";
         cin >> dias;
         auto it = find(Data.begin(), Data.end(), data);
-        media = (Casos[*it] - Casos[*(it-dias+1)])/dias ;
+        media = (Casos[*it] - Casos[*(it-dias)])/dias ;
         cout << "A media movel e: " << media << endl;
         return media;
     }
@@ -106,7 +111,7 @@ public:
         cout << "Insira o numero de dias: ";
         cin >> dias;
         auto it = find(Data.begin(), Data.end(), data);
-        media = (Obitos[*it] - Obitos[*(it-dias+1)])/dias ;
+        media = (Obitos[*it] - Obitos[*(it-dias)])/dias ;
         cout << "A media movel e: " << media << endl;
         return media;
     }
@@ -192,9 +197,7 @@ public:
     }
 };
 
-string regiao, estado, municipio;
-
-void readCsv(string file, map<string,Regiao> *covidData){
+void readCsv(string file, map<string,Regiao> &covidData){
     ifstream covidFile(file);
     string line, data;
     ll x=0;
@@ -215,20 +218,20 @@ void readCsv(string file, map<string,Regiao> *covidData){
             result.push_back(data);
         }
 
-        if((*covidData).find(result[0])==(*covidData).end()){
+        if((covidData).find(result[0])==(covidData).end()){
             Regiao aux(result[0]); //construtor passando o nome
-            (*covidData)[result[0]]=aux;
+            (covidData)[result[0]]=aux;
         }
 
         if(result[1]==""){
-            (*covidData)[result[0]].create_data(result[7],result[10],result[12]); //data, casos acu, obitos acu
+            (covidData)[result[0]].create_data(result[7],result[10],result[12]); //data, casos acu, obitos acu
         } 
         else {
             if(result[2]==""){
-                (*covidData)[result[0]].get_estado(result[1]).create_data(result[7],result[10],result[12]);
+                (covidData)[result[0]].get_estado(result[1]).create_data(result[7],result[10],result[12]);
             }
             else {
-                (*covidData)[result[0]].get_estado(result[1]).get_municipio(result[2]).create_data(result[7],result[10],result[12]);
+                (covidData)[result[0]].get_estado(result[1]).get_municipio(result[2]).create_data(result[7],result[10],result[12]);
             }
         }
     }
@@ -266,41 +269,43 @@ bool continuar(){
     return false; 
 }
 
-bool inRegiao(map<string,Regiao> covidData){   
-    cout<<"Informe a regiao que sera analisada: "<<endl;
+string inRegiao(map<string,Regiao>& covidData){   
+    string regiao;
+    cout<<"Informe o pais que sera analisado: "<<endl;
     try{
         fflush(stdin);
         cin>>regiao;
         if(covidData.find(regiao)==covidData.end()) // teste da regiao
-            throw "Regiao invalida";
-        return true;
+            throw "Pais invalido";
+        return regiao;
     } catch(...) {   
         char ch;
         cout<<"Localidade invalida. Pressione 'a' para tentar novamente ou outra tecla para voltar."<<endl;
         fflush(stdin);
         cin>>ch;
-        if(ch=='a'){
-            if(inRegiao(covidData))
-                return true;
-            else return false;            
-        }
-        else return false;
+        if(ch=='a')
+            return inRegiao(covidData);        
+        else return "invalido";
     }
 }
 
-bool inEstado(map<string,Regiao> covidData){   
+vector<string> inEstado(map<string,Regiao>& covidData){
+    vector<string>out = {"",""};
+    string regiao, estado;
     cout<<"Informe a regiao a que o estado pertence:"<<endl;
     try{
         fflush(stdin);
         cin>>regiao;
         if(covidData.find(regiao)==covidData.end()) // testar o valor de entrada da regiao
             throw "Regiao invalida"; 
-        cout<<"Informe o estado que deseja analisar:"<<endl;
+        cout<<"Informe a sigla do estado que deseja analisar:"<<endl;
         fflush(stdin);
         cin>>estado;
         if(!covidData[regiao].check_estado(estado)) // testar o valor de entrada do estado
             throw "Estado invalido";
-        return true;
+        out[0]=regiao;
+        out[1]=estado;
+        return out;
     }
     catch(...)
     {   
@@ -309,23 +314,21 @@ bool inEstado(map<string,Regiao> covidData){
         fflush(stdin);
         cin>>ch;
         if(ch=='a')
-        {
-            if(inEstado(covidData))
-                return true;
-            else return false;            
-        }
-        else return false;
+            return inEstado(covidData);
+        else return out;
     }
 }
 
-bool inMunicipio(map<string,Regiao> covidData){   
+vector<string> inMunicipio(map<string,Regiao>& covidData){
+    vector<string> out = {"","",""};
+    string regiao, estado, municipio;
     cout<<"Informe a que regiao o municipio pertence:"<<endl;
     try{
         fflush(stdin);
         cin>>regiao;
         if(covidData.find(regiao)==covidData.end()) //teste regiao
             throw "Regiao invalida";
-        cout<<"Informe a que estado o municipio pertence:"<<endl;
+        cout<<"Informe a sigla do estado a que o municipio pertence:"<<endl;
         fflush(stdin);
         cin>>estado;
         if(!covidData[regiao].check_estado(estado)) //teste estado
@@ -335,7 +338,10 @@ bool inMunicipio(map<string,Regiao> covidData){
         cin>>municipio;
         if(!covidData[regiao].get_estado(estado).check_municipio(municipio)) //teste municipio
             throw "Municipio invalido";
-        return true;
+        out[0]=regiao;
+        out[1]=estado;
+        out[2]=municipio;
+        return out;
     }
     catch(...)
     {   
@@ -344,16 +350,12 @@ bool inMunicipio(map<string,Regiao> covidData){
         fflush(stdin);
         cin>>ch;
         if(ch=='a')
-        {
-            if(inMunicipio(covidData))
-                return true;
-            else return false;            
-        }
-        else return false;
+            return inMunicipio(covidData);           
+        else return out;
     }
 }
 
-void MenuRegiao(map<string,Regiao> covidData){
+void MenuRegiao(map<string,Regiao>& covidData, string regiao){
     char request;
     do{   
         try{
@@ -413,7 +415,7 @@ void MenuRegiao(map<string,Regiao> covidData){
     } while(request!='i');
 }
 
-void MenuEstado(map<string,Regiao> covidData){
+void MenuEstado(map<string,Regiao>& covidData, vector<string> local){
     char request;
     do {   
         try{
@@ -421,49 +423,49 @@ void MenuEstado(map<string,Regiao> covidData){
             switch(request)
             {
                 case 'a':
-                    covidData[regiao].get_estado(estado).get_casos();
+                    covidData[local[0]].get_estado(local[1]).get_casos();
                     if(!continuar())
                         request = 'i';
                     break;
 
                 case 'b':
-                    covidData[regiao].get_estado(estado).get_obitos();
+                    covidData[local[0]].get_estado(local[1]).get_obitos();
                     if(!continuar())
                         request = 'i';
                     break;
 
                 case 'c':
-                    covidData[regiao].get_estado(estado).get_casos_janela();
+                    covidData[local[0]].get_estado(local[1]).get_casos_janela();
                     if(!continuar())
                         request = 'i';
                     break;
 
                 case 'd':
-                    covidData[regiao].get_estado(estado).get_obitos_janela();
+                    covidData[local[0]].get_estado(local[1]).get_obitos_janela();
                     if(!continuar())
                         request = 'i';
                     break;
 
                 case 'e':
-                    covidData[regiao].get_estado(estado).media_casos_janela();
+                    covidData[local[0]].get_estado(local[1]).media_casos_janela();
                     if(!continuar())
                         request = 'i';
                     break;
 
                 case 'f':
-                    covidData[regiao].get_estado(estado).media_obitos_janela();
+                    covidData[local[0]].get_estado(local[1]).media_obitos_janela();
                     if(!continuar())
                         request = 'i';
                     break;
 
                 case 'g':
-                    covidData[regiao].get_estado(estado).crescimento_casos_janela();
+                    covidData[local[0]].get_estado(local[1]).crescimento_casos_janela();
                     if(!continuar())
                         request = 'i';
                     break;
 
                 case 'h':
-                    covidData[regiao].get_estado(estado).crescimento_obitos_janela();
+                    covidData[local[0]].get_estado(local[1]).crescimento_obitos_janela();
                     if(!continuar())
                         request = 'i';
                     break;
@@ -474,7 +476,7 @@ void MenuEstado(map<string,Regiao> covidData){
     } while(request!='i');
 }
 
-void MenuMunicipio(map<string,Regiao> covidData){
+void MenuMunicipio(map<string,Regiao>& covidData, vector<string> local){
     char request;
     do {   
         try{
@@ -482,49 +484,49 @@ void MenuMunicipio(map<string,Regiao> covidData){
             switch(request)
             {
                 case 'a':
-                    covidData[regiao].get_estado(estado).get_municipio(municipio).get_casos();
+                    covidData[local[0]].get_estado(local[1]).get_municipio(local[2]).get_casos();
                     if(!continuar())
                         request = 'i';
                     break;
 
                 case 'b':
-                    covidData[regiao].get_estado(estado).get_municipio(municipio).get_obitos();
+                    covidData[local[0]].get_estado(local[1]).get_municipio(local[2]).get_obitos();
                     if(!continuar())
                         request = 'i';
                     break;
 
                 case 'c':
-                    covidData[regiao].get_estado(estado).get_municipio(municipio).get_casos_janela();
+                    covidData[local[0]].get_estado(local[1]).get_municipio(local[2]).get_casos_janela();
                     if(!continuar())
                         request = 'i';
                     break;
 
                 case 'd':
-                    covidData[regiao].get_estado(estado).get_municipio(municipio).get_obitos_janela();
+                    covidData[local[0]].get_estado(local[1]).get_municipio(local[2]).get_obitos_janela();
                     if(!continuar())
                         request = 'i';
                     break;
 
                 case 'e':
-                    covidData[regiao].get_estado(estado).get_municipio(municipio).media_casos_janela();
+                    covidData[local[0]].get_estado(local[1]).get_municipio(local[2]).media_casos_janela();
                     if(!continuar())
                         request = 'i';
                     break;
 
                 case 'f':
-                    covidData[regiao].get_estado(estado).get_municipio(municipio).media_obitos_janela();
+                    covidData[local[0]].get_estado(local[1]).get_municipio(local[2]).media_obitos_janela();
                     if(!continuar())
                         request = 'i';
                     break;
 
                 case 'g':
-                    covidData[regiao].get_estado(estado).get_municipio(municipio).crescimento_casos_janela();
+                    covidData[local[0]].get_estado(local[1]).get_municipio(local[2]).crescimento_casos_janela();
                     if(!continuar())
                         request = 'i';
                     break;
 
                 case 'h':
-                    covidData[regiao].get_estado(estado).get_municipio(municipio).crescimento_obitos_janela();
+                    covidData[local[0]].get_estado(local[1]).get_municipio(local[2]).crescimento_obitos_janela();
                     if(!continuar())
                         request = 'i';
                     break;
@@ -538,7 +540,7 @@ void MenuMunicipio(map<string,Regiao> covidData){
 char enterRequest(){   
     char req;
     cout<<"Informe o tipo de localidade que deseja acessar:"<<endl;
-    cout<<"a - Regiao" <<endl;
+    cout<<"a - Pais" <<endl;
     cout<<"b - Estado" <<endl;
     cout<<"c - Municipio" <<endl;
     cout<<"d - Para sair do programa"<<endl;
@@ -549,7 +551,12 @@ char enterRequest(){
     else return req;
 }
 
-void Menu(map<string,Regiao> covidData){
+void Menu(map<string,Regiao>& covidData){
+    string regiao;
+    vector<string> estado;
+    vector<string> municipio;
+    vector<string>estado_aux = {"",""};
+    vector<string>municipio_aux= {"","",""};
     char request;
     do {   
         try{
@@ -557,21 +564,24 @@ void Menu(map<string,Regiao> covidData){
                 switch(request)
                 {
                     case 'a':
-                        cout<<"Acesso a uma regiao"<<endl;
-                        if(inRegiao(covidData))
-                            MenuRegiao(covidData);                     
+                        cout<<"Acesso a um pais"<<endl;
+                        regiao = inRegiao(covidData);
+                        if(regiao!="invalido")
+                            MenuRegiao(covidData, regiao);                     
                         break;
 
                     case 'b':
                         cout<<"Acesso a um estado"<<endl;
-                        if(inEstado(covidData))
-                            MenuEstado(covidData);
+                        estado = inEstado(covidData);
+                        if(estado!=estado_aux)
+                            MenuEstado(covidData, estado);
                         break;
 
                     case 'c':
                         cout<<"Acesso a um municipio"<<endl;
-                        if(inMunicipio(covidData))
-                            MenuMunicipio(covidData);
+                        municipio = inMunicipio(covidData);
+                        if(municipio!=municipio_aux)
+                            MenuMunicipio(covidData, municipio);
                         break;
                 }
             }
@@ -582,15 +592,15 @@ void Menu(map<string,Regiao> covidData){
 }
 
 int main(){
-    string file = "teste.csv";
+    string file = "HIST_PAINEL_COVIDBR_2021_Parte1_02jul2021.csv";
     map<string,Regiao> covidData;
 
     cout << "CENTRAL DE MAPEAMENTO DO COVID-19" << "\n- Ultima Atualizacao: "; 
-    for(int i=27; i<36; i++){
+    for(int i=file.size()-13; i<file.size()-4; i++){
         cout << file[i];
     }
     cout << endl;
-    readCsv(file, &covidData);
+    readCsv(file, covidData);
 
     Menu(covidData);
 }

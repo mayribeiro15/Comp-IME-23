@@ -1,0 +1,20 @@
+Supondo que exista a lista e a função de busca: struct no *busca(int chave, struct no *lista)
+já estivesse implementada. O algoritmo de remoção é o seguinte:
+
+int remover(int chave, struct no **lista){
+    struct no *aux;
+    aux=busca(chave,lista);
+    if(aux==NULL) return 0; //elemento nao existe
+    else{
+        if (aux->ant==NULL){ //é o primeiro elemento
+            aux->prox->ant=NULL;
+            *lista=aux->prox;
+        } else{ 
+            aux->ant->prox=aux->prox;
+            if (aux->prox!=NULL) aux->prox->ant=aux->ant; //não é o último elemento
+        }
+        free(aux);
+        return 1;
+    }
+}
+

@@ -39,5 +39,13 @@
         "utility": "cpp",
         "typeindex": "cpp",
         "valarray": "cpp"
-    }
+    },
+    "java.project.sourcePaths": [
+        "Lab de Programacao II/LabProgII_java/src/br/eb/ime/udi1",
+        "Lab de Programacao II/LabProgII_java/src"
+    ],
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "Lab de Programacao II\\LabProgII_java\\resources\\mysql-connector-java-8.0.26.jar"
+    ]
 }
