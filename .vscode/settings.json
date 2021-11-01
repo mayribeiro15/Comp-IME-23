@@ -41,8 +41,8 @@
         "valarray": "cpp"
     },
     "java.project.sourcePaths": [
-        "Lab de Programacao II/LabProgII_java/src/br/eb/ime/udi1",
-        "Lab de Programacao II/LabProgII_java/src"
+        "Lab de Programacao II/LabProgII_java/src",
+        "Lab de Programacao II/LabProg_Java/agenda/src/br/eb/ime/agenda/aplicacao"
     ],
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
