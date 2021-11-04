@@ -1,19 +1,20 @@
 from tkinter import *
 from tkinter import font
 from functools import partial
+#from client import *
 import random
 
 root = Tk()
 root.wm_title("🚢 BATALHA NAVAL 🚢")
 root.configure(background='black')
 font1 = font.Font(family='Helvetica 18', size=12, weight='bold')
-font_big = font.Font(family='Helvetica 18', size=16, weight='bold')
+font_big = font.Font(family='Helvetica 18', size=20, weight='bold')
 font_normal = font.Font(family='Helvetica 18', size=10, weight='bold')
 
 ships = {"NavioTamanhoQuatro": 4, "NavioTamanhoTres": 3, "NavioTamanhoDois": 2, "NavioTamanhoUm": 1}
 
 # Monta o tabuleiro 10x10 com todos os quadrados cinza
-def player_board():
+def board():
     board = []
     t = []
     t += (10 + 2) * ['# ']
@@ -69,22 +70,33 @@ def place_all_ships(board):
         for antal in range(0, (5 - ships[ship])):
             place_ship(ship, board)
 
-# Define os textos de cima e das laterais
-def side_labels():
-    Label(root, text="BATALHA NAVAL", fg="white", bg="black", font=font_big ,  borderwidth = 3, relief="sunken").grid(row=0, column=10, columnspan=9)
-    Label(root, textvariable="Jogador 1", fg="white", bg="black", font=font1).grid(row=12, column=6, columnspan=18)
+# Define os textos (título, laterais, mensagem e pontuação)
+def set_labels(msg, score1, score2):
+    Label(root, text="BATALHA NAVAL", fg="white", bg="black", font=font_big ,  borderwidth = 0, relief="sunken").grid(row=1, column=10, columnspan=9)
+    Label(root, text=msg, fg="white", bg="black", font=font1 ,  borderwidth = 0, relief="sunken").grid(row=2, column=7, columnspan=15)
 
     for _ in range(10):
         Label(root, text="   ", bg="black").grid(row=_, column=0)
-    Label(root, text="1 Navio de tamanho 4", font=font_normal, fg="white", bg="black").grid(row=4, column=1)
-    Label(root, text="2 Navios de tamanho 3", font=font_normal, fg="white", bg="black").grid(row=5, column=1)
-    Label(root, text="3 Navios de tamanho 2", font=font_normal, fg="white", bg="black").grid(row=6, column=1)
-    Label(root, text="4 Navios de tamanho 1", font=font_normal, fg="white", bg="black").grid(row=7, column=1)
+    Label(root, text="FROTAS:", font=font_normal, fg="white", bg="black").grid(row=5, column=1)
+    Label(root, text="1 Porta-Aviões (tamanho 4)", font=font_normal, fg="white", bg="black").grid(row=6, column=1)
+    Label(root, text="2 Encouraçados (tamanho 3)", font=font_normal, fg="white", bg="black").grid(row=7, column=1)
+    Label(root, text="3 Cruzadores (tamanho 2)", font=font_normal, fg="white", bg="black").grid(row=8, column=1)
+    Label(root, text="4 Submarinos (tamanho 1)", font=font_normal, fg="white", bg="black").grid(row=9, column=1)
+
+    label2 = Label(root, text="Campo Jogador", font=font1, fg="white", bg="black")
+    label2.grid(row=18, column=4, columnspan=10)
+    label2 = Label(root, text="SCORE: "+str(score1), font=font1, fg="white", bg="black")
+    label2.grid(row=19, column=4, columnspan=10)
+    label2 = Label(root, text="Campo Inimigo", font=font1, fg="white", bg="black")
+    label2.grid(row=18, column=15, columnspan=10)
+    label2 = Label(root, text="SCORE: "+str(score2), font=font1, fg="white", bg="black")
+    label2.grid(row=19, column=15, columnspan=10)
+    Label(root, text="   ", bg="black").grid(row=20, column=2)
 
     for _ in range(10):
-        Label(root, text="   ", bg="black").grid(row=_, column=2)
+        Label(root, text="   ", bg="black").grid(row=_+4, column=2)
     for _ in range(10):
-        Label(root, width=20, text="   ", bg="black").grid(row=_, column=25)
+        Label(root, width=20, text="   ", bg="black").grid(row=_+4, column=25)
 
 # Define se acertou o navio ou a agua e seta o layout do quadrado de acordo com isso
 def hit_or_miss(a, b, board, all_buttons):
@@ -94,22 +106,6 @@ def hit_or_miss(a, b, board, all_buttons):
     else:
         board[a + 1][b + 1] = 'O '
         all_buttons[a][b].configure(text="O", fg="White", activeforeground="white")
-
-# Define os textos dos jogadores e os grids para cada jogador
-def side(player, allbuttons):
-    if player == "player 1":
-        for row in range(10):
-            for column in range(10):
-                allbuttons[row][column].grid(row=1 + row, column=4 + column)
-
-        label2 = Label(root, text="Jogador 1", font=font1, fg="white", bg="black")
-        label2.grid(row=11, column=4, columnspan=10)
-        label3 = Label(root, text="Jogador 2", font=font1, fg="white", bg="black")
-        label3.grid(row=11, column=15, columnspan=10)
-    else:
-        for row in range(10):
-            for column in range(10):
-                allbuttons[row][column].grid(row=1 + row, column=15 + column)
 
 # Posiciona os grids para os dois jogadores
 def board_buttons(board, player):
@@ -126,24 +122,42 @@ def board_buttons(board, player):
         allbuttons.append(list(buttons))
         a += 1
 
-    side(player, allbuttons)
+    if player == "player 1":
+        for row in range(10):
+            for column in range(10):
+                allbuttons[row][column].grid(row=4 + row, column=4 + column)
+    else:
+        for row in range(10):
+            for column in range(10):
+                allbuttons[row][column].grid(row=4 + row, column=15 + column)
 
 # Define o meio do board azul entre os dois grids
 def middle_board_space():
     for _ in range(10):
-        Label(root, text="   ", bg="black").grid(row=1 + _, column=14)
+        Label(root, text="   ", bg="black").grid(row=4 + _, column=14)
+
+def update_game(gameState, player_board, player_buttons, opponent_board):
+    set_labels=(gameState.vez,gameState.playerScore,gameState.opponentScore)
+    
+    player_board = gameState.playerBoard
+    update_board(player_board)
+    
+    opponent_board = gameState.opponentBoard
+    update_board(opponent_board)
+
+def update_board(board):
+    board=0
 
 # Main que monta o tabuleiro, grid e as frases
 def main_board_game(self):
     self.pack_forget()
-    player_1_board = player_board()
-    player_2_board = player_board()
+    player_board = board()
+    opponent_board = board()
+    
+    set_labels("Escolha as posições dos navios de sua frota",0,0)
+    #place_all_ships(player_board)
+    #place_all_ships(opponent_board)
 
-    place_all_ships(player_1_board)
-    place_all_ships(player_2_board)
-
-    side_labels()
-
-    board_buttons(player_1_board, "player 1")
+    board_buttons(player_board, "player 1")
     middle_board_space()
-    board_buttons(player_2_board, "player 2")
+    board_buttons(opponent_board, "player 2")
