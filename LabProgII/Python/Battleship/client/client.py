@@ -7,6 +7,7 @@ PORT = 5050
 SERVER = "192.168.56.1"
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
+CONNECT_MESSAGE = "CONNECT"
 DISCONNECT_MESSAGE = "!DISCONNECT"
 UPDATE_MESSAGE = "REQUEST_GAME_STATE"
 
@@ -37,21 +38,6 @@ def send(msg, type):
     
     client.send(header)
     client.send(message)
-    print(client.recv(2048).decode(FORMAT))
-
-board = [
-    ["0","0","0","0","0","0","0","0","0","0"],
-    ["0","0","0","0","0","0","0","0","0","0"],
-    ["0","0","0","0","0","0","0","0","0","0"],
-    ["0","0","0","0","0","0","0","0","0","0"],
-    ["0","0","0","0","0","0","0","0","0","0"],
-    ["0","0","0","0","0","0","0","0","0","0"],
-    ["0","0","0","0","0","0","0","0","0","0"],
-    ["0","0","0","0","0","0","0","0","0","0"],
-    ["0","0","0","0","0","0","0","0","0","0"],
-    ["0","0","0","0","0","0","0","0","0","0"],
-]
-gameState = GameState(1,1,0,board,2,5,board)
-send(gameState, "gameState")
-send(UPDATE_MESSAGE, "string")
-send(DISCONNECT_MESSAGE, "string")
+    msg = client.recv(2048).decode(FORMAT)
+    msg = json.loads(msg)
+    return msg

@@ -1,19 +1,17 @@
+class Battleship:
+    def __init__(self):
+        self.jogadores = []
+        self.jogador1id = 0
+        self.jogador2id = 0
+        self.vez = 1
+
 class Jogador:
     def __init__(self, id):
         self.id = id
         self.campoJogador = gerar_matriz(10,10)
         self.campoAdversario = gerar_matriz(10,10)
         self.totalAbatidos = 0
-        self.totalRestante = 0
-
-    def posicionarNavio(self,x,y):
-        if(self.campoJogador[x][y]=='1'):
-            print("--> Posição ocupada, tente novamente!\n")
-            return False
-        self.campoJogador[x][y]='1'
-        print("J %d --> Barco adicionado em (%d,%d)\n" % (self.id,x,y))
-        self.totalRestante+=1
-        return True
+        self.totalRestante = 10
 
     def atingirJogador(self, x,y):
         if(self.campoJogador[x][y]=='1'):

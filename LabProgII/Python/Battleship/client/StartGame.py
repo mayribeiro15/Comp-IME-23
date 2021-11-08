@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import font
-from BoardGame import *
+from boardGame import *
+from client import *
 import functools
 
 root = Tk()
@@ -27,10 +28,8 @@ def CreateStartWindow():
 
     endBackground = Label(frameWindow, background='blue3', width=37, height=3)
     endBackground.place(x=int(250/2), y=297)
-    endButton = Button(frameWindow, text='SAIR', font=fontButton, command=quit, bg='black', fg='white', width=25, height=2, relief='flat')
+    endButton = Button(frameWindow, text='SAIR', font=fontButton, command=partial(quit_msg), bg='black', fg='white', width=25, height=2, relief='flat')
     endButton.place(x=int(250/2), y=300)
 
     frameWindow.pack(padx=15, pady=15)
 
-CreateStartWindow()
-root.mainloop()

@@ -10,11 +10,11 @@ class AttackPosition:
         self.y = y
 
 class GameState:
-    def __init__(self, vez, pId, pScore, pBoard, oId, oScore, oBoard):
+    def __init__(self, msg, vez, pScore, pBoard, oScore, oBoard):
+        self.gameOver=0
+        self.msg = msg
         self.player = vez
-        self.playerId = pId
         self.playerScore = pScore
         self.playerBoard = pBoard
-        self.opponentId = oId
         self.opponentScore = oScore
         self.opponentBoard = oBoard
