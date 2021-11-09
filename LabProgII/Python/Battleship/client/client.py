@@ -198,7 +198,7 @@ def place_ships(player):
 def startWindow():
     frameWindow = LabelFrame()
     frameWindow.configure(background='black')
-    img = PhotoImage(file=r'C:\Users\Lenovo\Desktop\IME\GitHub\Comp-IME-23\LabProgII\Python\Battleship\images\StartWindow.png')
+    img = PhotoImage(file='images\StartWindow.png')
     img_lbl = Label(frameWindow, image=img, background='black')
     img_lbl.image = img
     img_lbl.pack()
