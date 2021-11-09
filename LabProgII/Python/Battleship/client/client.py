@@ -11,7 +11,7 @@ PORT = 5050
 SERVER = "192.168.56.1"
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
-CONNECT_MESSAGE = "CONNECT"
+START_MESSAGE = "START_GAME"
 DISCONNECT_MESSAGE = "!DISCONNECT"
 UPDATE_MESSAGE = "REQUEST_GAME_STATE"
 MSG_TYPE = {
@@ -188,17 +188,17 @@ def update_board(board, all_buttons):
 def place_ships(player):
     print(player.board)
     shipsPosition = ShipsPosition(1,player.board)
+    send(START_MESSAGE,"string")
     send(shipsPosition,"shipsPosition")
     gameState = client.recv(2048).decode(FORMAT)
     gameState = json.loads(gameState)
     print(gameState)
     update_game(gameState, player)
 
-
 def startWindow():
     frameWindow = LabelFrame()
     frameWindow.configure(background='black')
-    img = PhotoImage(file='images\StartWindow.png')
+    img = PhotoImage(file='StartWindow.png')
     img_lbl = Label(frameWindow, image=img, background='black')
     img_lbl.image = img
     img_lbl.pack()

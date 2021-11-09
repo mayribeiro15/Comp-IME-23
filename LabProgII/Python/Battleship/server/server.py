@@ -9,7 +9,7 @@ PORT = 5050
 SERVER = socket.gethostbyname(socket.gethostname()) #"192.168.56.1"
 ADDR = (SERVER, PORT)
 FORMAT = "utf-8"
-CONNECT_MESSAGE = "CONNECT"
+START_MESSAGE = "START_GAME"
 DISCONNECT_MESSAGE = "!DISCONNECT"
 UPDATE_MESSAGE = "REQUEST_GAME_STATE"
 MSG_TYPE = {
@@ -23,6 +23,7 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 
 def handle_client(conn,addr,game): 
+    lock.acquire()
     if int(threading.activeCount()-1)==1:
         game.jogadores+=1
         game.addrId = {addr: 1}
@@ -35,7 +36,8 @@ def handle_client(conn,addr,game):
         print(f"[JOGADOR 2] {addr} connected.")
     else:
         print(f"[CONNECTION REFUSED] {addr} excedeed limt of 2 players.")
-        return   
+        return 
+    lock.release() 
     connected = True
     while connected:
         msg_header = conn.recv(HEADER).decode(FORMAT)
@@ -49,7 +51,9 @@ def handle_client(conn,addr,game):
             if msg == DISCONNECT_MESSAGE:
                 connected = False
             else:
+                lock.acquire()
                 handle_request(msg_type,msg,game,addr)
+                lock.release()
     conn.close()
 
 def wait_request(conn,addr):
@@ -68,7 +72,7 @@ def wait_request(conn,addr):
 
 def handle_request(msg_type,msg,game,addr):
     if msg_type==MSG_TYPE[0]: #string
-        if msg==CONNECT_MESSAGE:
+        if msg==START_MESSAGE:
             return
         elif msg==UPDATE_MESSAGE:
             update_game(game)
@@ -127,6 +131,7 @@ def set_msg(jogador, adversario):
     return msg
 
 def update_game(game):
+    print(game.jogador)
     if game.jogadores < 2:
         jogador = game.jogador[1]
         vez = False
@@ -157,9 +162,16 @@ server.listen()
 print("[LISTENNING] Server is listening on {SERVER}")
 
 players = 0
+threads = []
+lock = threading.Lock()
 while players<2:
     conn, addr = server.accept()
     thread = threading.Thread(target=handle_client, args=(conn,addr,game))
+    threads.append(thread)
     thread.start()
-    players = threading.activeCount()-1
+    players +=1
     print(f"[ACTIVE CONNECTIONS] {players}")
+
+for thread in threads:
+    print("join")
+    thread.join()
