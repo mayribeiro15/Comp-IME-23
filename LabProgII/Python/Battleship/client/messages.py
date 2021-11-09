@@ -1,11 +1,9 @@
 class ShipsPosition:
     def __init__(self, id, pos):
-        self.id = id
         self.positions = pos
 
 class AttackPosition:
-    def __init__(self, id, x, y):
-        self.attackedId = id
+    def __init__(self, x, y):
         self.x = x
         self.y = y
 
@@ -13,7 +11,7 @@ class GameState:
     def __init__(self, msg, vez, pScore, pBoard, oScore, oBoard):
         self.gameOver=0
         self.msg = msg
-        self.player = vez
+        self.vez = vez
         self.playerScore = pScore
         self.playerBoard = pBoard
         self.opponentScore = oScore

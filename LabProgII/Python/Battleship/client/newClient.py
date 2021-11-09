@@ -1,19 +1,57 @@
+import socket, json
+import threading
 import tkinter as tk
 from tkinter import *
 from tkinter import font
 from functools import partial
-from client import *
 from messages import *
-import random
 
-root = Tk()
-root.wm_title("🚢 BATALHA NAVAL 🚢")
-root.configure(background='black')
-font1 = font.Font(family='Helvetica 18', size=12, weight='bold')
-font_big = font.Font(family='Helvetica 18', size=20, weight='bold')
-font_normal = font.Font(family='Helvetica 18', size=10, weight='bold')
+HEADER = 128
+PORT = 5050
+SERVER = "192.168.56.1"
+ADDR = (SERVER, PORT)
+FORMAT = 'utf-8'
+CONNECT_MESSAGE = "CONNECT"
+DISCONNECT_MESSAGE = "!DISCONNECT"
+UPDATE_MESSAGE = "REQUEST_GAME_STATE"
+MSG_TYPE = {
+    0: 'string', #disconnect_message ou update_message
+    1: 'shipsPosition', #recebe a posição do navio
+    2: 'attackPosition', #recebe a posição atacada
+    3: 'gameState' #envia estado do jogo
+}
 
-ships = {"NavioTamanhoQuatro": 4, "NavioTamanhoTres": 3, "NavioTamanhoDois": 2, "NavioTamanhoUm": 1}
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect(ADDR)
+
+def send(msg, type):
+    if type=='string':
+        message = msg.encode(FORMAT)
+    else:
+        msg_dict = vars(msg)
+        msg_string = json.dumps(msg_dict)
+        message = msg_string.encode(FORMAT)
+    
+    msg_lenght = len(message)
+    send_length = str(msg_lenght).encode(FORMAT)
+    send_length += b' ' * int(HEADER/2 - len(send_length))
+    send_type = str(type).encode(FORMAT)
+    send_type += b' ' * int(HEADER/2 - len(send_type))
+    header = send_length+send_type
+    
+    client.send(header)
+    client.send(message)
+
+def receive(player):
+    while True:
+        try:
+            gameState = client.recv(2048).decode(FORMAT)
+            gameState = json.loads(gameState)
+            print(gameState)
+            update_game(gameState, player)
+        except:
+            print("An error occured!")
+            break
 
 class Player:
     def __init__(self, side, id):
@@ -57,17 +95,13 @@ def set_labels(msg, score1, score2):
     for _ in range(10):
         Label(root, width=20, text="   ", bg="black").grid(row=_+4, column=25)
 
-    endButton = Button(root, text='SAIR', font=font_normal, command=partial(quit_msg), bg='blue', fg='white', width=15, height=2, relief='flat')
+    endButton = Button(root, text='SAIR', font=font_normal, command=partial(quitGame), bg='blue', fg='white', width=15, height=2, relief='flat')
     endButton.place(x=810, y=450)
-
-# Desconecta do servidor e fecha as telas
-def quit_msg():
-    send(DISCONNECT_MESSAGE,"string")
-    root.destroy()
 
 # Define se acertou o navio ou a agua e seta o layout do quadrado de acordo com isso
 def hit_position(a, b, board, all_buttons):
-    print(a,b)
+    attackPosition = AttackPosition(a,b)
+    send(attackPosition,"attackPosition")
 
 #Define a posição do navio
 def ship_position(a, b, player, all_buttons):
@@ -119,7 +153,8 @@ def board_buttons(player):
 
     return allbuttons
 
-def update_game(gameState, player, opponent):
+def update_game(gameState, player):
+    opponent = Player("opponent", 2)
     set_labels(gameState["msg"],gameState["playerScore"],gameState["opponentScore"])
     
     player.board = gameState["playerBoard"]
@@ -129,6 +164,16 @@ def update_game(gameState, player, opponent):
     opponent.board = gameState["opponentBoard"]
     opponent.score = gameState["opponentScore"]
     update_board(opponent.board, opponent.buttons)
+
+    all_buttons = opponent.buttons
+    if gameState["vez"]==True:
+        for i in range(10):
+            for j in range(10):
+                all_buttons[i][j]['state']=tk.NORMAL
+    else:
+        for i in range(10):
+            for j in range(10):
+                all_buttons[i][j]['state']=tk.DISABLED
 
 def update_board(board, all_buttons):
     for a in range(10):
@@ -143,20 +188,37 @@ def update_board(board, all_buttons):
 def place_ships(player):
     print(player.board)
     shipsPosition = ShipsPosition(1,player.board)
-    send(CONNECT_MESSAGE,"string")
-    gameState = send(shipsPosition,"shipsPosition")
-    start_game(gameState, player)
+    send(shipsPosition,"shipsPosition")
+    gameState = client.recv(2048).decode(FORMAT)
+    gameState = json.loads(gameState)
+    print(gameState)
+    update_game(gameState, player)
 
-def start_game(gameState, player):
-    opponent = Player("opponent", 2)
-    while(True):
-        gameState = send(UPDATE_MESSAGE,"string")
-        update_game(gameState, player, opponent)
-        if gameState["gameOver"] == 1:
-            break 
 
-# Main que monta o tabuleiro, grid e as frases
-def main_board_game(self):
+def startWindow():
+    frameWindow = LabelFrame()
+    frameWindow.configure(background='black')
+    img = PhotoImage(file=r'C:\Users\Lenovo\Desktop\IME\GitHub\Comp-IME-23\LabProgII\Python\Battleship\images\StartWindow.png')
+    img_lbl = Label(frameWindow, image=img, background='black')
+    img_lbl.image = img
+    img_lbl.pack()
+
+    title_lbl = Label(frameWindow, text="BATALHA NAVAL", font=fontTitle, relief='ridge', background='black', foreground='white')
+    title_lbl.place(x=130, y=100)
+
+    startBackground = Label(frameWindow, background='blue3', width=37, height=3)
+    startBackground.place(x=int(850/2), y=297)
+    startButton = Button(frameWindow, text='JOGAR', font=fontButton, command=partial(boardGame, frameWindow), bg='black', fg='white', width=25, height=2, relief='flat')
+    startButton.place(x=int(850/2), y=300)
+
+    endBackground = Label(frameWindow, background='blue3', width=37, height=3)
+    endBackground.place(x=int(250/2), y=297)
+    endButton = Button(frameWindow, text='SAIR', font=fontButton, command=partial(quitGame), bg='black', fg='white', width=25, height=2, relief='flat')
+    endButton.place(x=int(250/2), y=300)
+
+    frameWindow.pack(padx=15, pady=15)
+
+def boardGame(self):
     self.pack_forget()
     player = Player("player", 1)
     opponent = Player("opponent", 2)
@@ -164,3 +226,23 @@ def main_board_game(self):
     gameState = GameState("Posicione sua frota.",False,0,0,0,0)
     gameState = vars(gameState)
     set_labels(gameState["msg"],gameState["playerScore"],gameState["opponentScore"])
+ 
+    rcv= threading.Thread(target = receive, args=(player))
+    rcv.start()
+
+# Desconecta do servidor e fecha as telas
+def quitGame():
+    send(DISCONNECT_MESSAGE,"string")
+    root.destroy()
+
+
+root = Tk()
+root.wm_title("🚢 BATALHA NAVAL 🚢")
+root.configure(background='black')
+font1 = font.Font(family='Helvetica 18', size=12, weight='bold')
+font_big = font.Font(family='Helvetica 18', size=20, weight='bold')
+font_normal = font.Font(family='Helvetica 18', size=10, weight='bold')
+fontButton = font.Font(family='Helvetica 18', size=12, weight='bold')
+fontTitle = font.Font(family='Helvetica 18', size=50, weight='bold')
+startWindow()
+root.mainloop()

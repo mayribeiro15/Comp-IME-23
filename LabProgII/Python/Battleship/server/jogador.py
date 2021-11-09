@@ -1,13 +1,7 @@
-class Battleship:
-    def __init__(self):
-        self.jogadores = []
-        self.jogador1id = 0
-        self.jogador2id = 0
-        self.vez = 1
-
 class Jogador:
-    def __init__(self, id):
-        self.id = id
+    def __init__(self, addr, conn):
+        self.addr = addr
+        self.conn = conn
         self.campoJogador = gerar_matriz(10,10)
         self.campoAdversario = gerar_matriz(10,10)
         self.totalAbatidos = 0
