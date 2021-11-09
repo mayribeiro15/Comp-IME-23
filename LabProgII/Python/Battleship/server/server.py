@@ -23,21 +23,6 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 
 def handle_client(conn,addr,game): 
-    # lock.acquire()
-    # if int(threading.activeCount()-1)==1:
-    #     game.jogadores+=1
-    #     game.addrId = {addr: 1}
-    #     game.jogador = {1: Jogador(addr, conn)}
-    #     print(f"[JOGADOR 1] {addr} connected.")
-    # elif int(threading.activeCount()-1)==2:
-    #     game.jogadores+=1
-    #     game.addrId = {addr: 2}
-    #     game.jogador = {2: Jogador(addr, conn)}
-    #     print(f"[JOGADOR 2] {addr} connected.")
-    # else:
-    #     print(f"[CONNECTION REFUSED] {addr} excedeed limt of 2 players.")
-    #     return 
-    # lock.release() 
     connected = True
     while connected:
         msg_header = conn.recv(HEADER).decode(FORMAT)
@@ -106,6 +91,7 @@ def attack_position(x,y,id,game):
         print(f"[JOGADOR 2]: Ataque a posição {x},{y} efetuado.")
     acerto = adversario.atingirJogador(x,y)
     jogador.atingirAdversario(x, y, acerto)
+    update_game(game)
 
 def set_ships_position(board,id,game):
     if id==1:
@@ -140,12 +126,12 @@ def update_game(game):
         response = json_string(gameState)
         (jogador.conn).send(response.encode(FORMAT))
     else:
-        print("entrou aqui")
         jogador1=game.jogador[1]
         jogador2=game.jogador[2]
       
         if(game.gameOver == -1):
             game.vez=1
+            game.gameOver=0
 
         msg = set_msg(jogador1,jogador2)
         vez = (game.vez==jogador1.id)
@@ -161,6 +147,7 @@ def update_game(game):
 
 game = Battleship()
 (game.jogador).append(Jogador(0, 0, 0))
+game.addrId = {0: 0}
 print("[STARTING] server is starting...")
 server.listen()
 print("[LISTENNING] Server is listening on {SERVER}")
@@ -174,12 +161,12 @@ while players<2:
     lock.acquire()
     if players==0:
         game.jogadores+=1
-        game.addrId = {addr: 1}
+        game.addrId[addr] = 1
         (game.jogador).append(Jogador(1, addr, conn))
         print(f"[JOGADOR 1] {addr} connected.")
     else:
         game.jogadores+=1
-        game.addrId = {addr: 2}
+        game.addrId[addr] = 2
         (game.jogador).append(Jogador(2, addr, conn))
         print(f"[JOGADOR 2] {addr} connected.")
     lock.release()

@@ -153,17 +153,13 @@ def ship_position(a, b, player, all_buttons):
         place_ships(player)
 
 def update_game(gameState):    
-    print("1")
     player.board = gameState["playerBoard"]
     player.score = gameState["playerScore"]
     update_board(player.board, player.buttons)
-    print("2")
     opponent.board = gameState["opponentBoard"]
     opponent.score = gameState["opponentScore"]
     update_board(opponent.board, opponent.buttons)
-    print("3")
     set_labels(gameState["msg"],gameState["playerScore"],gameState["opponentScore"])
-    print("4")
     all_buttons = opponent.buttons
     if gameState["vez"]==True:
         for i in range(10):
@@ -175,13 +171,9 @@ def update_game(gameState):
                 all_buttons[i][j]['state']=tk.DISABLED
 
 def update_board(board, all_buttons):
-    print("aqui")
     for a in range(10):
         for b in range(10):
-            print("aqui")
-            print(board[a][b])
             if board[a][b] == "1":
-                print(all_buttons[a][b])
                 all_buttons[a][b].configure(text="X", fg="black", bg="gray19", activebackground="gray19")
             elif board[a][b] == "X":
                 all_buttons[a][b].configure(text="X", fg="black", bg="yellow", activebackground="yellow")
