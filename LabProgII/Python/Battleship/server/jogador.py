@@ -1,5 +1,6 @@
 class Jogador:
-    def __init__(self, addr, conn):
+    def __init__(self, id, addr, conn):
+        self.id = id
         self.addr = addr
         self.conn = conn
         self.campoJogador = gerar_matriz(10,10)

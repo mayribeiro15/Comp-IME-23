@@ -42,13 +42,13 @@ def send(msg, type):
     client.send(header)
     client.send(message)
 
-def receive(player):
+def receive():
     while True:
         try:
             gameState = client.recv(2048).decode(FORMAT)
             gameState = json.loads(gameState)
             print(gameState)
-            update_game(gameState, player)
+            update_game(gameState)
         except:
             print("An error occured!")
             break
@@ -58,9 +58,46 @@ class Player:
         self.side = side
         self.id = id
         self.board = board()
-        self.buttons = board_buttons(self)
+        self.buttons = None
         self.score = 0
         self.ships = 0
+
+    def setBoardButtons(self):
+        side = self.side
+        if side == "player":
+            allbuttons = []
+            ships = 0
+            for i in range(10):
+                buttons = []
+                for j in range(10):
+                    button = Button(root, width=2, height=1, font=font1, bg="gray19", activebackground="gray19",
+                    command=partial(ship_position, i, j, self, allbuttons), state='normal')
+                    buttons.append(button)
+                allbuttons.append(list(buttons))
+            for row in range(10):
+                for column in range(10):
+                    allbuttons[row][column].grid(row=4 + row, column=4 + column)
+        else:
+            allbuttons = []
+            a = 0
+            for i in range(10):
+                b = 0
+                buttons = []
+                for j in range(10):
+                    button = Button(root, width=2, height=1, font=font1, bg="gray19", activebackground="gray19",
+                    command=partial(hit_position, a, b), state='disabled')
+                    buttons.append(button)
+                    b += 1
+                allbuttons.append(list(buttons))
+                a += 1
+            for row in range(10):
+                for column in range(10):
+                    allbuttons[row][column].grid(row=4 + row, column=15 + column)
+
+        for _ in range(10):
+            Label(root, text="   ", bg="black").grid(row=4 + _, column=14)
+
+        self.buttons = allbuttons
 
 # Monta o tabuleiro 10x10 com todos os quadrados cinza
 def board():
@@ -99,7 +136,7 @@ def set_labels(msg, score1, score2):
     endButton.place(x=810, y=450)
 
 # Define se acertou o navio ou a agua e seta o layout do quadrado de acordo com isso
-def hit_position(a, b, board, all_buttons):
+def hit_position(a, b):
     attackPosition = AttackPosition(a,b)
     send(attackPosition,"attackPosition")
 
@@ -115,56 +152,18 @@ def ship_position(a, b, player, all_buttons):
                 all_buttons[i][j]['state']=tk.DISABLED
         place_ships(player)
 
-# Posiciona os grids para os dois jogadores
-def board_buttons(player):
-    side = player.side
-    if side == "player":
-        allbuttons = []
-        ships = 0
-        for i in range(10):
-            buttons = []
-            for j in range(10):
-                button = Button(root, width=2, height=1, font=font1, bg="gray19", activebackground="gray19",
-                command=partial(ship_position, i, j, player, allbuttons), state='normal')
-                buttons.append(button)
-            allbuttons.append(list(buttons))
-        for row in range(10):
-            for column in range(10):
-                allbuttons[row][column].grid(row=4 + row, column=4 + column)
-    else:
-        allbuttons = []
-        a = 0
-        for i in range(10):
-            b = 0
-            buttons = []
-            for j in range(10):
-                button = Button(root, width=2, height=1, font=font1, bg="gray19", activebackground="gray19",
-                command=partial(hit_position, a, b, player.board, allbuttons), state='disabled')
-                buttons.append(button)
-                b += 1
-            allbuttons.append(list(buttons))
-            a += 1
-        for row in range(10):
-            for column in range(10):
-                allbuttons[row][column].grid(row=4 + row, column=15 + column)
-
-    for _ in range(10):
-        Label(root, text="   ", bg="black").grid(row=4 + _, column=14)
-
-    return allbuttons
-
-def update_game(gameState, player):
-    opponent = Player("opponent", 2)
-    set_labels(gameState["msg"],gameState["playerScore"],gameState["opponentScore"])
-    
+def update_game(gameState):    
+    print("1")
     player.board = gameState["playerBoard"]
     player.score = gameState["playerScore"]
     update_board(player.board, player.buttons)
-    
+    print("2")
     opponent.board = gameState["opponentBoard"]
     opponent.score = gameState["opponentScore"]
     update_board(opponent.board, opponent.buttons)
-
+    print("3")
+    set_labels(gameState["msg"],gameState["playerScore"],gameState["opponentScore"])
+    print("4")
     all_buttons = opponent.buttons
     if gameState["vez"]==True:
         for i in range(10):
@@ -176,13 +175,17 @@ def update_game(gameState, player):
                 all_buttons[i][j]['state']=tk.DISABLED
 
 def update_board(board, all_buttons):
+    print("aqui")
     for a in range(10):
         for b in range(10):
+            print("aqui")
+            print(board[a][b])
             if board[a][b] == "1":
+                print(all_buttons[a][b])
                 all_buttons[a][b].configure(text="X", fg="black", bg="gray19", activebackground="gray19")
-            if board[a][b] == "X":
+            elif board[a][b] == "X":
                 all_buttons[a][b].configure(text="X", fg="black", bg="yellow", activebackground="yellow")
-            if board[a][b] == "~":
+            elif board[a][b] == "~":
                 all_buttons[a][b].configure(text="", fg="black", bg="blue", activebackground="blue")
 
 def place_ships(player):
@@ -190,10 +193,6 @@ def place_ships(player):
     shipsPosition = ShipsPosition(1,player.board)
     send(START_MESSAGE,"string")
     send(shipsPosition,"shipsPosition")
-    gameState = client.recv(2048).decode(FORMAT)
-    gameState = json.loads(gameState)
-    print(gameState)
-    update_game(gameState, player)
 
 def startWindow():
     frameWindow = LabelFrame()
@@ -220,21 +219,20 @@ def startWindow():
 
 def boardGame(self):
     self.pack_forget()
-    player = Player("player", 1)
-    opponent = Player("opponent", 2)
+    player.setBoardButtons()
+    opponent.setBoardButtons()
     
     gameState = GameState("Posicione sua frota.",False,0,0,0,0)
     gameState = vars(gameState)
     set_labels(gameState["msg"],gameState["playerScore"],gameState["opponentScore"])
  
-    rcv= threading.Thread(target = receive, args=(player))
+    rcv= threading.Thread(target = receive)
     rcv.start()
 
 # Desconecta do servidor e fecha as telas
 def quitGame():
     send(DISCONNECT_MESSAGE,"string")
     root.destroy()
-
 
 root = Tk()
 root.wm_title("🚢 BATALHA NAVAL 🚢")
@@ -244,5 +242,8 @@ font_big = font.Font(family='Helvetica 18', size=20, weight='bold')
 font_normal = font.Font(family='Helvetica 18', size=10, weight='bold')
 fontButton = font.Font(family='Helvetica 18', size=12, weight='bold')
 fontTitle = font.Font(family='Helvetica 18', size=50, weight='bold')
+
+player = Player("player", 1)
+opponent = Player("opponent", 2)
 startWindow()
 root.mainloop()

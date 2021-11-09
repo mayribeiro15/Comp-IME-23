@@ -23,21 +23,21 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 
 def handle_client(conn,addr,game): 
-    lock.acquire()
-    if int(threading.activeCount()-1)==1:
-        game.jogadores+=1
-        game.addrId = {addr: 1}
-        game.jogador = {1: Jogador(addr, conn)}
-        print(f"[JOGADOR 1] {addr} connected.")
-    elif int(threading.activeCount()-1)==2:
-        game.jogadores+=1
-        game.addrId = {addr: 2}
-        game.jogador = {2: Jogador(addr, conn)}
-        print(f"[JOGADOR 2] {addr} connected.")
-    else:
-        print(f"[CONNECTION REFUSED] {addr} excedeed limt of 2 players.")
-        return 
-    lock.release() 
+    # lock.acquire()
+    # if int(threading.activeCount()-1)==1:
+    #     game.jogadores+=1
+    #     game.addrId = {addr: 1}
+    #     game.jogador = {1: Jogador(addr, conn)}
+    #     print(f"[JOGADOR 1] {addr} connected.")
+    # elif int(threading.activeCount()-1)==2:
+    #     game.jogadores+=1
+    #     game.addrId = {addr: 2}
+    #     game.jogador = {2: Jogador(addr, conn)}
+    #     print(f"[JOGADOR 2] {addr} connected.")
+    # else:
+    #     print(f"[CONNECTION REFUSED] {addr} excedeed limt of 2 players.")
+    #     return 
+    # lock.release() 
     connected = True
     while connected:
         msg_header = conn.recv(HEADER).decode(FORMAT)
@@ -131,19 +131,22 @@ def set_msg(jogador, adversario):
     return msg
 
 def update_game(game):
-    print(game.jogador)
     if game.jogadores < 2:
         jogador = game.jogador[1]
         vez = False
         msg = "Aguarde o outro jogador." 
-        adversario = Jogador(0,0)
+        adversario = Jogador(0,0,0)
         gameState = GameState(msg, vez, adversario.totalAbatidos, jogador.campoJogador, jogador.totalAbatidos, jogador.campoAdversario)
         response = json_string(gameState)
         (jogador.conn).send(response.encode(FORMAT))
     else:
+        print("entrou aqui")
         jogador1=game.jogador[1]
         jogador2=game.jogador[2]
       
+        if(game.gameOver == -1):
+            game.vez=1
+
         msg = set_msg(jogador1,jogador2)
         vez = (game.vez==jogador1.id)
         gameState = GameState(msg, vez, jogador2.totalAbatidos, jogador1.campoJogador, jogador1.totalAbatidos, jogador1.campoAdversario)
@@ -157,6 +160,7 @@ def update_game(game):
         (jogador2.conn).send(response.encode(FORMAT))
 
 game = Battleship()
+(game.jogador).append(Jogador(0, 0, 0))
 print("[STARTING] server is starting...")
 server.listen()
 print("[LISTENNING] Server is listening on {SERVER}")
@@ -164,8 +168,22 @@ print("[LISTENNING] Server is listening on {SERVER}")
 players = 0
 threads = []
 lock = threading.Lock()
+
 while players<2:
     conn, addr = server.accept()
+    lock.acquire()
+    if players==0:
+        game.jogadores+=1
+        game.addrId = {addr: 1}
+        (game.jogador).append(Jogador(1, addr, conn))
+        print(f"[JOGADOR 1] {addr} connected.")
+    else:
+        game.jogadores+=1
+        game.addrId = {addr: 2}
+        (game.jogador).append(Jogador(2, addr, conn))
+        print(f"[JOGADOR 2] {addr} connected.")
+    lock.release()
+    print(game.jogador)
     thread = threading.Thread(target=handle_client, args=(conn,addr,game))
     threads.append(thread)
     thread.start()
@@ -173,5 +191,4 @@ while players<2:
     print(f"[ACTIVE CONNECTIONS] {players}")
 
 for thread in threads:
-    print("join")
     thread.join()
