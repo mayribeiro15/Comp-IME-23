@@ -35,6 +35,7 @@ def handle_client(conn,addr,game):
             print(f"[{addr}] {msg_type}: {msg}")
             if msg == DISCONNECT_MESSAGE:
                 connected = False
+                game.jogadores-=1
             else:
                 lock.acquire()
                 handle_request(msg_type,msg,game,addr)

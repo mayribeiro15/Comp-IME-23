@@ -51,7 +51,7 @@ def receive():
             update_game(gameState)
         except:
             print("An error occured!")
-            break
+            #break
 
 class Player:
     def __init__(self, side, id):
@@ -111,12 +111,12 @@ def set_labels(msg, score1, score2):
 
     for _ in range(10):
         Label(root, text="   ", bg="black").grid(row=_, column=0)
-    Label(root, text="OBJETIVO:", font=font_normal, fg="white", bg="black").grid(row=5, column=1)
-    Label(root, text="Atingir os navios da frota", font=font_normal, fg="white", bg="black").grid(row=6, column=1)
-    Label(root, text="inimiga antes que a sua", font=font_normal, fg="white", bg="black").grid(row=7, column=1)
-    Label(root, text="frota seja eliminada.", font=font_normal, fg="white", bg="black").grid(row=8, column=1)
+    Label(root, text="FROTA:", font=font_normal, fg="white", bg="black").grid(row=5, column=1)
+    Label(root, text="3 Porta-Aviões (tamanho 3)", font=font_normal, fg="white", bg="black").grid(row=6, column=1)
+    Label(root, text="2 Cargueiros (tamanho 2)", font=font_normal, fg="white", bg="black").grid(row=7, column=1)
+    Label(root, text="3 Barcos (tamanho 1)", font=font_normal, fg="white", bg="black").grid(row=8, column=1)
     Label(root, text="TOTAL DA FROTA:", font=font_normal, fg="white", bg="black").grid(row=9, column=1)
-    Label(root, text="10 Navios", font=font_normal, fg="white", bg="black").grid(row=10, column=1)
+    Label(root, text="10 Posições", font=font_normal, fg="white", bg="black").grid(row=10, column=1)
 
     label2 = Label(root, text="Campo Jogador", font=font1, fg="white", bg="black")
     label2.grid(row=18, column=4, columnspan=10)
@@ -143,15 +143,37 @@ def hit_position(a, b):
 
 #Define a posição do navio
 def ship_position(a, b, player, all_buttons):
-    player.board[a][b] = '1'
-    all_buttons[a][b].configure(text="X", fg="black", bg="gray19", activebackground="gray19")
-    player.ships+=1
-    print(a,b,player.ships)
-    if player.ships==10:
-        for i in range(10):
-            for j in range(10):
-                all_buttons[i][j]['state']=tk.DISABLED
-        place_ships(player)
+    if player.ships < 3:
+        player.board[a][b] = '1'
+        all_buttons[a][b].configure(text="X", fg="black", bg="gray19", activebackground="gray19")
+        player.ships+=1
+        print(a,b,player.ships)
+        if player.ships == 3:
+            set_labels("Posicione sua frota: posicione um Cargueiro.",0,0)
+    elif player.ships < 7:
+        if b<9:
+            player.board[a][b] = '1'
+            all_buttons[a][b].configure(text="X", fg="black", bg="gray19", activebackground="gray19")
+            player.board[a][b+1] = '1'
+            all_buttons[a][b+1].configure(text="X", fg="black", bg="gray19", activebackground="gray19")
+            player.ships+=2
+            print(a,b,player.ships)
+            if player.ships == 7:
+                set_labels("Posicione sua frota: posicione um Porta-Aviões.",0,0)
+    else:
+        if b<8:
+            player.board[a][b] = '1'
+            all_buttons[a][b].configure(text="X", fg="black", bg="gray19", activebackground="gray19")
+            player.board[a][b+1] = '1'
+            all_buttons[a][b+1].configure(text="X", fg="black", bg="gray19", activebackground="gray19")
+            player.board[a][b+2] = '1'
+            all_buttons[a][b+2].configure(text="X", fg="black", bg="gray19", activebackground="gray19")
+            player.ships+=3
+            print(a,b,player.ships)
+            for i in range(10):
+                for j in range(10):
+                    all_buttons[i][j]['state']=tk.DISABLED
+            place_ships(player)
 
 def update_game(gameState):    
     player.board = gameState["playerBoard"]
@@ -215,7 +237,7 @@ def boardGame(self):
     player.setBoardButtons()
     opponent.setBoardButtons()
     
-    gameState = GameState("Posicione sua frota.",False,0,0,0,0)
+    gameState = GameState("Posicione sua frota: posicione um Barco.",False,0,0,0,0)
     gameState = vars(gameState)
     set_labels(gameState["msg"],gameState["playerScore"],gameState["opponentScore"])
  
