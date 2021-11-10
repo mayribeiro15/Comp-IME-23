@@ -108,8 +108,12 @@ def set_msg(jogador, adversario):
         msg = "Aguarde o adversário posicionar a frota"
     elif jogador.totalRestante == 0:
         msg = "GAME OVER!!! Você perdeu :("
+        game.gameOver=1
+        game.vez=0
     elif adversario.totalRestante == 0:
         msg = "GAME OVER!!! Parabéns, você venceu!"
+        game.gameOver=1
+        game.vez=0
     elif game.vez==jogador.id:
         msg = "Sua vez! Ataque o seu oponente!"
     else:
@@ -128,10 +132,9 @@ def update_game(game):
     else:
         jogador1=game.jogador[1]
         jogador2=game.jogador[2]
-      
-        if(game.gameOver == -1):
+
+        if(game.vez == 0):
             game.vez=1
-            game.gameOver=0
 
         msg = set_msg(jogador1,jogador2)
         vez = (game.vez==jogador1.id)

@@ -106,6 +106,7 @@ def board():
 # Define os textos (título, laterais, mensagem e pontuação)
 def set_labels(msg, score1, score2):
     Label(root, text="BATALHA NAVAL", fg="white", bg="black", font=font_big ,  borderwidth = 0, relief="sunken").grid(row=1, column=10, columnspan=9)
+    Label(root, text=" "*100, fg="white", bg="black", font=font1 ,  borderwidth = 0, relief="sunken").grid(row=2, column=7, columnspan=15)
     Label(root, text=msg, fg="white", bg="black", font=font1 ,  borderwidth = 0, relief="sunken").grid(row=2, column=7, columnspan=15)
 
     for _ in range(10):
