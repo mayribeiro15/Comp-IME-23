@@ -51,7 +51,7 @@ def receive():
             update_game(gameState)
         except:
             print("An error occured!")
-            if gameState.gameOver == 1 or gameOver==1:
+            if gameState["gameOver"] == 1 or gameOver==1:
                 break
 
 class Player:
