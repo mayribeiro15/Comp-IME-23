@@ -51,7 +51,8 @@ def receive():
             update_game(gameState)
         except:
             print("An error occured!")
-            #break
+            if gameState.gameOver == 1 or gameOver==1:
+                break
 
 class Player:
     def __init__(self, side, id):
@@ -247,6 +248,7 @@ def boardGame(self):
 # Desconecta do servidor e fecha as telas
 def quitGame():
     send(DISCONNECT_MESSAGE,"string")
+    gameOver = 1
     root.destroy()
 
 root = Tk()
@@ -260,5 +262,6 @@ fontTitle = font.Font(family='Helvetica 18', size=50, weight='bold')
 
 player = Player("player", 1)
 opponent = Player("opponent", 2)
+gameOver = 0
 startWindow()
 root.mainloop()
