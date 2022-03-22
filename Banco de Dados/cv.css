@@ -1,0 +1,18 @@
+cv {
+    color: black;
+    background-color : white;
+    width: 100%;
+    margin:0.5em; 
+    padding:0.5em; 
+}
+nome {
+    font-weight:bolder;
+    text-align:center;
+    font-size:30px;
+}
+nome, 
+contatos, endereco, cidade, estado, cep, telefone,
+educacao, nomeInstituicao, curso, periodo,
+nomeEmpresa, cargo {
+    display: block;
+}

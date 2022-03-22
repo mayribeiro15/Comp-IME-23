@@ -1,0 +1,87 @@
+<cv>
+  <dadosPessoais> 
+    <nome> Mayara Ribeiro Mendonça </nome>
+    <idade> 22 </idade>
+    <formacao> Estudante de Engenharia </formacao>
+  </dadosPessoais>
+
+  <contatos>
+    <locn:endereco xmlns:locn='https://lov.linkeddata.es/dataset/lov/vocabs/locn'> 
+      <locn:rua> Praça General Tiburcio </locn:rua>
+      <locn:numero> 80 </locn:numero>
+      <locn:bairro> Urca </locn:bairro>
+      <locn:cidade> Rio de Janeiro </locn:cidade>
+      <locn:estado> RJ </locn:estado>
+      <locn:cep> 22290270 </locn:cep>
+    </locn:endereco>
+    <email> mayara.mendonca@ime.eb.br </email>
+    <telefone> 21 985331190 </telefone>
+  </contatos>
+  
+  <historicoAcademico>
+    <instituicao>
+      <nomeInstituicao> Instituto Militar de Engenharia </nomeInstituicao>
+      <curso tipo="Graduacao"> Engenharia da Computação </curso>
+      <periodoCargo> 
+          <inicio> Fev 2019 </inicio>
+          <fim/>
+      </periodoCargo>
+    </instituicao>
+    <instituicao>
+      <nomeInstituicao> Colegio Pedro II </nomeInstituicao>
+      <curso tipo="Medio"> Ensino Medio Regular </curso>
+      <periodoCargo> 
+          <inicio> Fev 2015 </inicio>
+          <fim> Dez 2017 </fim>
+      </periodoCargo>
+    </instituicao>
+  </historicoAcademico>
+
+  <historicoProfissional>
+    <experiencia tipo="Extracurricular">
+      <nomeEmpresa> RoboIME </nomeEmpresa>
+      <cargo> 
+        <nomeCargo> Representante de Projeto </nomeCargo>
+        <periodoCargo> 
+          <inicio> Jul 2019 </inicio>
+          <fim> Jul 2020 </fim>
+        </periodoCargo>
+      </cargo>
+      <cargo> 
+        <nomeCargo> Vice-Presidente </nomeCargo>
+        <periodoCargo> 
+          <inicio> Jul 2020 </inicio>
+          <fim> Jul 2021 </fim>
+        </periodoCargo>
+      </cargo>
+      <cargo> 
+        <nomeCargo> Presidente </nomeCargo>
+        <periodoCargo> 
+          <inicio> Jul 2021 </inicio>
+          <fim/>
+        </periodoCargo>
+      </cargo>
+    </experiencia>
+    <experiencia tipo="Estagio">
+      <nomeEmpresa> Yatto </nomeEmpresa>
+      <cargo> 
+        <nomeCargo> Desenvolvedora BackEnd </nomeCargo>
+        <periodoCargo> 
+          <inicio> Mar 2021 </inicio>
+          <fim> Out 2021 </fim>
+        </periodoCargo>
+      </cargo>
+    </experiencia>
+  </historicoProfissional>
+
+  <dcterms:idiomas xmlns:dcterms='http://purl.org/dc/terms/language'>
+    <dcterms:idioma>
+      <dcterms:nomeIdioma nivel="Avancado"> Ingles </dcterms:nomeIdioma>
+      <dcterms:certificacao grau="111" validade="Jul 2023"> Toelf </dcterms:certificacao>
+    </dcterms:idioma>
+    <dcterms:idioma>
+      <dcterms:nomeIdioma nivel="Intermediario"> Frances </dcterms:nomeIdioma>
+      <dcterms:certificacao grau="B2" validade="Vitalicio"> Delf </dcterms:certificacao>
+    </dcterms:idioma>
+  </dcterms:idiomas>
+</cv>

@@ -8,14 +8,14 @@ from messages import *
 
 HEADER = 128
 PORT = 5050
-SERVER = "192.168.56.1"
+SERVER = "192.168.1.15"
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 START_MESSAGE = "START_GAME"
 DISCONNECT_MESSAGE = "!DISCONNECT"
 UPDATE_MESSAGE = "REQUEST_GAME_STATE"
 MSG_TYPE = {
-    0: 'string', #disconnect_message ou update_message
+    0: 'string', #disconnect_message ou start_game
     1: 'shipsPosition', #recebe a posição do navio
     2: 'attackPosition', #recebe a posição atacada
     3: 'gameState' #envia estado do jogo
@@ -51,7 +51,7 @@ def receive():
             update_game(gameState)
         except:
             print("An error occured!")
-            if gameState["gameOver"] == 1 or gameOver==1:
+            if int(gameState["gameOver"]) == 1 or gameOver==1:
                 break
 
 class Player:
@@ -100,11 +100,9 @@ class Player:
 
         self.buttons = allbuttons
 
-# Monta o tabuleiro 10x10 com todos os quadrados cinza
 def board():
     return [[" "]*10 for _ in range(10)]
 
-# Define os textos (título, laterais, mensagem e pontuação)
 def set_labels(msg, score1, score2):
     Label(root, text="BATALHA NAVAL", fg="white", bg="black", font=font_big ,  borderwidth = 0, relief="sunken").grid(row=1, column=10, columnspan=9)
     Label(root, text=" "*100, fg="white", bg="black", font=font1 ,  borderwidth = 0, relief="sunken").grid(row=2, column=7, columnspan=15)
@@ -137,12 +135,10 @@ def set_labels(msg, score1, score2):
     endButton = Button(root, text='SAIR', font=font_normal, command=partial(quitGame), bg='blue', fg='white', width=15, height=2, relief='flat')
     endButton.place(x=810, y=450)
 
-# Define se acertou o navio ou a agua e seta o layout do quadrado de acordo com isso
 def hit_position(a, b):
     attackPosition = AttackPosition(a,b)
     send(attackPosition,"attackPosition")
 
-#Define a posição do navio
 def ship_position(a, b, player, all_buttons):
     if player.ships < 3:
         player.board[a][b] = '1'
@@ -245,7 +241,6 @@ def boardGame(self):
     rcv= threading.Thread(target = receive)
     rcv.start()
 
-# Desconecta do servidor e fecha as telas
 def quitGame():
     send(DISCONNECT_MESSAGE,"string")
     gameOver = 1

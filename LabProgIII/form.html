@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Ficha de Vacinação Covid</title>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="form.css">
+</head>
+
+<body>
+<h1>Ficha Vacinação Covid 19</h1>
+<h2>Estabelecimento de Saúde</h2>
+<h3>Preenchimento do Estabelecimento de Saúde</h3>
+<form method = "post" action="/action_page.php">
+  <label for="cns">CNS do Profissional</label>
+  <input type="number" id="cns" name="cns" required>
+
+  <label for="cbo">CBO</label>
+  <input type="number" id="cbo" name="cbo" required>
+
+  <label for="CNES">CNES</label>
+  <input type="number" id="CNES" name="CNES" required>
+  <label for="dataDocumento"> Data </label>
+  <input type="date" id="dataDoc" name="dataDoc" value="dataDoc">
+  <label for="dose">Turno</label>
+  <input type="radio" id="manha" name="turno" value = "manha">
+  <label for="manha"> Manha</label>
+  <input type="radio" id="tarde" name="turno" value = "tarde">
+  <label for="tarde"> Tarde</label>
+  <input type="radio" id="noite" name="turno" value = "noite">
+  <label for="noite"> Noite</label>
+  
+ <h3>Dados da Vacina</h3>
+    <label for="fabricante">Fabricante</label>
+    <input type="text" id="fabricante" name="fabricante" required>
+    <label for="lote">Lote</label>
+    <input type="number" id="lote" name="lote" required>
+    <label for="dose">Dose</label>
+    <input type="radio" id="1dose" name="qual_dose" value = "1aDose">
+    <label for="1dose"> 1ª Dose</label>
+    <input type="radio" id="1dose" name="qual_dose" value = "2aDose">
+    <label for="1dose"> 2ª Dose</label>
+    <input type="radio" id="1dose" name="qual_dose" value = "3aDose">
+    <label for="1dose"> 3ª Dose</label>
+
+    <label for="prazoProximaDose"> Prazo para a proxima dose </label>
+    <input type="date" id="prazoProximaDose" name="prazoProximaDose" value="Bdoseoat"><br><br>
+    
+    
+ <h3>Preenchimento do Cidadao</h3>
+    <label for="nome">Nome</label>
+    <input type="text" id="nome" name="nome" required>
+    <label for="cns/cpf">CNS (Cartão Nacional de Saúde ou CPF)</label>
+    <input type="number" id="cns/cpf" name="cns/cpf" required>
+    <label for="mae">Nome da Mãe</label>
+    <input type="text" id="mae" name="mae" required>
+    <label for="nascimento">Data de Nascimento</label>
+    <input type="date" id="nascimento" name="nascimento" required>
+    <label for="idade">Idade</label>
+    <input type="number" id="idade" name="idade" required>
+    <label for="telefone">Telefone</label>
+    <input type="number" id="telefone" name="telefone" required>
+    <label for="logradouro">Logradouro</label>
+    <input type="text" id="logradouro" name="logradouro" required>
+    <label for="no">Nº</label>
+    <input type="text" id="no" name="no" required>
+    <label for="complemento">Complemento</label>
+    <input type="text" id="complemento" name="complemento" required>
+    <label for="bairro">Bairro</label>
+    <input type="text" id="bairro" name="bairro" required>
+    <label for="cep">CEP</label>
+    <input type="text" id="cep" name="cep" required>
+   
+        <div class="grid-container-3">
+            <div class="grid-item">
+                <h3>Sexo:</h3>
+                <label><input type="checkbox">Masculino<br/></label>
+                <label><input type="checkbox">Feminino<br/></label>
+            </div>
+            <div class="grid-item">
+                <h3>Vacinou contra a Gripe:</h3>
+                <label><input type="checkbox">Sim<br/></label>
+                <label><input type="checkbox">Nao<br/></label>
+            </div>
+            <div class="grid-item">
+                <h3>Raca/Cor:</h3>
+                <label><input type="checkbox"> Amarelo <br/></label>
+                <label><input type="checkbox"> Branco <br/></label>
+                <label><input type="checkbox"> Indio <br/></label>
+                <label><input type="checkbox"> Pardo <br/></label>
+                <label><input type="checkbox"> Preto <br/></label>
+                </div>
+            </div>
+        </div>
+
+    <div class="grid-container-2">
+        <div class="grid-item">
+            <h3><b>Grupos de atendimento</b></h3>
+            <label><input type="checkbox"> Caminhoneiro <br/></label>
+            <label><input type="checkbox"> Deficiência Permanente Grave <br/></label>
+            <label><input type="checkbox"> Forças de segurança e Salvamento <br/></label>
+            <label><input type="checkbox"> Funcionários do sistema de privação da liberdade <br/></label>
+            <label><input type="checkbox"> Idoso - 60 anos <br/></label>
+            <label><input type="checkbox"> Institucionalização com Deficiência <br/></label>
+            <label><input type="checkbox"> Comorbidades (especificar no campo abaixo) <br/></label>
+            <label><input type="checkbox"> População Geral <br/></label>
+            <label><input type="checkbox"> Privado de liberdade <br/></label>
+            <label><input type="checkbox"> Profissional de Educação <br/></label>
+            <label><input type="checkbox"> Trabalhado de saúde <br/></label>
+            <label><input type="checkbox"> Trabalhadores do transporte Coletivo Rodoviário <br/></label>
+            <label><input type="checkbox"> Trabalhadores portuários e Ferroviários <br/></label>
+            <label><input type="checkbox"> Caminhoneiro <br/></label>
+            <label><input type="checkbox"> Forças Armadas <br/></label>
+            <label><input type="checkbox"> Outros (informar) <br/></label>
+        </div>
+        <div class="grid-item">
+            <h3>Comordidades:</h3>
+            <label><input type="checkbox">Doencas Falciformes<br/></label>
+            <label><input type="checkbox">Diabetes<br/></label>
+            <label><input type="checkbox"> Doencas Cardiovasculares<br/></label>
+            <label><input type="checkbox"> Hipertensao<br/></label>
+            <label><input type="checkbox"> Obesidade Grave (IMC>40)<br/></label>
+            <label><input type="checkbox"> Neoplasis<br/></label>
+            <label><input type="checkbox"> Pneuopatias Cronicas Graves<br/></label>
+            <label><input type="checkbox"> Doenca Renal Cronica<br/></label>
+            <label><input type="checkbox"> Individuo Tranplantado<br/></label>
+            <label><input type="checkbox"> Sindrome de Down<br/></label>
+            <label><input type="checkbox"> Outros Imunossuprimidos<br/></label>
+            <label><input type="checkbox"> Cirrose Hepatica<br/></label>
+        </div>
+    </div>
+  </form>
+
+  <p>
+    Declaro ser conhecedor que a prática de revacniação pode acarretar a responsabilidade
+    criminal e crível. <br> Por ser verdade firmo a presente declaração. <br/><br/>
+    Juiz de fora, ___ de _____ de 20___
+  </p>
+<p>
+</body>
+</html>
+

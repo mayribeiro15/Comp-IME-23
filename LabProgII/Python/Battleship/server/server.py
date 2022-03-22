@@ -6,14 +6,14 @@ from battleship import *
 
 HEADER = 128
 PORT = 5050
-SERVER = socket.gethostbyname(socket.gethostname()) #"192.168.56.1"
+SERVER = "192.168.1.15" #socket.gethostbyname(socket.gethostname()) #"192.168.56.1"
 ADDR = (SERVER, PORT)
 FORMAT = "utf-8"
 START_MESSAGE = "START_GAME"
 DISCONNECT_MESSAGE = "!DISCONNECT"
 UPDATE_MESSAGE = "REQUEST_GAME_STATE"
 MSG_TYPE = {
-    0: 'string', #disconnect_message ou update_message
+    0: 'string', #disconnect_message ou start_game
     1: 'shipsPosition', #recebe a posição do navio
     2: 'attackPosition', #recebe a posição atacada
     3: 'gameState' #envia estado do jogo
