@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+C:\Users\Lenovo\Desktop\IME\GitHub\Comp-IME-23\APS II\.metadata\.plugins\org.eclipse.jdt.core
+1619599594.index
+4185944400.index
+1865797976.index

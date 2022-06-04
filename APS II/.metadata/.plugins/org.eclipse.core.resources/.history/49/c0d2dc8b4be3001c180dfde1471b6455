@@ -1,0 +1,19 @@
+package teste;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import app.Triangulo;
+
+class TrianguloTest {
+
+	private final Triangulo sobTeste = new Triangulo();
+	
+	@Test
+	void testMain() {
+		int a=3; int b=4; int c=5; String expected="triangulo escaleno";
+		assertEquals(expected,sobTeste.main(a, b, c));
+	}
+
+}

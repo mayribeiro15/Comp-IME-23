@@ -1,0 +1,22 @@
+package teste;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import app.Unidade;
+
+import java.util.Scanner;
+
+class UnidadeTest {
+
+	private final Unidade sobTeste = new Unidade();
+	
+	@Test
+	void testMain() {
+		float expected=0;
+		Scanner sc = new Scanner("1,-1"); 
+		assertEquals(expected,sobTeste.main(sc));
+	}
+
+}

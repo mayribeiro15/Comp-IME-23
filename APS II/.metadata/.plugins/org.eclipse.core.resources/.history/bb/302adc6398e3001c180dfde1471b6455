@@ -1,0 +1,20 @@
+package app;
+
+import java.util.Scanner;  
+
+public class Main {   
+    public static void main(String args[]){   
+           // Initialize Scanner object  
+           Scanner scan = new Scanner("1/2/3/-1");  
+           //Initialize the string delimiter  
+           scan.useDelimiter("/");  
+           //Printing the tokenized Strings  
+           float x = scan.nextFloat();
+           System.out.println(x);  
+           while(x!=-1){  
+        	   x = scan.nextFloat();
+               System.out.println(x);  
+           }  
+           scan.close();   
+         }    
+}     
