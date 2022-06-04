@@ -47,5 +47,6 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "Lab de Programacao II\\LabProgII_java\\resources\\mysql-connector-java-8.0.26.jar"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

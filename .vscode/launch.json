@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch CombustivelApplication",
+            "request": "launch",
+            "mainClass": "br.comp.mayara.combustivel.CombustivelApplication",
+            "projectName": "combustivel"
+        },
+        {
+            "type": "java",
             "name": "Launch Main",
             "request": "launch",
             "mainClass": "br.eb.ime.agenda.aplicacao.Main",
