@@ -93,6 +93,7 @@ def depthFirstSearch(problem):
     path = []
 
     start = problem.getStartState()
+
     if problem.isGoalState(start)==True:
         return []
     frontier.push(start)
@@ -100,29 +101,28 @@ def depthFirstSearch(problem):
 
     while frontier.isEmpty()==False:
         node = frontier.pop()
-         
+
+        if node not in visited:
+            visited.append(node)
 
         if problem.isGoalState(node)==True:
             while parent[node]!="Start":
                 path.append(direction[node])
                 node = parent[node]
             path.reverse()
-             
             return path
 
-        if node not in visited:
-            visited.append(node)
-            for sucessor in problem.getSuccessors(node):
-                if sucessor[0] not in visited:
-                    direction[sucessor[0]]=sucessor[1]
-                    parent[sucessor[0]]=node
-                    frontier.push(sucessor[0])
+        for sucessor in problem.getSuccessors(node):
+            if sucessor[0] not in visited:
+                direction[sucessor[0]]=sucessor[1]
+                parent[sucessor[0]]=node
+                frontier.push(sucessor[0])
 
     return path
      
 
 def breadthFirstSearch(problem):
-    """Search the shallowest nodes in the search tree first."""
+    """Search the shallowest nodes in the search tree first."""      
     frontier = util.Queue()
     visited = []
     parent = {}
@@ -139,23 +139,25 @@ def breadthFirstSearch(problem):
 
     while frontier.isEmpty()==False:
         node = frontier.pop()
-         
 
         for sucessor in problem.getSuccessors(node):
-            if sucessor[0] not in visited:
-                visited.append(sucessor[0])
-                frontier.push(sucessor[0])
+            if problem.isGoalState(sucessor[0])==True:
                 direction[sucessor[0]]=sucessor[1]
                 parent[sucessor[0]]=node
-
-            if problem.isGoalState(sucessor[0])==True:
                 node=sucessor[0]
                 while parent[node]!="Start":
                     path.append(direction[node])
                     node = parent[node]
                 path.reverse()
-                 
                 return path
+
+            if sucessor[0] not in visited:
+                visited.append(sucessor[0])
+                frontier.push(sucessor[0])
+                direction[sucessor[0]]=sucessor[1]
+                parent[sucessor[0]]=node
+    
+    return False
 
 
 def uniformCostSearch(problem):

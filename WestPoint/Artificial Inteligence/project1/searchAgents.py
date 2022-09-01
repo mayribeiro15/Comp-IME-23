@@ -374,23 +374,6 @@ def cornersHeuristic(state, problem):
     shortest path from the state to a goal of the problem; i.e.  it should be
     admissible (as well as consistent).
     """
-    # def simulatePath(start, corners, visitedCorners):
-    #     x,y = start
-    #     totalDistance=0
-    #     while visitedCorners != [1,1,1,1]:
-    #         minDistance = 9999
-    #         for i in range(len(corners)):
-    #             goalx,goaly=corners[i]
-    #             distance = abs(x-goalx)+abs(y-goaly)
-    #             if visitedCorners[i]==0 and minDistance>distance:
-    #                 minDistance=distance
-    #                 minCorner = i
-    #         totalDistance += minDistance
-    #         x,y = corners[minCorner]
-    #         visitedCorners[i]=1
-    #     return totalDistance
-
-
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
@@ -399,12 +382,13 @@ def cornersHeuristic(state, problem):
     position = (x,y)
     visitedCorners = [a,b,c,d]
     
-    #heuristic = simulatePath(position,corners,visitedCorners)
     for i in range(len(corners)):
-        goalx,goaly=corners[i]
-        distance = abs(x-goalx)+abs(y-goaly)
+        goal = corners[i]
+        distance = manhattanDistance(position,goal)
+        #distance = euclideanDistance(position,goal)
+        #distance = mazeDistance(position,goal,problem.startingGameState)
         if visitedCorners[i]==0 and heuristic>distance:
-            heuristic=distance
+           heuristic=distance
     
     if (x,y) in corners:
        heuristic = 0
@@ -511,8 +495,8 @@ def foodHeuristic(state, problem):
     i = 0
     for z in foodGrid.asList():
         goalx,goaly = z
-        distance = abs(x-goalx)+abs(y-goaly)
-        # distance = mazeDistance(position,z,problem.startingGameState)
+        #distance = manhattanDistance(position,z)
+        distance = mazeDistance(position,z,problem.startingGameState)
         if i>5: #maximum interactions, consider only the first 5 coordinates
             break
         i +=1
@@ -596,6 +580,18 @@ class AnyFoodSearchProblem(PositionSearchProblem):
             return True
 
         return False
+
+def manhattanDistance(position, goal):
+    "The Manhattan distance heuristic for a PositionSearchProblem"
+    xy1 = position
+    xy2 = goal
+    return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
+
+def euclideanDistance(position, goal):
+    "The Euclidean distance heuristic for a PositionSearchProblem"
+    xy1 = position
+    xy2 = goal
+    return ( (xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2 ) ** 0.5
 
 def mazeDistance(point1, point2, gameState):
     """
