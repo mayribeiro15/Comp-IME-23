@@ -86,7 +86,6 @@ def depthFirstSearch(problem):
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
-    "*** YOUR CODE HERE ***"
     frontier = util.Stack()
     visited = []
     parent = {}
@@ -94,6 +93,8 @@ def depthFirstSearch(problem):
     path = []
 
     start = problem.getStartState()
+    if problem.isGoalState(start)==True:
+        return []
     frontier.push(start)
     parent[start]="Start"
 
@@ -106,23 +107,22 @@ def depthFirstSearch(problem):
                 path.append(direction[node])
                 node = parent[node]
             path.reverse()
-            print("Goal found on path:",path)
+            #print("Goal found on path:",path)
             return path
 
         if node not in visited:
             visited.append(node)
-            for child in problem.getSuccessors(node):
-                if child[0] not in visited:
-                    direction[child[0]]=child[1]
-                    parent[child[0]]=node
-                frontier.push(child[0])
+            for sucessor in problem.getSuccessors(node):
+                if sucessor[0] not in visited:
+                    direction[sucessor[0]]=sucessor[1]
+                    parent[sucessor[0]]=node
+                    frontier.push(sucessor[0])
 
     return path
     #util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
     frontier = util.Queue()
     visited = []
     parent = {}
@@ -130,31 +130,32 @@ def breadthFirstSearch(problem):
     path = []
 
     start = problem.getStartState()
+    if problem.isGoalState(start)==True:
+        return []
     frontier.push(start)
+    visited.append(start)
     parent[start]="Start"
 
     while frontier.isEmpty()==False:
         node = frontier.pop()
         #print("Node:", node, "- Parent:", parent[node])
 
-        if problem.isGoalState(node)==True:
-            while parent[node]!="Start":
-                path.append(direction[node])
-                node = parent[node]
-            path.reverse()
-            print("Goal found on path:",path)
-            return path
-
-        if node not in visited:
-            visited.append(node)
-            for child in problem.getSuccessors(node):
-                if child[0] not in visited:
-                    direction[child[0]]=child[1]
-                    parent[child[0]]=node
-                frontier.push(child[0])
+        for sucessor in problem.getSuccessors(node):
+            if sucessor[0] not in visited:
+                visited.append(sucessor[0])
+                frontier.push(sucessor[0])
+                direction[sucessor[0]]=sucessor[1]
+                parent[sucessor[0]]=node
+            if problem.isGoalState(sucessor[0])==True:
+                node=sucessor[0]
+                while parent[node]!="Start":
+                    path.append(direction[node])
+                    node = parent[node]
+                path.reverse()
+                #print("Goal found on path:",path)
+                return path
 
     return path
-    #util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
@@ -163,11 +164,13 @@ def uniformCostSearch(problem):
     visited = []
     parent = {}
     direction = {}
+    cost = {}
     path = []
 
     start = problem.getStartState()
     frontier.push(start,0)
     parent[start]="Start"
+    cost[start]=0
 
     while frontier.isEmpty()==False:
         node = frontier.pop()
@@ -178,16 +181,22 @@ def uniformCostSearch(problem):
                 path.append(direction[node])
                 node = parent[node]
             path.reverse()
-            print("Goal found on path:",path)
+            #print("Goal found on path:",path)
             return path
 
         if node not in visited:
             visited.append(node)
-            for child in problem.getSuccessors(node):
-                if child[0] not in visited:
-                    direction[child[0]]=child[1]
-                    parent[child[0]]=node
-                frontier.push(child[0],child[2])
+            for sucessor in problem.getSuccessors(node):
+                if sucessor[0] not in visited:
+                    direction[sucessor[0]]=sucessor[1]
+                    parent[sucessor[0]]=node
+                    cost[sucessor[0]]=sucessor[2]
+                    frontier.push(sucessor[0],sucessor[2])
+                elif cost[sucessor[0]]>sucessor[2]:
+                    direction[sucessor[0]]=sucessor[1]
+                    parent[sucessor[0]]=node
+                    cost[sucessor[0]]=sucessor[2]
+                    frontier.push(sucessor[0],sucessor[2])
 
     return path
     #util.raiseNotDefined()
@@ -206,11 +215,13 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     visited = []
     parent = {}
     direction = {}
+    cost = {}
     path = []
 
     start = problem.getStartState()
     frontier.push(start,0+heuristic(start,problem))
     parent[start]="Start"
+    cost[start]=0
 
     while frontier.isEmpty()==False:
         node = frontier.pop()
@@ -221,16 +232,22 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                 path.append(direction[node])
                 node = parent[node]
             path.reverse()
-            print("Goal found on path:",path)
+            #print("Goal found on path:",path)
             return path
 
         if node not in visited:
             visited.append(node)
-            for child in problem.getSuccessors(node):
-                if child[0] not in visited:
-                    direction[child[0]]=child[1]
-                    parent[child[0]]=node
-                frontier.push(child[0],child[2]+heuristic(child[0],problem))
+            for sucessor in problem.getSuccessors(node):
+                if sucessor[0] not in visited:
+                    direction[sucessor[0]]=sucessor[1]
+                    parent[sucessor[0]]=node
+                    cost[sucessor[0]]=sucessor[2]
+                    frontier.push(sucessor[0],sucessor[2]+heuristic(sucessor[0],problem))
+                elif cost[sucessor[0]]>sucessor[2]:
+                    direction[sucessor[0]]=sucessor[1]
+                    parent[sucessor[0]]=node
+                    cost[sucessor[0]]=sucessor[2]
+                    frontier.push(sucessor[0],sucessor[2]+heuristic(sucessor[0],problem))
 
     return path
     #util.raiseNotDefined()
