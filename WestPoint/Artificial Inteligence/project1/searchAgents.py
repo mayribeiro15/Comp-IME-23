@@ -395,16 +395,15 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     ((x,y),(a,b,c,d))=state
-    heuristic = 0
+    heuristic = 999999
     position = (x,y)
     visitedCorners = [a,b,c,d]
-
     
     #heuristic = simulatePath(position,corners,visitedCorners)
     for i in range(len(corners)):
         goalx,goaly=corners[i]
         distance = abs(x-goalx)+abs(y-goaly)
-        if visitedCorners[i]==0 and heuristic<distance:
+        if visitedCorners[i]==0 and heuristic>distance:
             heuristic=distance
     
     if (x,y) in corners:
@@ -509,10 +508,14 @@ def foodHeuristic(state, problem):
     if state in problem.heuristicInfo:
         return problem.heuristicInfo[state]
 
+    i = 0
     for z in foodGrid.asList():
-        # goalx,goaly = z
-        # distance = abs(x-goalx)+abs(y-goaly)
-        distance = mazeDistance(position,z,problem.startingGameState)
+        goalx,goaly = z
+        distance = abs(x-goalx)+abs(y-goaly)
+        # distance = mazeDistance(position,z,problem.startingGameState)
+        if i>5: #maximum interactions, consider only the first 5 coordinates
+            break
+        i +=1
 
         if heuristic<distance:
             heuristic=distance

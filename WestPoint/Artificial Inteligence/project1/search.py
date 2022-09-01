@@ -162,6 +162,7 @@ def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     frontier = util.PriorityQueue()
     visited = []
+    expanded = []
     parent = {}
     direction = {}
     cost = {}
@@ -177,31 +178,33 @@ def uniformCostSearch(problem):
 
     while frontier.isEmpty()==False:
         node = frontier.pop()
-         
+
         if problem.isGoalState(node)==True:
             while parent[node]!="Start":
                 path.append(direction[node])
                 node = parent[node]
             
             path.reverse()
-             
+            
             return path
 
-        for sucessor in problem.getSuccessors(node):
-            if sucessor[0] not in visited:
-                visited.append(sucessor[0])
-                frontier.push(sucessor[0],cost[node]+sucessor[2])
-                
-                direction[sucessor[0]]=sucessor[1]
-                parent[sucessor[0]]=node
-                cost[sucessor[0]]=cost[node]+sucessor[2]
+        if node not in expanded:
+            expanded.append(node)
+            for sucessor in problem.getSuccessors(node):
+                if sucessor[0] not in visited:
+                    visited.append(sucessor[0])
+                    frontier.push(sucessor[0],cost[node]+sucessor[2])
+                    
+                    direction[sucessor[0]]=sucessor[1]
+                    parent[sucessor[0]]=node
+                    cost[sucessor[0]]=cost[node]+sucessor[2]
 
-            elif cost[sucessor[0]]>cost[node]+sucessor[2]:
-                frontier.push(sucessor[0],cost[node]+sucessor[2])
-                
-                direction[sucessor[0]]=sucessor[1]
-                parent[sucessor[0]]=node
-                cost[sucessor[0]]=cost[node]+sucessor[2]
+                elif cost[sucessor[0]]>cost[node]+sucessor[2]:
+                    frontier.push(sucessor[0],cost[node]+sucessor[2])
+                    
+                    direction[sucessor[0]]=sucessor[1]
+                    parent[sucessor[0]]=node
+                    cost[sucessor[0]]=cost[node]+sucessor[2]
 
     return path
      
@@ -217,6 +220,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     frontier = util.PriorityQueue()
     visited = []
+    expanded = []
     parent = {}
     direction = {}
     cost = {}
@@ -225,41 +229,42 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     start = problem.getStartState()
     if problem.isGoalState(start)==True:
         return []
-    frontier.push(start,0)
+    frontier.push(start,0+heuristic(start,problem))
     visited.append(start)
     parent[start]="Start"
     cost[start]=0
 
     while frontier.isEmpty()==False:
         node = frontier.pop()
-         
+
         if problem.isGoalState(node)==True:
             while parent[node]!="Start":
                 path.append(direction[node])
                 node = parent[node]
             
             path.reverse()
-             
+            
             return path
 
-        for sucessor in problem.getSuccessors(node):
-            if sucessor[0] not in visited:
-                visited.append(sucessor[0])
-                frontier.push(sucessor[0],cost[node]+sucessor[2]+heuristic(sucessor[0],problem))
-                
-                direction[sucessor[0]]=sucessor[1]
-                parent[sucessor[0]]=node
-                cost[sucessor[0]]=cost[node]+sucessor[2]
-                
-            elif cost[sucessor[0]]>cost[node]+sucessor[2]:
-                frontier.push(sucessor[0],cost[node]+sucessor[2]+heuristic(sucessor[0],problem))
-                
-                direction[sucessor[0]]=sucessor[1]
-                parent[sucessor[0]]=node
-                cost[sucessor[0]]=cost[node]+sucessor[2]
+        if node not in expanded:
+            expanded.append(node)
+            for sucessor in problem.getSuccessors(node):
+                if sucessor[0] not in visited:
+                    visited.append(sucessor[0])
+                    frontier.push(sucessor[0],cost[node]+sucessor[2]+heuristic(sucessor[0],problem))
+                    
+                    direction[sucessor[0]]=sucessor[1]
+                    parent[sucessor[0]]=node
+                    cost[sucessor[0]]=cost[node]+sucessor[2]
 
-    return path
-    
+                elif cost[sucessor[0]]>cost[node]+sucessor[2]:
+                    frontier.push(sucessor[0],cost[node]+sucessor[2]+heuristic(sucessor[0],problem))
+                    
+                    direction[sucessor[0]]=sucessor[1]
+                    parent[sucessor[0]]=node
+                    cost[sucessor[0]]=cost[node]+sucessor[2]
+
+    return path    
 
 # Abbreviations
 bfs = breadthFirstSearch
