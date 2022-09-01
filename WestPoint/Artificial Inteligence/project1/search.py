@@ -118,7 +118,7 @@ def depthFirstSearch(problem):
                 parent[sucessor[0]]=node
                 frontier.push(sucessor[0])
 
-    return path
+    return False
      
 
 def breadthFirstSearch(problem):
@@ -134,16 +134,22 @@ def breadthFirstSearch(problem):
     if problem.isGoalState(start)==True:
         return []
     frontier.push(start)
-    visited.append(start)
     parent[start]="Start"
 
     while frontier.isEmpty()==False:
         node = frontier.pop()
 
+        if node not in visited:
+            visited.append(node)
+
         for sucessor in problem.getSuccessors(node):
-            if problem.isGoalState(sucessor[0])==True:
+            if sucessor[0] not in visited:
+                visited.append(sucessor[0])
+                frontier.push(sucessor[0])
                 direction[sucessor[0]]=sucessor[1]
                 parent[sucessor[0]]=node
+            
+            if problem.isGoalState(sucessor[0])==True: 
                 node=sucessor[0]
                 while parent[node]!="Start":
                     path.append(direction[node])
@@ -151,11 +157,6 @@ def breadthFirstSearch(problem):
                 path.reverse()
                 return path
 
-            if sucessor[0] not in visited:
-                visited.append(sucessor[0])
-                frontier.push(sucessor[0])
-                direction[sucessor[0]]=sucessor[1]
-                parent[sucessor[0]]=node
     
     return False
 
@@ -164,7 +165,7 @@ def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     frontier = util.PriorityQueue()
     visited = []
-    expanded = []
+    expanded = [] # Avoid multiple expasions of the same node
     parent = {}
     direction = {}
     cost = {}
@@ -222,7 +223,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     frontier = util.PriorityQueue()
     visited = []
-    expanded = []
+    expanded = [] # Avoid multiple expasions of the same node
     parent = {}
     direction = {}
     cost = {}

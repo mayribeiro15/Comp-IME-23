@@ -385,10 +385,10 @@ def cornersHeuristic(state, problem):
     for i in range(len(corners)):
         goal = corners[i]
         distance = manhattanDistance(position,goal)
-        #distance = euclideanDistance(position,goal)
-        #distance = mazeDistance(position,goal,problem.startingGameState)
+        #distance = euclideanDistance(position,goal) # More expanded nodes than Manhattan 
+        #distance = mazeDistance(position,goal,problem.startingGameState) # Variable startingGameState returns error, try to fix it
         if visitedCorners[i]==0 and heuristic>distance:
-           heuristic=distance
+           heuristic=distance # Taking the distance from position to farthest food
     
     if (x,y) in corners:
        heuristic = 0
@@ -493,12 +493,10 @@ def foodHeuristic(state, problem):
         return problem.heuristicInfo[state]
 
     i = 0
-    for z in foodGrid.asList():
-        goalx,goaly = z
-        #distance = manhattanDistance(position,z)
-        distance = mazeDistance(position,z,problem.startingGameState)
-        if i>5: #maximum interactions, consider only the first 5 coordinates
-            break
+    for goal in foodGrid.asList():
+        # distance = manhattanDistance(position,goal) # More expanded nodes than Maze
+        distance = mazeDistance(position,goal,problem.startingGameState)
+        if i>5: break # Limited interactions, consider only the first 5 coordinates
         i +=1
 
         if heuristic<distance:
@@ -542,7 +540,6 @@ class ClosestDotSearchAgent(SearchAgent):
         path = search.bfs(problem)
 
         return path
-        # util.raiseNotDefined()
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
@@ -582,16 +579,20 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         return False
 
 def manhattanDistance(position, goal):
-    "The Manhattan distance heuristic for a PositionSearchProblem"
-    xy1 = position
-    xy2 = goal
-    return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
+    """
+    Returns the manhattan distance between any two points. Useful for heuristic calculations.
+    """
+    x,y = position
+    xgoal,ygoal = goal
+    return abs(x-xgoal) + abs(y-ygoal)
 
 def euclideanDistance(position, goal):
-    "The Euclidean distance heuristic for a PositionSearchProblem"
-    xy1 = position
-    xy2 = goal
-    return ( (xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2 ) ** 0.5
+    """
+    Returns the euclidean distance between any two points. Useful for heuristic calculations.
+    """
+    x,y = position
+    xgoal,ygoal = goal
+    return ((x-xgoal)**2 + (y-ygoal)**2)**0.5
 
 def mazeDistance(point1, point2, gameState):
     """
