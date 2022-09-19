@@ -1,0 +1,12 @@
+References:
+Python Tutorial. (2022). Retrieved 30 August 2022, from https://www.w3schools.com/python/. Since I usually code in C++,
+    I used this website to clarify some doubts in sintax as well as getting help working with lists.
+
+Aguiar, Paulo CDT '23. (2022). CDT Aguiar and I discussed some bugs and errors concerning Question 3 (UCS algorithm).
+    When I mentioned having more expanding nodes than expected, he gave me a hint saying that the code considered
+    a node as expanded when the function "getSucessors" was called. This information leaded me to the necessary 
+    corrections in my code. West Point, NY. 18 Oct. 2014.
+
+Russell, S., & Norvig, P. (2020). Artificial Intelligence: A Modern Approach (Pearson Series in Artifical Intelligence)
+    (4th ed.). Pearson. I used the book to look at the pseudo codes. During the code process some of the steps were not
+    as clear as during the lecture/videos so I also used the textbook to understand it better.
