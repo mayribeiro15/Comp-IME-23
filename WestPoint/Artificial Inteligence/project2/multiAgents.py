@@ -202,8 +202,52 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         """
           Returns the minimax action using self.depth and self.evaluationFunction
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        def terminalTest(gameState,depth):
+          return gameState.isWin() or gameState.isLose() or self.depth==depth
+
+        def maxValue(gameState,depth,a,b,agentIndex=0):
+          if terminalTest(gameState,depth):
+            return self.evaluationFunction(gameState), "Game Over"
+          
+          value = -9999
+          for action in gameState.getLegalActions(0):
+            aux = value
+            value = max(value, minValue(gameState.generateSuccessor(agentIndex,action),depth,a,b,1)[0])
+            if aux != value:
+              maxAction = action
+            if value>b:
+              return (value, maxAction)
+            a = max(a,value)
+          return (value, maxAction)
+
+        def minValue(gameState,depth,a,b,agentIndex):
+          if terminalTest(gameState,depth):
+            return self.evaluationFunction(gameState), "Game Over"
+          
+          value = 9999
+          if(agentIndex==gameState.getNumAgents()-1):
+            depth+=1
+            for action in gameState.getLegalActions(agentIndex):
+              aux = value
+              value = min(value, maxValue(gameState.generateSuccessor(agentIndex,action),depth,a,b)[0])
+              if aux != value:
+                minAction = action
+              if value<a:
+                return (value, minAction)
+              b = min(b,value)
+          else:
+            for action in gameState.getLegalActions(agentIndex):
+              aux = value
+              value = min(value, minValue(gameState.generateSuccessor(agentIndex,action),depth,a,b,agentIndex+1)[0])
+              if aux != value:
+                minAction = action
+              if value<a:
+                return (value, minAction)
+              b = min(b,value)
+          return (value, minAction)
+
+        value, action = maxValue(gameState,0,-9999,9999)
+        return action
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
@@ -217,8 +261,40 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
           All ghosts should be modeled as choosing uniformly at random from their
           legal moves.
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        def terminalTest(gameState,depth):
+          return gameState.isWin() or gameState.isLose() or self.depth==depth
+
+        def maxValue(gameState,depth,agentIndex=0):
+          if terminalTest(gameState,depth):
+            return self.evaluationFunction(gameState), "Game Over"
+          
+          value = -9999
+          for action in gameState.getLegalActions(0):
+            aux = value
+            value = max(value, expectValue(gameState.generateSuccessor(agentIndex,action),depth,1)[0])
+            if aux != value:
+              maxAction = action
+          
+          return (value, maxAction)
+
+        def expectValue(gameState,depth,agentIndex):
+          if terminalTest(gameState,depth):
+            return self.evaluationFunction(gameState), "Game Over"
+          
+          value = float(0)
+          n = len(gameState.getLegalActions(agentIndex))
+          if(agentIndex==gameState.getNumAgents()-1):
+            depth+=1
+            for action in gameState.getLegalActions(agentIndex):
+              value += 1/n*maxValue(gameState.generateSuccessor(agentIndex,action),depth)[0]
+          else:
+            for action in gameState.getLegalActions(agentIndex):
+              value += 1/n*expectValue(gameState.generateSuccessor(agentIndex,action),depth,agentIndex+1)[0]
+
+          return (value, 0)
+
+        value, action = maxValue(gameState,0)
+        return action
 
 def betterEvaluationFunction(currentGameState):
     """
