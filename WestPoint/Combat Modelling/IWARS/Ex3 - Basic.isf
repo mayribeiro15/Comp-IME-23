@@ -1,0 +1,3515 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Scenario>
+  <VersionInfo>
+    <version key="base" value="3.13.0" />
+  </VersionInfo>
+  <Simulation AssemblyName="Simulation" ClassName="Sim.Core.Simulation">
+    <SimulationConfig>
+      <ConfigElement name="BodyModelConfig">
+        <Map key="System1" value="HUMAN28_HEAD-BODY" />
+        <Map key="System2" value="HUMAN28_HEAD-BODY" />
+        <Map key="System3" value="HUMAN28_HEAD-BODY" />
+        <Map key="System4" value="BRADLEY_WHOLE-BODY" />
+        <Map key="System5" value="MAV_WHOLE-BODY" />
+        <Map key="System6" value="UAV_FIXEDWING_WHOLE-BODY" />
+        <Map key="System7" value="HMMWV_WHOLE-BODY" />
+        <Map key="System8" value="STRYKER_ICV_WHOLE-BODY" />
+        <Map key="System9" value="STRYKER_MGS_WHOLE-BODY" />
+        <Map key="System10" value="UGS_WHOLE-BODY" />
+      </ConfigElement>
+      <ConfigElement name="PartialExposureEnabled">
+        <Map key="Enabled" value="true" />
+      </ConfigElement>
+    </SimulationConfig>
+    <SimulationInfo RealTimeSync="False">
+      <UpdateRates>
+        <UpdateRate Name="Flyout">0.1</UpdateRate>
+        <UpdateRate Name="BehaviorEngine">1</UpdateRate>
+        <UpdateRate Name="Physiology">5</UpdateRate>
+        <UpdateRate Name="Smoke">1</UpdateRate>
+        <UpdateRate Name="Movement">0.1</UpdateRate>
+        <UpdateRate Name="VisualSensor">1</UpdateRate>
+        <UpdateRate Name="MinTargetKnowledgeLinger">5</UpdateRate>
+        <UpdateRate Name="MaxTargetKnowledgeLinger">5</UpdateRate>
+        <UpdateRate Name="MinFOVSearchTime">1.7</UpdateRate>
+        <UpdateRate Name="MaxFOVSearchTime">5.1</UpdateRate>
+        <UpdateRate Name="KnowledgeOfTarget">5</UpdateRate>
+      </UpdateRates>
+      <SkillDurations>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.ChangeAgentFacingDirection">1.3</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.ChangeFieldOfRegard">0.1</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.ChangePosture">0.5</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.ChangePowerConsumption">0.1</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.ChangeSTA">0.1</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.ChangeTurretFacingDirection">2</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.ChangeVehicleFacingDirection">2</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.ChangeVisualSensor">3</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.ConfigureCOPAccessPoint">0.1</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.DropOffAgent">2</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.LightFlare">3</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.LookForShield">0.1</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.PickUpAgent">2</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.PlaceCharge">2</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.RemoveMessage">0.001</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.SelectWeapon">0.5</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.SetFormation">0.1</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.SetMovePath">0.1</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.SetUDOPProfile">0.1</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.ThrowGrenade">2</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.UseShield">0.1</SkillDuration>
+        <SkillDuration AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.UseUDOPDevice">0.1</SkillDuration>
+      </SkillDurations>
+      <IgnoreCollisions>false</IgnoreCollisions>
+      <EnableRuntimeEditing>false</EnableRuntimeEditing>
+    </SimulationInfo>
+    <Scheduler AssemblyName="Schedule" ClassName="Sim.Core.Scheduler">
+      <SortedCollection AssemblyName="ToolBox" ClassName="Utility.SynchronizedPriorityQueue">
+        <Comparer AssemblyName="Schedule" ClassName="Sim.Core.TaskComparer" />
+      </SortedCollection>
+    </Scheduler>
+    <Battlefield AssemblyName="Battlefield" ClassName="Sim.Battlefield.Battlefield">
+      <Terrain File="McKennaFlight.xml" />
+      <BattlefieldOverlays AssemblyName="BattlefieldOverlays" ClassName="Sim.Battlefield.Overlays.OverlaysManager">
+        <Folders>
+          <WaypointsFolder Name="Waypoints" Id="1" />
+          <LinearFeaturesFolder Name="Linear Features" Id="2" />
+          <AreaFeaturesFolder Name="Area Features" Id="3" />
+          <NodeNetworksFolder Name="Node Networks" Id="4" />
+        </Folders>
+        <PositionObjects>
+          <AllWaypoints>
+            <Waypoint ID="5" FolderId="1">
+              <Name>Target Area</Name>
+              <Description />
+              <Attributes />
+              <Location>
+                <X>1554.074951171875</X>
+                <Y>1615.73388671875</Y>
+                <Z>130.20770263671875</Z>
+              </Location>
+            </Waypoint>
+          </AllWaypoints>
+          <AllLinearFeatures>
+            <LinearFeature ID="1" FolderId="2">
+              <Name>Vehicle Path</Name>
+              <Description />
+              <Attributes />
+              <Type>path</Type>
+              <isTransitable>True</isTransitable>
+              <isTranslucent>True</isTranslucent>
+              <isPenetrable>True</isPenetrable>
+              <Height>0</Height>
+              <Width>0</Width>
+              <Vertices>
+                <Vertex ID="2">
+                  <Name>P1</Name>
+                  <Description />
+                  <Attributes />
+                  <Location>
+                    <X>1554.3690185546875</X>
+                    <Y>1668.4879150390625</Y>
+                    <Z>129.90507507324219</Z>
+                  </Location>
+                </Vertex>
+                <Vertex ID="3">
+                  <Name>P2</Name>
+                  <Description />
+                  <Attributes />
+                  <Location>
+                    <X>1543.893798828125</X>
+                    <Y>1617.907470703125</Y>
+                    <Z>130.30000305175781</Z>
+                  </Location>
+                </Vertex>
+              </Vertices>
+            </LinearFeature>
+          </AllLinearFeatures>
+          <AllAreaFeatures />
+          <AllNodeNetworks />
+        </PositionObjects>
+        <StochasticShields>
+          <ShieldTypes>
+            <ShieldType>
+              <Name>Big Tree</Name>
+              <Height>10</Height>
+              <Width>1</Width>
+              <CoverConcealSelection>coverandconceal</CoverConcealSelection>
+            </ShieldType>
+            <ShieldType>
+              <Name>Medium Tree</Name>
+              <Height>7</Height>
+              <Width>7</Width>
+              <CoverConcealSelection>coverandconceal</CoverConcealSelection>
+            </ShieldType>
+            <ShieldType>
+              <Name>Big Rock</Name>
+              <Height>1.1</Height>
+              <Width>1.1</Width>
+              <CoverConcealSelection>coverandconceal</CoverConcealSelection>
+            </ShieldType>
+            <ShieldType>
+              <Name>Medium Rock</Name>
+              <Height>0.8</Height>
+              <Width>0.8</Width>
+              <CoverConcealSelection>coverandconceal</CoverConcealSelection>
+            </ShieldType>
+            <ShieldType>
+              <Name>Small Rock</Name>
+              <Height>0.5</Height>
+              <Width>0.5</Width>
+              <CoverConcealSelection>coverandconceal</CoverConcealSelection>
+            </ShieldType>
+          </ShieldTypes>
+          <ShieldOccurrences />
+        </StochasticShields>
+        <AttributeTypes />
+        <TripWires />
+      </BattlefieldOverlays>
+      <Environment AssemblyName="Battlefield" ClassName="Sim.Battlefield.Environment">
+        <Season>Season1</Season>
+        <TimeOfDay>Time3</TimeOfDay>
+        <Background>VisualSensorBackground1</Background>
+        <CloudCover>CloudCover1</CloudCover>
+        <Clutter>VisualSensorClutter1</Clutter>
+        <Location>VisualSensorLocation1</Location>
+        <WindDirection>
+          <X>0</X>
+          <Y>1</Y>
+          <Z>0</Z>
+        </WindDirection>
+        <AmbientTemperature>23</AmbientTemperature>
+        <RadiantTemperature>23</RadiantTemperature>
+        <RelativeHumidity>67</RelativeHumidity>
+        <WindSpeed>0</WindSpeed>
+        <MeteorologicalVisibilityRange>3000</MeteorologicalVisibilityRange>
+        <SnowDepth>0</SnowDepth>
+      </Environment>
+      <Behaviors>
+        <BehaviorParameters />
+        <BehaviorEngine AssemblyName="ActivityLib" ClassName="Sim.Agent.Behavior.CompoundActivity" behaviorId="1">
+          <Activity type="Compound" ID="1">
+            <Name>Mount and Ride</Name>
+            <Location>
+              <X>0</X>
+              <Y>0</Y>
+            </Location>
+            <Transitions />
+            <Description />
+            <BehaviorParameters />
+            <ActivityGroups>
+              <ActivityGroup ID="2">
+                <Name>Activity Group 1</Name>
+                <Description />
+                <MultipleRuns>true</MultipleRuns>
+                <Location>
+                  <X>387.5</X>
+                  <Y>162.5</Y>
+                </Location>
+                <Activities>
+                  <Activity type="Start" ID="3">
+                    <Name>Start Node</Name>
+                    <Location>
+                      <X>452.5</X>
+                      <Y>222.5</Y>
+                    </Location>
+                    <Transitions>
+                      <Transition>
+                        <Condition>
+                          <Name>
+                          </Name>
+                          <Expression name="Success" />
+                        </Condition>
+                        <NextID>4</NextID>
+                        <CtrlPoints SourceAnchor="0" DestinationAnchor="0">
+                          <Location>
+                            <X>462.5</X>
+                            <Y>242.5</Y>
+                          </Location>
+                          <Location>
+                            <X>462.5</X>
+                            <Y>262.5</Y>
+                          </Location>
+                        </CtrlPoints>
+                      </Transition>
+                    </Transitions>
+                  </Activity>
+                  <Activity type="Compound" ID="4">
+                    <Name>Squad Mount and Ride</Name>
+                    <Location>
+                      <X>422.5</X>
+                      <Y>262.5</Y>
+                    </Location>
+                    <Transitions>
+                      <Transition>
+                        <Condition>
+                          <Name>
+                          </Name>
+                          <Expression name="Success" />
+                        </Condition>
+                        <NextID>5</NextID>
+                        <CtrlPoints SourceAnchor="0" DestinationAnchor="0">
+                          <Location>
+                            <X>462.5</X>
+                            <Y>322.5</Y>
+                          </Location>
+                          <Location>
+                            <X>462.5</X>
+                            <Y>342.5</Y>
+                          </Location>
+                        </CtrlPoints>
+                      </Transition>
+                    </Transitions>
+                    <Description>Mounts a vehicle, drives it along path, dismounts.
+Assign to all agents who will be in the vehicle.
+Set the vehicle, driver, number of riders, path for the vehicle, and dismount path.</Description>
+                    <BehaviorParameters>
+                      <BehaviorParameter input="true" output="false" local="false">
+                        <Parameter name="Vehicle" dataType="Agent" />
+                        <Description>Select the vehicle that will be operated</Description>
+                        <Expression name="Agent">
+                          <AgentId>10</AgentId>
+                        </Expression>
+                      </BehaviorParameter>
+                      <BehaviorParameter input="true" output="false" local="false">
+                        <Parameter name="Driver" dataType="Agent" />
+                        <Description>Select the driver of the vehicle</Description>
+                        <Expression name="Agent">
+                          <AgentId>1</AgentId>
+                        </Expression>
+                      </BehaviorParameter>
+                      <BehaviorParameter input="true" output="false" local="false">
+                        <Parameter name="Number of Riders" dataType="Integer" />
+                        <Description>
+                        </Description>
+                        <Expression name="Integer">
+                          <Integer>9</Integer>
+                        </Expression>
+                      </BehaviorParameter>
+                      <BehaviorParameter input="true" output="false" local="false">
+                        <Parameter name="Route" dataType="LinearFeature" />
+                        <Description>Specify the route (linear feature) that the vehicle will take.</Description>
+                        <Expression name="LinearFeature">
+                          <OverlayId Type="LinearFeature">1</OverlayId>
+                        </Expression>
+                      </BehaviorParameter>
+                      <BehaviorParameter input="true" output="false" local="false">
+                        <Parameter name="Dismount Point" dataType="Waypoint" />
+                        <Description>Select a waypoint for the dismounting agents to move to</Description>
+                        <Expression name="Waypoint">
+                          <OverlayId Type="Waypoint">5</OverlayId>
+                        </Expression>
+                      </BehaviorParameter>
+                    </BehaviorParameters>
+                    <ActivityGroups>
+                      <ActivityGroup ID="6">
+                        <Name>Mount, Drive, Dismount</Name>
+                        <Description />
+                        <MultipleRuns>false</MultipleRuns>
+                        <Location>
+                          <X>22.5</X>
+                          <Y>47.5</Y>
+                        </Location>
+                        <Activities>
+                          <Activity type="Start" ID="7">
+                            <Name>Start Node</Name>
+                            <Location>
+                              <X>87.5</X>
+                              <Y>107.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Success" />
+                                </Condition>
+                                <NextID>8</NextID>
+                                <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                  <Location>
+                                    <X>97.5</X>
+                                    <Y>127.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>97.5</X>
+                                    <Y>227.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                          </Activity>
+                          <Activity type="Compound" ID="8">
+                            <Name>Mount Vehicle</Name>
+                            <Location>
+                              <X>57.5</X>
+                              <Y>227.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Equals">
+                                    <Expression name="GetAgent" />
+                                    <Expression name="ActivityParameter">
+                                      <Parameter name="Driver" dataType="Agent" />
+                                    </Expression>
+                                  </Expression>
+                                </Condition>
+                                <NextID>9</NextID>
+                                <CtrlPoints SourceAnchor="3" DestinationAnchor="2">
+                                  <Location>
+                                    <X>137.5</X>
+                                    <Y>257.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>212.5</X>
+                                    <Y>257.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>212.5</X>
+                                    <Y>52.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>262.5</X>
+                                    <Y>52.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="And">
+                                    <Expression name="MessageReceived">
+                                      <Expression name="Message">
+                                        <Message>
+                                          <Text>Dismount</Text>
+                                        </Message>
+                                      </Expression>
+                                    </Expression>
+                                    <Expression name="Equals">
+                                      <Expression name="SenderOfMessage">
+                                        <Expression name="Message">
+                                          <Message>
+                                            <Text>Dismount</Text>
+                                          </Message>
+                                        </Expression>
+                                      </Expression>
+                                      <Expression name="ActivityParameter">
+                                        <Parameter name="Driver" dataType="Agent" />
+                                      </Expression>
+                                    </Expression>
+                                  </Expression>
+                                </Condition>
+                                <NextID>10</NextID>
+                                <CtrlPoints SourceAnchor="3" DestinationAnchor="2">
+                                  <Location>
+                                    <X>137.5</X>
+                                    <Y>257.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>212.5</X>
+                                    <Y>257.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>212.5</X>
+                                    <Y>482.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>262.5</X>
+                                    <Y>482.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                            <Description />
+                            <BehaviorParameters />
+                            <ActivityGroups>
+                              <ActivityGroup ID="11">
+                                <Name>Mount Vehicle</Name>
+                                <Description>Mounts a vehicle and sets the agent as the driver.</Description>
+                                <MultipleRuns>false</MultipleRuns>
+                                <Location>
+                                  <X>17.5</X>
+                                  <Y>12.5</Y>
+                                </Location>
+                                <Activities>
+                                  <Activity type="Start" ID="12">
+                                    <Name>Start Node</Name>
+                                    <Location>
+                                      <X>82.5</X>
+                                      <Y>72.5</Y>
+                                    </Location>
+                                    <Transitions>
+                                      <Transition>
+                                        <Condition>
+                                          <Name>
+                                          </Name>
+                                          <Expression name="Success" />
+                                        </Condition>
+                                        <NextID>13</NextID>
+                                        <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                          <Location>
+                                            <X>92.5</X>
+                                            <Y>92.5</Y>
+                                          </Location>
+                                          <Location>
+                                            <X>92.5</X>
+                                            <Y>117.5</Y>
+                                          </Location>
+                                        </CtrlPoints>
+                                      </Transition>
+                                    </Transitions>
+                                  </Activity>
+                                  <Activity type="Action" ID="13">
+                                    <Name>Share Vehicle Location</Name>
+                                    <Location>
+                                      <X>52.5</X>
+                                      <Y>117.5</Y>
+                                    </Location>
+                                    <Transitions>
+                                      <Transition>
+                                        <Condition>
+                                          <Name>
+                                          </Name>
+                                          <Expression name="Success" />
+                                        </Condition>
+                                        <NextID>14</NextID>
+                                        <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                          <Location>
+                                            <X>92.5</X>
+                                            <Y>177.5</Y>
+                                          </Location>
+                                          <Location>
+                                            <X>92.5</X>
+                                            <Y>217.5</Y>
+                                          </Location>
+                                        </CtrlPoints>
+                                      </Transition>
+                                    </Transitions>
+                                    <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.Communicate">
+                                      <Parameters>
+                                        <Message>
+                                          <Expression name="Message">
+                                            <Message>
+                                              <Text>Share Known Agents</Text>
+                                            </Message>
+                                          </Expression>
+                                        </Message>
+                                        <Recipients>My Force</Recipients>
+                                        <DelayTime>
+                                          <Expression name="Time">
+                                            <Time units="microseconds">0</Time>
+                                          </Expression>
+                                        </DelayTime>
+                                        <ProbabilityOfTransmission>
+                                          <Expression name="Decimal">
+                                            <Decimal>1</Decimal>
+                                          </Expression>
+                                        </ProbabilityOfTransmission>
+                                      </Parameters>
+                                    </Skill>
+                                  </Activity>
+                                  <Activity type="Action" ID="14">
+                                    <Name />
+                                    <Description />
+                                    <Location>
+                                      <X>52.5</X>
+                                      <Y>217.5</Y>
+                                    </Location>
+                                    <Transitions>
+                                      <Transition>
+                                        <Condition>
+                                          <Name>
+                                          </Name>
+                                          <Expression name="Success" />
+                                        </Condition>
+                                        <NextID>15</NextID>
+                                        <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                          <Location>
+                                            <X>92.5</X>
+                                            <Y>277.5</Y>
+                                          </Location>
+                                          <Location>
+                                            <X>92.5</X>
+                                            <Y>297.5</Y>
+                                          </Location>
+                                        </CtrlPoints>
+                                      </Transition>
+                                    </Transitions>
+                                    <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.SetMovePath">
+                                      <Parameters>
+                                        <Location>
+                                          <Expression name="GetVehicleMountPoint">
+                                            <Expression name="ActivityParameter">
+                                              <Parameter name="Vehicle" dataType="Agent" />
+                                            </Expression>
+                                          </Expression>
+                                        </Location>
+                                        <SetUnitPath>
+                                          <Expression name="Boolean">
+                                            <Bool>false</Bool>
+                                          </Expression>
+                                        </SetUnitPath>
+                                      </Parameters>
+                                    </Skill>
+                                  </Activity>
+                                  <Activity type="Action" ID="15">
+                                    <Name>Change Facing Direction</Name>
+                                    <Description>Changes the orientation of the agent to a location or relative to a specified direction.</Description>
+                                    <Location>
+                                      <X>52.5</X>
+                                      <Y>297.5</Y>
+                                    </Location>
+                                    <Transitions>
+                                      <Transition>
+                                        <Condition>
+                                          <Name>
+                                          </Name>
+                                          <Expression name="Success" />
+                                        </Condition>
+                                        <NextID>16</NextID>
+                                        <CtrlPoints SourceAnchor="14" DestinationAnchor="10">
+                                          <Location>
+                                            <X>72.5</X>
+                                            <Y>357.5</Y>
+                                          </Location>
+                                          <Location>
+                                            <X>72.5</X>
+                                            <Y>382.5</Y>
+                                          </Location>
+                                        </CtrlPoints>
+                                      </Transition>
+                                    </Transitions>
+                                    <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.ChangeAgentFacingDirection">
+                                      <Parameters>
+                                        <Rotation>
+                                          <Expression name="Rotation">
+                                            <Rotation direction="ccw">
+                                              <Angle units="femtoradians">0</Angle>
+                                            </Rotation>
+                                          </Expression>
+                                          <RelativeTo>Movement Direction</RelativeTo>
+                                        </Rotation>
+                                      </Parameters>
+                                    </Skill>
+                                  </Activity>
+                                  <Activity type="Action" ID="16">
+                                    <Name>Move</Name>
+                                    <Description />
+                                    <Location>
+                                      <X>52.5</X>
+                                      <Y>382.5</Y>
+                                    </Location>
+                                    <Transitions>
+                                      <Transition>
+                                        <Condition>
+                                          <Name>
+                                          </Name>
+                                          <Expression name="NotEqual">
+                                            <Expression name="AgentsLocation" />
+                                            <Expression name="GetFinalPathPoint">
+                                              <Expression name="GetPath" />
+                                            </Expression>
+                                          </Expression>
+                                        </Condition>
+                                        <NextID>15</NextID>
+                                        <CtrlPoints SourceAnchor="11" DestinationAnchor="15">
+                                          <Location>
+                                            <X>112.5</X>
+                                            <Y>382.5</Y>
+                                          </Location>
+                                          <Location>
+                                            <X>112.5</X>
+                                            <Y>357.5</Y>
+                                          </Location>
+                                        </CtrlPoints>
+                                      </Transition>
+                                      <Transition>
+                                        <Condition>
+                                          <Name>
+                                          </Name>
+                                          <Expression name="Success" />
+                                        </Condition>
+                                        <NextID>17</NextID>
+                                        <CtrlPoints SourceAnchor="3" DestinationAnchor="2">
+                                          <Location>
+                                            <X>132.5</X>
+                                            <Y>412.5</Y>
+                                          </Location>
+                                          <Location>
+                                            <X>157.5</X>
+                                            <Y>412.5</Y>
+                                          </Location>
+                                          <Location>
+                                            <X>157.5</X>
+                                            <Y>147.5</Y>
+                                          </Location>
+                                          <Location>
+                                            <X>177.5</X>
+                                            <Y>147.5</Y>
+                                          </Location>
+                                        </CtrlPoints>
+                                      </Transition>
+                                    </Transitions>
+                                    <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.Move">
+                                      <Parameters>
+                                        <Speed>
+                                          <Expression name="Speed">
+                                            <Speed units="micrometers per second">2000000</Speed>
+                                          </Expression>
+                                        </Speed>
+                                        <IgnoreGravity>
+                                          <Expression name="Boolean">
+                                            <Bool>false</Bool>
+                                          </Expression>
+                                        </IgnoreGravity>
+                                        <IgnoreCollisions>
+                                          <Expression name="Boolean">
+                                            <Bool>false</Bool>
+                                          </Expression>
+                                        </IgnoreCollisions>
+                                        <UseUnitPath>
+                                          <Expression name="Boolean">
+                                            <Bool>false</Bool>
+                                          </Expression>
+                                        </UseUnitPath>
+                                        <EndpointTolerance>
+                                          <Expression name="Distance">
+                                            <Distance units="micrometers">50000</Distance>
+                                          </Expression>
+                                        </EndpointTolerance>
+                                      </Parameters>
+                                    </Skill>
+                                  </Activity>
+                                  <Activity type="Action" ID="17">
+                                    <Name>Open Vehicle</Name>
+                                    <Location>
+                                      <X>177.5</X>
+                                      <Y>117.5</Y>
+                                    </Location>
+                                    <Transitions>
+                                      <Transition>
+                                        <Condition>
+                                          <Name>
+                                          </Name>
+                                          <Expression name="Equals">
+                                            <Expression name="GetAgent" />
+                                            <Expression name="ActivityParameter">
+                                              <Parameter name="Driver" dataType="Agent" />
+                                            </Expression>
+                                          </Expression>
+                                        </Condition>
+                                        <NextID>18</NextID>
+                                        <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                          <Location>
+                                            <X>217.5</X>
+                                            <Y>177.5</Y>
+                                          </Location>
+                                          <Location>
+                                            <X>217.5</X>
+                                            <Y>217.5</Y>
+                                          </Location>
+                                        </CtrlPoints>
+                                      </Transition>
+                                      <Transition>
+                                        <Condition>
+                                          <Name>
+                                          </Name>
+                                          <Expression name="Success" />
+                                        </Condition>
+                                        <NextID>19</NextID>
+                                        <CtrlPoints SourceAnchor="3" DestinationAnchor="0">
+                                          <Location>
+                                            <X>257.5</X>
+                                            <Y>147.5</Y>
+                                          </Location>
+                                          <Location>
+                                            <X>317.5</X>
+                                            <Y>147.5</Y>
+                                          </Location>
+                                          <Location>
+                                            <X>317.5</X>
+                                            <Y>217.5</Y>
+                                          </Location>
+                                        </CtrlPoints>
+                                      </Transition>
+                                    </Transitions>
+                                    <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.Communicate">
+                                      <Parameters>
+                                        <Message>
+                                          <Expression name="Message">
+                                            <Message>
+                                              <Text>Change Posture</Text>
+                                              <Posture>
+                                                <Expression name="Posture">
+                                                  <DatabaseId>Posture10</DatabaseId>
+                                                </Expression>
+                                              </Posture>
+                                            </Message>
+                                          </Expression>
+                                        </Message>
+                                        <Recipients>Individual</Recipients>
+                                        <Recipient>
+                                          <Expression name="ActivityParameter">
+                                            <Parameter name="Vehicle" dataType="Agent" />
+                                          </Expression>
+                                        </Recipient>
+                                        <DelayTime>
+                                          <Expression name="Time">
+                                            <Time units="microseconds">0</Time>
+                                          </Expression>
+                                        </DelayTime>
+                                        <ProbabilityOfTransmission>
+                                          <Expression name="Decimal">
+                                            <Decimal>1</Decimal>
+                                          </Expression>
+                                        </ProbabilityOfTransmission>
+                                      </Parameters>
+                                    </Skill>
+                                  </Activity>
+                                  <Activity type="Action" ID="18">
+                                    <Name>Mount Vehicle as Driver</Name>
+                                    <Location>
+                                      <X>177.5</X>
+                                      <Y>217.5</Y>
+                                    </Location>
+                                    <Transitions>
+                                      <Transition>
+                                        <Condition>
+                                          <Name>
+                                          </Name>
+                                          <Expression name="Success" />
+                                        </Condition>
+                                        <NextID>20</NextID>
+                                        <CtrlPoints SourceAnchor="0" DestinationAnchor="0">
+                                          <Location>
+                                            <X>217.5</X>
+                                            <Y>277.5</Y>
+                                          </Location>
+                                          <Location>
+                                            <X>217.5</X>
+                                            <Y>327.5</Y>
+                                          </Location>
+                                        </CtrlPoints>
+                                      </Transition>
+                                    </Transitions>
+                                    <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.MountVehicle">
+                                      <Parameters>
+                                        <Rideable>
+                                          <Expression name="ActivityParameter">
+                                            <Parameter name="Vehicle" dataType="Agent" />
+                                          </Expression>
+                                        </Rideable>
+                                        <Driver>
+                                          <Expression name="Boolean">
+                                            <Bool>true</Bool>
+                                          </Expression>
+                                        </Driver>
+                                      </Parameters>
+                                    </Skill>
+                                  </Activity>
+                                  <Activity type="Action" ID="19">
+                                    <Name>Mount Vehicle as Passenger</Name>
+                                    <Location>
+                                      <X>277.5</X>
+                                      <Y>217.5</Y>
+                                    </Location>
+                                    <Transitions>
+                                      <Transition>
+                                        <Condition>
+                                          <Name>
+                                          </Name>
+                                          <Expression name="Success" />
+                                        </Condition>
+                                        <NextID>20</NextID>
+                                        <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                          <Location>
+                                            <X>317.5</X>
+                                            <Y>277.5</Y>
+                                          </Location>
+                                          <Location>
+                                            <X>317.5</X>
+                                            <Y>327.5</Y>
+                                          </Location>
+                                          <Location>
+                                            <X>217.5</X>
+                                            <Y>327.5</Y>
+                                          </Location>
+                                        </CtrlPoints>
+                                      </Transition>
+                                    </Transitions>
+                                    <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.MountVehicle">
+                                      <Parameters>
+                                        <Rideable>
+                                          <Expression name="ActivityParameter">
+                                            <Parameter name="Vehicle" dataType="Agent" />
+                                          </Expression>
+                                        </Rideable>
+                                        <Driver>
+                                          <Expression name="Boolean">
+                                            <Bool>false</Bool>
+                                          </Expression>
+                                        </Driver>
+                                      </Parameters>
+                                    </Skill>
+                                  </Activity>
+                                  <Activity type="End" ID="20">
+                                    <Name>End Node</Name>
+                                    <Location>
+                                      <X>207.5</X>
+                                      <Y>327.5</Y>
+                                    </Location>
+                                    <Transitions />
+                                  </Activity>
+                                </Activities>
+                                <ActivityControls>
+                                  <ActivityControl>
+                                    <Condition>
+                                      <Name>
+                                      </Name>
+                                      <Expression name="Exists">
+                                        <Expression name="ActivityParameter">
+                                          <Parameter name="Vehicle" dataType="Agent" />
+                                        </Expression>
+                                      </Expression>
+                                    </Condition>
+                                    <Directive>START</Directive>
+                                  </ActivityControl>
+                                </ActivityControls>
+                              </ActivityGroup>
+                            </ActivityGroups>
+                          </Activity>
+                          <Activity type="Action" ID="9">
+                            <Name>Set Vehicle Path</Name>
+                            <Location>
+                              <X>262.5</X>
+                              <Y>22.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Equals">
+                                    <Expression name="GetVehicleRiderCount">
+                                      <Expression name="ActivityParameter">
+                                        <Parameter name="Vehicle" dataType="Agent" />
+                                      </Expression>
+                                    </Expression>
+                                    <Expression name="ActivityParameter">
+                                      <Parameter name="Number of Riders" dataType="Integer" />
+                                    </Expression>
+                                  </Expression>
+                                </Condition>
+                                <NextID>21</NextID>
+                                <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                  <Location>
+                                    <X>302.5</X>
+                                    <Y>82.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>302.5</X>
+                                    <Y>112.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                            <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.SetMovePath">
+                              <Parameters>
+                                <LinearFeature>
+                                  <Expression name="ActivityParameter">
+                                    <Parameter name="Route" dataType="LinearFeature" />
+                                  </Expression>
+                                </LinearFeature>
+                                <FollowPathInReverse>
+                                  <Expression name="Boolean">
+                                    <Bool>false</Bool>
+                                  </Expression>
+                                </FollowPathInReverse>
+                                <SetUnitPath>
+                                  <Expression name="Boolean">
+                                    <Bool>false</Bool>
+                                  </Expression>
+                                </SetUnitPath>
+                              </Parameters>
+                            </Skill>
+                          </Activity>
+                          <Activity type="Action" ID="21">
+                            <Name>Close Vehicle</Name>
+                            <Location>
+                              <X>262.5</X>
+                              <Y>112.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Success" />
+                                </Condition>
+                                <NextID>22</NextID>
+                                <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                  <Location>
+                                    <X>302.5</X>
+                                    <Y>172.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>302.5</X>
+                                    <Y>207.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                            <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.Communicate">
+                              <Parameters>
+                                <Message>
+                                  <Expression name="Message">
+                                    <Message>
+                                      <Text>Change Posture</Text>
+                                      <Posture>
+                                        <Expression name="Posture">
+                                          <DatabaseId>Posture9</DatabaseId>
+                                        </Expression>
+                                      </Posture>
+                                    </Message>
+                                  </Expression>
+                                </Message>
+                                <Recipients>Individual</Recipients>
+                                <Recipient>
+                                  <Expression name="ActivityParameter">
+                                    <Parameter name="Vehicle" dataType="Agent" />
+                                  </Expression>
+                                </Recipient>
+                                <DelayTime>
+                                  <Expression name="Time">
+                                    <Time units="microseconds">0</Time>
+                                  </Expression>
+                                </DelayTime>
+                                <ProbabilityOfTransmission>
+                                  <Expression name="Decimal">
+                                    <Decimal>1</Decimal>
+                                  </Expression>
+                                </ProbabilityOfTransmission>
+                              </Parameters>
+                            </Skill>
+                          </Activity>
+                          <Activity type="Action" ID="22">
+                            <Name />
+                            <Description>Changes the orientation of the agent to a location or relative to a specified direction.</Description>
+                            <Location>
+                              <X>262.5</X>
+                              <Y>207.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Success" />
+                                </Condition>
+                                <NextID>23</NextID>
+                                <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                  <Location>
+                                    <X>302.5</X>
+                                    <Y>267.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>302.5</X>
+                                    <Y>292.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                            <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.ChangeVehicleFacingDirection">
+                              <Parameters>
+                                <Rotation>
+                                  <Expression name="Rotation">
+                                    <Rotation direction="cw">
+                                      <Angle units="femtoradians">0</Angle>
+                                    </Rotation>
+                                  </Expression>
+                                  <RelativeTo>Movement Direction</RelativeTo>
+                                </Rotation>
+                              </Parameters>
+                            </Skill>
+                          </Activity>
+                          <Activity type="Action" ID="23">
+                            <Name />
+                            <Description />
+                            <Location>
+                              <X>262.5</X>
+                              <Y>292.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="And">
+                                    <Expression name="Success" />
+                                    <Expression name="Exists">
+                                      <Expression name="GetPath" />
+                                    </Expression>
+                                  </Expression>
+                                </Condition>
+                                <NextID>22</NextID>
+                                <CtrlPoints SourceAnchor="0" DestinationAnchor="1">
+                                  <Location>
+                                    <X>342.5</X>
+                                    <Y>322.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>367.5</X>
+                                    <Y>322.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>367.5</X>
+                                    <Y>237.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>342.5</X>
+                                    <Y>237.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Success" />
+                                </Condition>
+                                <NextID>24</NextID>
+                                <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                  <Location>
+                                    <X>302.5</X>
+                                    <Y>352.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>302.5</X>
+                                    <Y>372.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                            <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.Drive">
+                              <Parameters>
+                                <Speed>
+                                  <Expression name="Speed">
+                                    <Speed units="micrometers per second">10000000</Speed>
+                                  </Expression>
+                                </Speed>
+                                <IgnoreGravity>
+                                  <Expression name="Boolean">
+                                    <Bool>false</Bool>
+                                  </Expression>
+                                </IgnoreGravity>
+                                <UseUnitPath>
+                                  <Expression name="Boolean">
+                                    <Bool>false</Bool>
+                                  </Expression>
+                                </UseUnitPath>
+                              </Parameters>
+                            </Skill>
+                          </Activity>
+                          <Activity type="Action" ID="24">
+                            <Name>Send Dismount Command</Name>
+                            <Location>
+                              <X>262.5</X>
+                              <Y>372.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Success" />
+                                </Condition>
+                                <NextID>10</NextID>
+                                <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                  <Location>
+                                    <X>302.5</X>
+                                    <Y>432.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>302.5</X>
+                                    <Y>452.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                            <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.Communicate">
+                              <Parameters>
+                                <Message>
+                                  <Expression name="Message">
+                                    <Message>
+                                      <Text>Dismount</Text>
+                                    </Message>
+                                  </Expression>
+                                </Message>
+                                <Recipients>My Force</Recipients>
+                                <DelayTime>
+                                  <Expression name="Time">
+                                    <Time units="microseconds">0</Time>
+                                  </Expression>
+                                </DelayTime>
+                                <ProbabilityOfTransmission>
+                                  <Expression name="Decimal">
+                                    <Decimal>1</Decimal>
+                                  </Expression>
+                                </ProbabilityOfTransmission>
+                              </Parameters>
+                            </Skill>
+                          </Activity>
+                          <Activity type="Action" ID="10">
+                            <Name>Receive Dismount Command</Name>
+                            <Location>
+                              <X>262.5</X>
+                              <Y>452.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Success" />
+                                </Condition>
+                                <NextID>25</NextID>
+                                <CtrlPoints SourceAnchor="3" DestinationAnchor="2">
+                                  <Location>
+                                    <X>342.5</X>
+                                    <Y>482.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>397.5</X>
+                                    <Y>482.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>397.5</X>
+                                    <Y>52.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>447.5</X>
+                                    <Y>52.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                            <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.RemoveMessage">
+                              <Parameters>
+                                <Message>
+                                  <Expression name="Message">
+                                    <Message>
+                                      <Text>Dismount</Text>
+                                    </Message>
+                                  </Expression>
+                                </Message>
+                              </Parameters>
+                            </Skill>
+                          </Activity>
+                          <Activity type="Action" ID="25">
+                            <Name>Set Dismount Point</Name>
+                            <Location>
+                              <X>447.5</X>
+                              <Y>22.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Success" />
+                                </Condition>
+                                <NextID>26</NextID>
+                                <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                  <Location>
+                                    <X>487.5</X>
+                                    <Y>82.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>487.5</X>
+                                    <Y>107.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                            <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.SetMovePath">
+                              <Parameters>
+                                <Waypoint>
+                                  <Expression name="ActivityParameter">
+                                    <Parameter name="Dismount Point" dataType="Waypoint" />
+                                  </Expression>
+                                </Waypoint>
+                                <SetUnitPath>
+                                  <Expression name="Boolean">
+                                    <Bool>false</Bool>
+                                  </Expression>
+                                </SetUnitPath>
+                              </Parameters>
+                            </Skill>
+                          </Activity>
+                          <Activity type="Action" ID="26">
+                            <Name>Open Vehicle</Name>
+                            <Location>
+                              <X>447.5</X>
+                              <Y>107.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Success" />
+                                </Condition>
+                                <NextID>27</NextID>
+                                <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                  <Location>
+                                    <X>487.5</X>
+                                    <Y>167.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>487.5</X>
+                                    <Y>192.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                            <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.Communicate">
+                              <Parameters>
+                                <Message>
+                                  <Expression name="Message">
+                                    <Message>
+                                      <Text>Change Posture</Text>
+                                      <Posture>
+                                        <Expression name="Posture">
+                                          <DatabaseId>Posture10</DatabaseId>
+                                        </Expression>
+                                      </Posture>
+                                    </Message>
+                                  </Expression>
+                                </Message>
+                                <Recipients>Individual</Recipients>
+                                <Recipient>
+                                  <Expression name="ActivityParameter">
+                                    <Parameter name="Vehicle" dataType="Agent" />
+                                  </Expression>
+                                </Recipient>
+                                <DelayTime>
+                                  <Expression name="Time">
+                                    <Time units="microseconds">0</Time>
+                                  </Expression>
+                                </DelayTime>
+                                <ProbabilityOfTransmission>
+                                  <Expression name="Decimal">
+                                    <Decimal>1</Decimal>
+                                  </Expression>
+                                </ProbabilityOfTransmission>
+                              </Parameters>
+                            </Skill>
+                          </Activity>
+                          <Activity type="Action" ID="27">
+                            <Name />
+                            <Location>
+                              <X>447.5</X>
+                              <Y>192.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Success" />
+                                </Condition>
+                                <NextID>28</NextID>
+                                <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                  <Location>
+                                    <X>487.5</X>
+                                    <Y>252.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>487.5</X>
+                                    <Y>272.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                            <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.DismountVehicle">
+                              <Parameters />
+                            </Skill>
+                          </Activity>
+                          <Activity type="Action" ID="28">
+                            <Name>Stand</Name>
+                            <Location>
+                              <X>447.5</X>
+                              <Y>272.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Success" />
+                                </Condition>
+                                <NextID>29</NextID>
+                                <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                  <Location>
+                                    <X>487.5</X>
+                                    <Y>332.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>487.5</X>
+                                    <Y>352.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                            <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.ChangePosture">
+                              <Parameters>
+                                <Posture>
+                                  <Expression name="Posture">
+                                    <DatabaseId>Posture6</DatabaseId>
+                                  </Expression>
+                                </Posture>
+                              </Parameters>
+                            </Skill>
+                          </Activity>
+                          <Activity type="Action" ID="29">
+                            <Name>Change Facing Direction</Name>
+                            <Description>Changes the orientation of the agent to a location or relative to a specified direction.</Description>
+                            <Location>
+                              <X>447.5</X>
+                              <Y>352.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Success" />
+                                </Condition>
+                                <NextID>30</NextID>
+                                <CtrlPoints SourceAnchor="1" DestinationAnchor="0">
+                                  <Location>
+                                    <X>487.5</X>
+                                    <Y>412.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>487.5</X>
+                                    <Y>437.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                            <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.ChangeAgentFacingDirection">
+                              <Parameters>
+                                <Rotation>
+                                  <Expression name="Rotation">
+                                    <Rotation direction="ccw">
+                                      <Angle units="femtoradians">0</Angle>
+                                    </Rotation>
+                                  </Expression>
+                                  <RelativeTo>Movement Direction</RelativeTo>
+                                </Rotation>
+                              </Parameters>
+                            </Skill>
+                          </Activity>
+                          <Activity type="Action" ID="30">
+                            <Name>Move</Name>
+                            <Description />
+                            <Location>
+                              <X>447.5</X>
+                              <Y>437.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Exists">
+                                    <Expression name="GetPath" />
+                                  </Expression>
+                                </Condition>
+                                <NextID>29</NextID>
+                                <CtrlPoints SourceAnchor="0" DestinationAnchor="1">
+                                  <Location>
+                                    <X>527.5</X>
+                                    <Y>467.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>552.5</X>
+                                    <Y>467.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>552.5</X>
+                                    <Y>382.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>527.5</X>
+                                    <Y>382.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Success" />
+                                </Condition>
+                                <NextID>31</NextID>
+                                <CtrlPoints SourceAnchor="1" DestinationAnchor="-1">
+                                  <Location>
+                                    <X>487.5</X>
+                                    <Y>497.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>487.5</X>
+                                    <Y>522.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                            <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.Move">
+                              <Parameters>
+                                <Speed>
+                                  <Expression name="Speed">
+                                    <Speed units="micrometers per second">2000000</Speed>
+                                  </Expression>
+                                </Speed>
+                                <IgnoreGravity>
+                                  <Expression name="Boolean">
+                                    <Bool>false</Bool>
+                                  </Expression>
+                                </IgnoreGravity>
+                                <IgnoreCollisions>
+                                  <Expression name="Boolean">
+                                    <Bool>false</Bool>
+                                  </Expression>
+                                </IgnoreCollisions>
+                                <UseUnitPath>
+                                  <Expression name="Boolean">
+                                    <Bool>false</Bool>
+                                  </Expression>
+                                </UseUnitPath>
+                                <EndpointTolerance>
+                                  <Expression name="Distance">
+                                    <Distance units="micrometers">50000</Distance>
+                                  </Expression>
+                                </EndpointTolerance>
+                              </Parameters>
+                            </Skill>
+                          </Activity>
+                          <Activity type="End" ID="31">
+                            <Name>End Node</Name>
+                            <Description>This activity is the end point.</Description>
+                            <Location>
+                              <X>477.5</X>
+                              <Y>522.5</Y>
+                            </Location>
+                            <Transitions />
+                          </Activity>
+                        </Activities>
+                        <ActivityControls>
+                          <ActivityControl>
+                            <Condition>
+                              <Name>
+                              </Name>
+                              <Expression name="OnEnter" />
+                            </Condition>
+                            <Directive>START</Directive>
+                          </ActivityControl>
+                        </ActivityControls>
+                      </ActivityGroup>
+                      <ActivityGroup ID="32">
+                        <Name>Remove Message</Name>
+                        <Description />
+                        <MultipleRuns>true</MultipleRuns>
+                        <Location>
+                          <X>692.5</X>
+                          <Y>102.5</Y>
+                        </Location>
+                        <Activities>
+                          <Activity type="Start" ID="33">
+                            <Name>Start Node</Name>
+                            <Location>
+                              <X>757.5</X>
+                              <Y>162.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Success" />
+                                </Condition>
+                                <NextID>34</NextID>
+                                <CtrlPoints SourceAnchor="0" DestinationAnchor="0">
+                                  <Location>
+                                    <X>767.5</X>
+                                    <Y>182.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>767.5</X>
+                                    <Y>202.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                          </Activity>
+                          <Activity type="Action" ID="34">
+                            <Name>Remove Rogue Dismounts</Name>
+                            <Location>
+                              <X>727.5</X>
+                              <Y>202.5</Y>
+                            </Location>
+                            <Transitions>
+                              <Transition>
+                                <Condition>
+                                  <Name>
+                                  </Name>
+                                  <Expression name="Success" />
+                                </Condition>
+                                <NextID>35</NextID>
+                                <CtrlPoints SourceAnchor="0" DestinationAnchor="0">
+                                  <Location>
+                                    <X>767.5</X>
+                                    <Y>262.5</Y>
+                                  </Location>
+                                  <Location>
+                                    <X>767.5</X>
+                                    <Y>282.5</Y>
+                                  </Location>
+                                </CtrlPoints>
+                              </Transition>
+                            </Transitions>
+                            <Skill AssemblyName="AgentSkills" ClassName="Sim.Agent.Skills.RemoveMessage">
+                              <Parameters>
+                                <Message>
+                                  <Expression name="Message">
+                                    <Message>
+                                      <Text>Dismount</Text>
+                                    </Message>
+                                  </Expression>
+                                </Message>
+                              </Parameters>
+                            </Skill>
+                          </Activity>
+                          <Activity type="End" ID="35">
+                            <Name>End Node</Name>
+                            <Location>
+                              <X>757.5</X>
+                              <Y>282.5</Y>
+                            </Location>
+                            <Transitions />
+                          </Activity>
+                        </Activities>
+                        <ActivityControls>
+                          <ActivityControl>
+                            <Condition>
+                              <Name>
+                              </Name>
+                              <Expression name="OnEnter" />
+                            </Condition>
+                            <Directive>START</Directive>
+                          </ActivityControl>
+                        </ActivityControls>
+                      </ActivityGroup>
+                    </ActivityGroups>
+                  </Activity>
+                  <Activity type="End" ID="5">
+                    <Name>End Node</Name>
+                    <Location>
+                      <X>452.5</X>
+                      <Y>342.5</Y>
+                    </Location>
+                    <Transitions />
+                  </Activity>
+                </Activities>
+                <ActivityControls>
+                  <ActivityControl>
+                    <Condition>
+                      <Name>
+                      </Name>
+                      <Expression name="OnEnter" />
+                    </Condition>
+                    <Directive>START</Directive>
+                  </ActivityControl>
+                </ActivityControls>
+              </ActivityGroup>
+            </ActivityGroups>
+          </Activity>
+        </BehaviorEngine>
+        <Templates />
+      </Behaviors>
+      <Agents>
+        <Agent AssemblyName="AgentFramework" ClassName="Sim.Agent.AgentFramework">
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.IdentifiersModel">
+            <Id>Agent1</Id>
+            <SystemId>System1</SystemId>
+            <TemplateId>UnitRole6</TemplateId>
+            <Name>Squad Leader</Name>
+            <MemberType>UnitType2Member1</MemberType>
+            <UnitId>1</UnitId>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.KnowledgeModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.BehaviorEngineModel">
+            <Behavior>
+              <BehaviorId>1</BehaviorId>
+              <Parameters />
+            </Behavior>
+            <BehaviorParameters />
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanInventoryModel">
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.UDOPDevice">
+              <EquipmentDescriptorId>udopdevice1</EquipmentDescriptorId>
+              <Id>Equipment1</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Mount">
+              <EquipmentDescriptorId>Mount1</EquipmentDescriptorId>
+              <Id>Equipment2</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.ThrowingWeapon">
+              <EquipmentDescriptorId>ThrowingWeapon1</EquipmentDescriptorId>
+              <Id>Equipment3</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.VisualSensor">
+              <EquipmentDescriptorId>VisualSensor2</EquipmentDescriptorId>
+              <Id>Equipment4</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection1</EquipmentDescriptorId>
+              <Id>Equipment5</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection9</EquipmentDescriptorId>
+              <Id>Equipment6</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Firearm">
+              <EquipmentDescriptorId>Firearm2</EquipmentDescriptorId>
+              <Id>Equipment7</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition3</EquipmentDescriptorId>
+              <Id>Equipment8</Id>
+              <Quantity>210</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition25</EquipmentDescriptorId>
+              <Id>Equipment9</Id>
+              <Quantity>2</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition29</EquipmentDescriptorId>
+              <Id>Equipment10</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.VisualSensorModel">
+            <SelectedVisualSensor>VisualSensor2</SelectedVisualSensor>
+            <Enabled>True</Enabled>
+            <AcquisitionInterval units="microseconds">1000000</AcquisitionInterval>
+            <SearchMethod name="Grid Sweep">
+              <EnableSmoothScanning>
+                <Expression name="Boolean">
+                  <Bool>false</Bool>
+                </Expression>
+              </EnableSmoothScanning>
+              <TimeToSpendInSector>
+                <Expression name="GetUniform">
+                  <Expression name="Time">
+                    <Time units="microseconds">1700000</Time>
+                  </Expression>
+                  <Expression name="Time">
+                    <Time units="microseconds">5400000</Time>
+                  </Expression>
+                </Expression>
+              </TimeToSpendInSector>
+              <Azimuth>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Azimuth>
+              <HorizontalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">1745329000000000</Angle>
+                </Expression>
+              </HorizontalAngle>
+              <Elevation>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Elevation>
+              <VerticalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </VerticalAngle>
+              <Orientation>Current Direction</Orientation>
+            </SearchMethod>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.CombatModel">
+            <SelectedWeapon>Firearm2</SelectedWeapon>
+            <SelectedMount>Mount1</SelectedMount>
+            <SelectedMunitionCollection>Munition3</SelectedMunitionCollection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCasualtyAssessmentModel">
+            <SelectedProtection>Protection9</SelectedProtection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanPhysiologicalModel">
+            <Weight>77000000000</Weight>
+            <FatPercentage>14</FatPercentage>
+            <Sex>MALE</Sex>
+            <Age units="microseconds">568025136000000</Age>
+            <Height units="micrometers">1800000</Height>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanBodyModel">
+            <Location>
+              <X>1551.8819580078123</X>
+              <Y>1718.955810546875</Y>
+              <Z>129.90449443587568</Z>
+            </Location>
+            <FacingDirection>
+              <X>0.24370709042508687</X>
+              <Y>-0.9698488820824297</Y>
+              <Z>0</Z>
+            </FacingDirection>
+            <Posture>Posture6</Posture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RateOfFireModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.SuppressionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanFlareReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.MuzzleFlashReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RiderModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DriverModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCommunicationReactionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanSoundReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RideableModel">
+            <CheckVehiclePosture>true</CheckVehiclePosture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.TaskDegradationModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.ChemBioModel">
+            <MOPPLevel>MOPPLevel1</MOPPLevel>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.GunnerModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.FlashBangEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.NonLethalEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.AcousticHailingEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DazzlerEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.EnergyDensityEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.PowerModel">
+            <PowerCapacity>
+              <Expression name="Energy">
+                <Energy>0</Energy>
+              </Expression>
+            </PowerCapacity>
+            <PowerConsumption>
+              <Expression name="Power">
+                <Power>0</Power>
+              </Expression>
+            </PowerConsumption>
+          </model>
+        </Agent>
+        <Agent AssemblyName="AgentFramework" ClassName="Sim.Agent.AgentFramework">
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.IdentifiersModel">
+            <Id>Agent2</Id>
+            <SystemId>System1</SystemId>
+            <TemplateId>UnitRole2</TemplateId>
+            <Name>Fire Team Leader</Name>
+            <MemberType>UnitType1Member1</MemberType>
+            <UnitId>2</UnitId>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.KnowledgeModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.BehaviorEngineModel">
+            <Behavior>
+              <BehaviorId>1</BehaviorId>
+              <Parameters />
+            </Behavior>
+            <BehaviorParameters />
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanInventoryModel">
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.UDOPDevice">
+              <EquipmentDescriptorId>udopdevice1</EquipmentDescriptorId>
+              <Id>Equipment11</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Mount">
+              <EquipmentDescriptorId>Mount1</EquipmentDescriptorId>
+              <Id>Equipment12</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.ThrowingWeapon">
+              <EquipmentDescriptorId>ThrowingWeapon1</EquipmentDescriptorId>
+              <Id>Equipment13</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.VisualSensor">
+              <EquipmentDescriptorId>VisualSensor2</EquipmentDescriptorId>
+              <Id>Equipment14</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection1</EquipmentDescriptorId>
+              <Id>Equipment15</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection9</EquipmentDescriptorId>
+              <Id>Equipment16</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Firearm">
+              <EquipmentDescriptorId>Firearm2</EquipmentDescriptorId>
+              <Id>Equipment17</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition3</EquipmentDescriptorId>
+              <Id>Equipment18</Id>
+              <Quantity>210</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition25</EquipmentDescriptorId>
+              <Id>Equipment19</Id>
+              <Quantity>2</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition29</EquipmentDescriptorId>
+              <Id>Equipment20</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.VisualSensorModel">
+            <SelectedVisualSensor>VisualSensor2</SelectedVisualSensor>
+            <Enabled>True</Enabled>
+            <AcquisitionInterval units="microseconds">1000000</AcquisitionInterval>
+            <SearchMethod name="Grid Sweep">
+              <EnableSmoothScanning>
+                <Expression name="Boolean">
+                  <Bool>false</Bool>
+                </Expression>
+              </EnableSmoothScanning>
+              <TimeToSpendInSector>
+                <Expression name="GetUniform">
+                  <Expression name="Time">
+                    <Time units="microseconds">1700000</Time>
+                  </Expression>
+                  <Expression name="Time">
+                    <Time units="microseconds">5400000</Time>
+                  </Expression>
+                </Expression>
+              </TimeToSpendInSector>
+              <Azimuth>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Azimuth>
+              <HorizontalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">1745329000000000</Angle>
+                </Expression>
+              </HorizontalAngle>
+              <Elevation>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Elevation>
+              <VerticalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </VerticalAngle>
+              <Orientation>Current Direction</Orientation>
+            </SearchMethod>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.CombatModel">
+            <SelectedWeapon>Firearm2</SelectedWeapon>
+            <SelectedMount>Mount1</SelectedMount>
+            <SelectedMunitionCollection>Munition3</SelectedMunitionCollection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCasualtyAssessmentModel">
+            <SelectedProtection>Protection9</SelectedProtection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanPhysiologicalModel">
+            <Weight>77000000000</Weight>
+            <FatPercentage>14</FatPercentage>
+            <Sex>MALE</Sex>
+            <Age units="microseconds">568025136000000</Age>
+            <Height units="micrometers">1800000</Height>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanBodyModel">
+            <Location>
+              <X>1559.1931707205649</X>
+              <Y>1689.8603440844022</Y>
+              <Z>129.87413948588073</Z>
+            </Location>
+            <FacingDirection>
+              <X>0.15831743643871332</X>
+              <Y>-0.98738826675197733</Y>
+              <Z>0</Z>
+            </FacingDirection>
+            <Posture>Posture6</Posture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RateOfFireModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.SuppressionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanFlareReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.MuzzleFlashReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RiderModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DriverModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCommunicationReactionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanSoundReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RideableModel">
+            <CheckVehiclePosture>true</CheckVehiclePosture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.TaskDegradationModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.ChemBioModel">
+            <MOPPLevel>MOPPLevel1</MOPPLevel>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.GunnerModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.FlashBangEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.NonLethalEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.AcousticHailingEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DazzlerEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.EnergyDensityEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.PowerModel">
+            <PowerCapacity>
+              <Expression name="Energy">
+                <Energy>0</Energy>
+              </Expression>
+            </PowerCapacity>
+            <PowerConsumption>
+              <Expression name="Power">
+                <Power>0</Power>
+              </Expression>
+            </PowerConsumption>
+          </model>
+        </Agent>
+        <Agent AssemblyName="AgentFramework" ClassName="Sim.Agent.AgentFramework">
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.IdentifiersModel">
+            <Id>Agent3</Id>
+            <SystemId>System1</SystemId>
+            <TemplateId>UnitRole3</TemplateId>
+            <Name>SAW Gunner</Name>
+            <MemberType>UnitType1Member2</MemberType>
+            <UnitId>2</UnitId>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.KnowledgeModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.BehaviorEngineModel">
+            <Behavior>
+              <BehaviorId>1</BehaviorId>
+              <Parameters />
+            </Behavior>
+            <BehaviorParameters />
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanInventoryModel">
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.UDOPDevice">
+              <EquipmentDescriptorId>udopdevice1</EquipmentDescriptorId>
+              <Id>Equipment21</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Mount">
+              <EquipmentDescriptorId>Mount1</EquipmentDescriptorId>
+              <Id>Equipment22</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.ThrowingWeapon">
+              <EquipmentDescriptorId>ThrowingWeapon1</EquipmentDescriptorId>
+              <Id>Equipment23</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.VisualSensor">
+              <EquipmentDescriptorId>VisualSensor2</EquipmentDescriptorId>
+              <Id>Equipment24</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection1</EquipmentDescriptorId>
+              <Id>Equipment25</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection9</EquipmentDescriptorId>
+              <Id>Equipment26</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Firearm">
+              <EquipmentDescriptorId>Firearm8</EquipmentDescriptorId>
+              <Id>Equipment27</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition25</EquipmentDescriptorId>
+              <Id>Equipment28</Id>
+              <Quantity>2</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition3</EquipmentDescriptorId>
+              <Id>Equipment29</Id>
+              <Quantity>300</Quantity>
+            </Equipment>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.VisualSensorModel">
+            <SelectedVisualSensor>VisualSensor2</SelectedVisualSensor>
+            <Enabled>True</Enabled>
+            <AcquisitionInterval units="microseconds">1000000</AcquisitionInterval>
+            <SearchMethod name="Grid Sweep">
+              <EnableSmoothScanning>
+                <Expression name="Boolean">
+                  <Bool>false</Bool>
+                </Expression>
+              </EnableSmoothScanning>
+              <TimeToSpendInSector>
+                <Expression name="GetUniform">
+                  <Expression name="Time">
+                    <Time units="microseconds">1700000</Time>
+                  </Expression>
+                  <Expression name="Time">
+                    <Time units="microseconds">5400000</Time>
+                  </Expression>
+                </Expression>
+              </TimeToSpendInSector>
+              <Azimuth>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Azimuth>
+              <HorizontalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">1745329000000000</Angle>
+                </Expression>
+              </HorizontalAngle>
+              <Elevation>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Elevation>
+              <VerticalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </VerticalAngle>
+              <Orientation>Current Direction</Orientation>
+            </SearchMethod>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.CombatModel">
+            <SelectedWeapon>Firearm8</SelectedWeapon>
+            <SelectedMount>Mount1</SelectedMount>
+            <SelectedMunitionCollection>Munition3</SelectedMunitionCollection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCasualtyAssessmentModel">
+            <SelectedProtection>Protection9</SelectedProtection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanPhysiologicalModel">
+            <Weight>77000000000</Weight>
+            <FatPercentage>14</FatPercentage>
+            <Sex>MALE</Sex>
+            <Age units="microseconds">568025136000000</Age>
+            <Height units="micrometers">1800000</Height>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanBodyModel">
+            <Location>
+              <X>1562.8238796788517</X>
+              <Y>1695.9281239469399</Y>
+              <Z>129.85036816075444</Z>
+            </Location>
+            <FacingDirection>
+              <X>0.97287994246552578</X>
+              <Y>-0.23131065161006992</Y>
+              <Z>0</Z>
+            </FacingDirection>
+            <Posture>Posture6</Posture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RateOfFireModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.SuppressionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanFlareReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.MuzzleFlashReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RiderModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DriverModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCommunicationReactionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanSoundReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RideableModel">
+            <CheckVehiclePosture>true</CheckVehiclePosture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.TaskDegradationModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.ChemBioModel">
+            <MOPPLevel>MOPPLevel1</MOPPLevel>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.GunnerModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.FlashBangEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.NonLethalEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.AcousticHailingEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DazzlerEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.EnergyDensityEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.PowerModel">
+            <PowerCapacity>
+              <Expression name="Energy">
+                <Energy>0</Energy>
+              </Expression>
+            </PowerCapacity>
+            <PowerConsumption>
+              <Expression name="Power">
+                <Power>0</Power>
+              </Expression>
+            </PowerConsumption>
+          </model>
+        </Agent>
+        <Agent AssemblyName="AgentFramework" ClassName="Sim.Agent.AgentFramework">
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.IdentifiersModel">
+            <Id>Agent4</Id>
+            <SystemId>System1</SystemId>
+            <TemplateId>UnitRole4</TemplateId>
+            <Name>Grenadier</Name>
+            <MemberType>UnitType1Member3</MemberType>
+            <UnitId>2</UnitId>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.KnowledgeModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.BehaviorEngineModel">
+            <Behavior>
+              <BehaviorId>1</BehaviorId>
+              <Parameters />
+            </Behavior>
+            <BehaviorParameters />
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanInventoryModel">
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.UDOPDevice">
+              <EquipmentDescriptorId>udopdevice1</EquipmentDescriptorId>
+              <Id>Equipment30</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Mount">
+              <EquipmentDescriptorId>Mount1</EquipmentDescriptorId>
+              <Id>Equipment31</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.ThrowingWeapon">
+              <EquipmentDescriptorId>ThrowingWeapon1</EquipmentDescriptorId>
+              <Id>Equipment32</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.VisualSensor">
+              <EquipmentDescriptorId>VisualSensor2</EquipmentDescriptorId>
+              <Id>Equipment33</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection1</EquipmentDescriptorId>
+              <Id>Equipment34</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection9</EquipmentDescriptorId>
+              <Id>Equipment35</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Firearm">
+              <EquipmentDescriptorId>Firearm10</EquipmentDescriptorId>
+              <Id>Equipment36</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Firearm">
+              <EquipmentDescriptorId>Firearm2</EquipmentDescriptorId>
+              <Id>Equipment37</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition4</EquipmentDescriptorId>
+              <Id>Equipment38</Id>
+              <Quantity>36</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition3</EquipmentDescriptorId>
+              <Id>Equipment39</Id>
+              <Quantity>210</Quantity>
+            </Equipment>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.VisualSensorModel">
+            <SelectedVisualSensor>VisualSensor2</SelectedVisualSensor>
+            <Enabled>True</Enabled>
+            <AcquisitionInterval units="microseconds">1000000</AcquisitionInterval>
+            <SearchMethod name="Grid Sweep">
+              <EnableSmoothScanning>
+                <Expression name="Boolean">
+                  <Bool>false</Bool>
+                </Expression>
+              </EnableSmoothScanning>
+              <TimeToSpendInSector>
+                <Expression name="GetUniform">
+                  <Expression name="Time">
+                    <Time units="microseconds">1700000</Time>
+                  </Expression>
+                  <Expression name="Time">
+                    <Time units="microseconds">5400000</Time>
+                  </Expression>
+                </Expression>
+              </TimeToSpendInSector>
+              <Azimuth>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Azimuth>
+              <HorizontalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">1745329000000000</Angle>
+                </Expression>
+              </HorizontalAngle>
+              <Elevation>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Elevation>
+              <VerticalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </VerticalAngle>
+              <Orientation>Current Direction</Orientation>
+            </SearchMethod>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.CombatModel">
+            <SelectedWeapon>Firearm10</SelectedWeapon>
+            <SelectedMount>Mount1</SelectedMount>
+            <SelectedMunitionCollection>Munition4</SelectedMunitionCollection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCasualtyAssessmentModel">
+            <SelectedProtection>Protection9</SelectedProtection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanPhysiologicalModel">
+            <Weight>70000000000</Weight>
+            <FatPercentage>14</FatPercentage>
+            <Sex>MALE</Sex>
+            <Age units="microseconds">568025136000000</Age>
+            <Height units="micrometers">1800000</Height>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanBodyModel">
+            <Location>
+              <X>1553.1253908580272</X>
+              <Y>1693.4910530426889</Y>
+              <Z>129.90988546411973</Z>
+            </Location>
+            <FacingDirection>
+              <X>-0.62083989962500941</X>
+              <Y>-0.78393738208712072</Y>
+              <Z>0</Z>
+            </FacingDirection>
+            <Posture>Posture6</Posture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RateOfFireModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.SuppressionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanFlareReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.MuzzleFlashReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RiderModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DriverModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCommunicationReactionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanSoundReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RideableModel">
+            <CheckVehiclePosture>true</CheckVehiclePosture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.TaskDegradationModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.ChemBioModel">
+            <MOPPLevel>MOPPLevel1</MOPPLevel>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.GunnerModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.FlashBangEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.NonLethalEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.AcousticHailingEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DazzlerEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.EnergyDensityEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.PowerModel">
+            <PowerCapacity>
+              <Expression name="Energy">
+                <Energy>0</Energy>
+              </Expression>
+            </PowerCapacity>
+            <PowerConsumption>
+              <Expression name="Power">
+                <Power>0</Power>
+              </Expression>
+            </PowerConsumption>
+          </model>
+        </Agent>
+        <Agent AssemblyName="AgentFramework" ClassName="Sim.Agent.AgentFramework">
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.IdentifiersModel">
+            <Id>Agent5</Id>
+            <SystemId>System1</SystemId>
+            <TemplateId>UnitRole14</TemplateId>
+            <Name>Rifleman</Name>
+            <MemberType>UnitType1Member4</MemberType>
+            <UnitId>2</UnitId>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.KnowledgeModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.BehaviorEngineModel">
+            <Behavior>
+              <BehaviorId>1</BehaviorId>
+              <Parameters />
+            </Behavior>
+            <BehaviorParameters />
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanInventoryModel">
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.UDOPDevice">
+              <EquipmentDescriptorId>udopdevice1</EquipmentDescriptorId>
+              <Id>Equipment40</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Mount">
+              <EquipmentDescriptorId>Mount1</EquipmentDescriptorId>
+              <Id>Equipment41</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.ThrowingWeapon">
+              <EquipmentDescriptorId>ThrowingWeapon1</EquipmentDescriptorId>
+              <Id>Equipment42</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.VisualSensor">
+              <EquipmentDescriptorId>VisualSensor2</EquipmentDescriptorId>
+              <Id>Equipment43</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection1</EquipmentDescriptorId>
+              <Id>Equipment44</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection9</EquipmentDescriptorId>
+              <Id>Equipment45</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Firearm">
+              <EquipmentDescriptorId>Firearm2</EquipmentDescriptorId>
+              <Id>Equipment46</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition3</EquipmentDescriptorId>
+              <Id>Equipment47</Id>
+              <Quantity>210</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition25</EquipmentDescriptorId>
+              <Id>Equipment48</Id>
+              <Quantity>2</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition29</EquipmentDescriptorId>
+              <Id>Equipment49</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.VisualSensorModel">
+            <SelectedVisualSensor>VisualSensor2</SelectedVisualSensor>
+            <Enabled>True</Enabled>
+            <AcquisitionInterval units="microseconds">1000000</AcquisitionInterval>
+            <SearchMethod name="Grid Sweep">
+              <EnableSmoothScanning>
+                <Expression name="Boolean">
+                  <Bool>false</Bool>
+                </Expression>
+              </EnableSmoothScanning>
+              <TimeToSpendInSector>
+                <Expression name="GetUniform">
+                  <Expression name="Time">
+                    <Time units="microseconds">1700000</Time>
+                  </Expression>
+                  <Expression name="Time">
+                    <Time units="microseconds">5400000</Time>
+                  </Expression>
+                </Expression>
+              </TimeToSpendInSector>
+              <Azimuth>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Azimuth>
+              <HorizontalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">1745329000000000</Angle>
+                </Expression>
+              </HorizontalAngle>
+              <Elevation>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Elevation>
+              <VerticalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </VerticalAngle>
+              <Orientation>Current Direction</Orientation>
+            </SearchMethod>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.CombatModel">
+            <SelectedWeapon>Firearm2</SelectedWeapon>
+            <SelectedMount>Mount1</SelectedMount>
+            <SelectedMunitionCollection>Munition3</SelectedMunitionCollection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCasualtyAssessmentModel">
+            <SelectedProtection>Protection9</SelectedProtection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanPhysiologicalModel">
+            <Weight>77000000000</Weight>
+            <FatPercentage>14</FatPercentage>
+            <Sex>MALE</Sex>
+            <Age units="microseconds">568025136000000</Age>
+            <Height units="micrometers">1800000</Height>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanBodyModel">
+            <Location>
+              <X>1547.0576109954895</X>
+              <Y>1697.1217620009757</Y>
+              <Z>129.94254606124014</Z>
+            </Location>
+            <FacingDirection>
+              <X>-0.96982540206000989</X>
+              <Y>-0.24380051172862655</Y>
+              <Z>0</Z>
+            </FacingDirection>
+            <Posture>Posture6</Posture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RateOfFireModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.SuppressionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanFlareReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.MuzzleFlashReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RiderModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DriverModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCommunicationReactionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanSoundReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RideableModel">
+            <CheckVehiclePosture>true</CheckVehiclePosture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.TaskDegradationModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.ChemBioModel">
+            <MOPPLevel>MOPPLevel1</MOPPLevel>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.GunnerModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.FlashBangEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.NonLethalEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.AcousticHailingEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DazzlerEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.EnergyDensityEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.PowerModel">
+            <PowerCapacity>
+              <Expression name="Energy">
+                <Energy>0</Energy>
+              </Expression>
+            </PowerCapacity>
+            <PowerConsumption>
+              <Expression name="Power">
+                <Power>0</Power>
+              </Expression>
+            </PowerConsumption>
+          </model>
+        </Agent>
+        <Agent AssemblyName="AgentFramework" ClassName="Sim.Agent.AgentFramework">
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.IdentifiersModel">
+            <Id>Agent6</Id>
+            <SystemId>System1</SystemId>
+            <TemplateId>UnitRole2</TemplateId>
+            <Name>Fire Team Leader 2</Name>
+            <MemberType>UnitType1Member1</MemberType>
+            <UnitId>3</UnitId>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.KnowledgeModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.BehaviorEngineModel">
+            <Behavior>
+              <BehaviorId>1</BehaviorId>
+              <Parameters />
+            </Behavior>
+            <BehaviorParameters />
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanInventoryModel">
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.UDOPDevice">
+              <EquipmentDescriptorId>udopdevice1</EquipmentDescriptorId>
+              <Id>Equipment50</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Mount">
+              <EquipmentDescriptorId>Mount1</EquipmentDescriptorId>
+              <Id>Equipment51</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.ThrowingWeapon">
+              <EquipmentDescriptorId>ThrowingWeapon1</EquipmentDescriptorId>
+              <Id>Equipment52</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.VisualSensor">
+              <EquipmentDescriptorId>VisualSensor2</EquipmentDescriptorId>
+              <Id>Equipment53</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection1</EquipmentDescriptorId>
+              <Id>Equipment54</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection9</EquipmentDescriptorId>
+              <Id>Equipment55</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Firearm">
+              <EquipmentDescriptorId>Firearm2</EquipmentDescriptorId>
+              <Id>Equipment56</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition3</EquipmentDescriptorId>
+              <Id>Equipment57</Id>
+              <Quantity>210</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition25</EquipmentDescriptorId>
+              <Id>Equipment58</Id>
+              <Quantity>2</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition29</EquipmentDescriptorId>
+              <Id>Equipment59</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.VisualSensorModel">
+            <SelectedVisualSensor>VisualSensor2</SelectedVisualSensor>
+            <Enabled>True</Enabled>
+            <AcquisitionInterval units="microseconds">1000000</AcquisitionInterval>
+            <SearchMethod name="Grid Sweep">
+              <EnableSmoothScanning>
+                <Expression name="Boolean">
+                  <Bool>false</Bool>
+                </Expression>
+              </EnableSmoothScanning>
+              <TimeToSpendInSector>
+                <Expression name="GetUniform">
+                  <Expression name="Time">
+                    <Time units="microseconds">1700000</Time>
+                  </Expression>
+                  <Expression name="Time">
+                    <Time units="microseconds">5400000</Time>
+                  </Expression>
+                </Expression>
+              </TimeToSpendInSector>
+              <Azimuth>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Azimuth>
+              <HorizontalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">1745329000000000</Angle>
+                </Expression>
+              </HorizontalAngle>
+              <Elevation>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Elevation>
+              <VerticalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </VerticalAngle>
+              <Orientation>Current Direction</Orientation>
+            </SearchMethod>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.CombatModel">
+            <SelectedWeapon>Firearm2</SelectedWeapon>
+            <SelectedMount>Mount1</SelectedMount>
+            <SelectedMunitionCollection>Munition3</SelectedMunitionCollection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCasualtyAssessmentModel">
+            <SelectedProtection>Protection9</SelectedProtection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanPhysiologicalModel">
+            <Weight>77000000000</Weight>
+            <FatPercentage>14</FatPercentage>
+            <Sex>MALE</Sex>
+            <Age units="microseconds">568025136000000</Age>
+            <Height units="micrometers">1800000</Height>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanBodyModel">
+            <Location>
+              <X>1547.0078161993106</X>
+              <Y>1738.3527881885236</Y>
+              <Z>129.39159892254975</Z>
+            </Location>
+            <FacingDirection>
+              <X>0.16542246696581167</X>
+              <Y>-0.9862227980648921</Y>
+              <Z>0</Z>
+            </FacingDirection>
+            <Posture>Posture6</Posture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RateOfFireModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.SuppressionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanFlareReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.MuzzleFlashReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RiderModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DriverModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCommunicationReactionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanSoundReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RideableModel">
+            <CheckVehiclePosture>true</CheckVehiclePosture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.TaskDegradationModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.ChemBioModel">
+            <MOPPLevel>MOPPLevel1</MOPPLevel>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.GunnerModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.FlashBangEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.NonLethalEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.AcousticHailingEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DazzlerEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.EnergyDensityEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.PowerModel">
+            <PowerCapacity>
+              <Expression name="Energy">
+                <Energy>0</Energy>
+              </Expression>
+            </PowerCapacity>
+            <PowerConsumption>
+              <Expression name="Power">
+                <Power>0</Power>
+              </Expression>
+            </PowerConsumption>
+          </model>
+        </Agent>
+        <Agent AssemblyName="AgentFramework" ClassName="Sim.Agent.AgentFramework">
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.IdentifiersModel">
+            <Id>Agent7</Id>
+            <SystemId>System1</SystemId>
+            <TemplateId>UnitRole3</TemplateId>
+            <Name>SAW Gunner 2</Name>
+            <MemberType>UnitType1Member2</MemberType>
+            <UnitId>3</UnitId>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.KnowledgeModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.BehaviorEngineModel">
+            <Behavior>
+              <BehaviorId>1</BehaviorId>
+              <Parameters />
+            </Behavior>
+            <BehaviorParameters />
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanInventoryModel">
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.UDOPDevice">
+              <EquipmentDescriptorId>udopdevice1</EquipmentDescriptorId>
+              <Id>Equipment60</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Mount">
+              <EquipmentDescriptorId>Mount1</EquipmentDescriptorId>
+              <Id>Equipment61</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.ThrowingWeapon">
+              <EquipmentDescriptorId>ThrowingWeapon1</EquipmentDescriptorId>
+              <Id>Equipment62</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.VisualSensor">
+              <EquipmentDescriptorId>VisualSensor2</EquipmentDescriptorId>
+              <Id>Equipment63</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection1</EquipmentDescriptorId>
+              <Id>Equipment64</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection9</EquipmentDescriptorId>
+              <Id>Equipment65</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Firearm">
+              <EquipmentDescriptorId>Firearm8</EquipmentDescriptorId>
+              <Id>Equipment66</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition25</EquipmentDescriptorId>
+              <Id>Equipment67</Id>
+              <Quantity>2</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition3</EquipmentDescriptorId>
+              <Id>Equipment68</Id>
+              <Quantity>300</Quantity>
+            </Equipment>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.VisualSensorModel">
+            <SelectedVisualSensor>VisualSensor2</SelectedVisualSensor>
+            <Enabled>True</Enabled>
+            <AcquisitionInterval units="microseconds">1000000</AcquisitionInterval>
+            <SearchMethod name="Grid Sweep">
+              <EnableSmoothScanning>
+                <Expression name="Boolean">
+                  <Bool>false</Bool>
+                </Expression>
+              </EnableSmoothScanning>
+              <TimeToSpendInSector>
+                <Expression name="GetUniform">
+                  <Expression name="Time">
+                    <Time units="microseconds">1700000</Time>
+                  </Expression>
+                  <Expression name="Time">
+                    <Time units="microseconds">5400000</Time>
+                  </Expression>
+                </Expression>
+              </TimeToSpendInSector>
+              <Azimuth>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Azimuth>
+              <HorizontalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">1745329000000000</Angle>
+                </Expression>
+              </HorizontalAngle>
+              <Elevation>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Elevation>
+              <VerticalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </VerticalAngle>
+              <Orientation>Current Direction</Orientation>
+            </SearchMethod>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.CombatModel">
+            <SelectedWeapon>Firearm8</SelectedWeapon>
+            <SelectedMount>Mount1</SelectedMount>
+            <SelectedMunitionCollection>Munition3</SelectedMunitionCollection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCasualtyAssessmentModel">
+            <SelectedProtection>Protection9</SelectedProtection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanPhysiologicalModel">
+            <Weight>77000000000</Weight>
+            <FatPercentage>14</FatPercentage>
+            <Sex>MALE</Sex>
+            <Age units="microseconds">568025136000000</Age>
+            <Height units="micrometers">1800000</Height>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanBodyModel">
+            <Location>
+              <X>1540.9400363367729</X>
+              <Y>1741.9834971468104</Y>
+              <Z>129.71015436423477</Z>
+            </Location>
+            <FacingDirection>
+              <X>-0.99480074600542012</X>
+              <Y>0.10184044259065066</Y>
+              <Z>0</Z>
+            </FacingDirection>
+            <Posture>Posture6</Posture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RateOfFireModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.SuppressionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanFlareReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.MuzzleFlashReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RiderModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DriverModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCommunicationReactionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanSoundReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RideableModel">
+            <CheckVehiclePosture>true</CheckVehiclePosture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.TaskDegradationModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.ChemBioModel">
+            <MOPPLevel>MOPPLevel1</MOPPLevel>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.GunnerModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.FlashBangEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.NonLethalEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.AcousticHailingEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DazzlerEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.EnergyDensityEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.PowerModel">
+            <PowerCapacity>
+              <Expression name="Energy">
+                <Energy>0</Energy>
+              </Expression>
+            </PowerCapacity>
+            <PowerConsumption>
+              <Expression name="Power">
+                <Power>0</Power>
+              </Expression>
+            </PowerConsumption>
+          </model>
+        </Agent>
+        <Agent AssemblyName="AgentFramework" ClassName="Sim.Agent.AgentFramework">
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.IdentifiersModel">
+            <Id>Agent8</Id>
+            <SystemId>System1</SystemId>
+            <TemplateId>UnitRole4</TemplateId>
+            <Name>Grenadier 2</Name>
+            <MemberType>UnitType1Member3</MemberType>
+            <UnitId>3</UnitId>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.KnowledgeModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.BehaviorEngineModel">
+            <Behavior>
+              <BehaviorId>1</BehaviorId>
+              <Parameters />
+            </Behavior>
+            <BehaviorParameters />
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanInventoryModel">
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.UDOPDevice">
+              <EquipmentDescriptorId>udopdevice1</EquipmentDescriptorId>
+              <Id>Equipment69</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Mount">
+              <EquipmentDescriptorId>Mount1</EquipmentDescriptorId>
+              <Id>Equipment70</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.ThrowingWeapon">
+              <EquipmentDescriptorId>ThrowingWeapon1</EquipmentDescriptorId>
+              <Id>Equipment71</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.VisualSensor">
+              <EquipmentDescriptorId>VisualSensor2</EquipmentDescriptorId>
+              <Id>Equipment72</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection1</EquipmentDescriptorId>
+              <Id>Equipment73</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection9</EquipmentDescriptorId>
+              <Id>Equipment74</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Firearm">
+              <EquipmentDescriptorId>Firearm10</EquipmentDescriptorId>
+              <Id>Equipment75</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Firearm">
+              <EquipmentDescriptorId>Firearm2</EquipmentDescriptorId>
+              <Id>Equipment76</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition4</EquipmentDescriptorId>
+              <Id>Equipment77</Id>
+              <Quantity>36</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition3</EquipmentDescriptorId>
+              <Id>Equipment78</Id>
+              <Quantity>210</Quantity>
+            </Equipment>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.VisualSensorModel">
+            <SelectedVisualSensor>VisualSensor2</SelectedVisualSensor>
+            <Enabled>True</Enabled>
+            <AcquisitionInterval units="microseconds">1000000</AcquisitionInterval>
+            <SearchMethod name="Grid Sweep">
+              <EnableSmoothScanning>
+                <Expression name="Boolean">
+                  <Bool>false</Bool>
+                </Expression>
+              </EnableSmoothScanning>
+              <TimeToSpendInSector>
+                <Expression name="GetUniform">
+                  <Expression name="Time">
+                    <Time units="microseconds">1700000</Time>
+                  </Expression>
+                  <Expression name="Time">
+                    <Time units="microseconds">5400000</Time>
+                  </Expression>
+                </Expression>
+              </TimeToSpendInSector>
+              <Azimuth>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Azimuth>
+              <HorizontalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">1745329000000000</Angle>
+                </Expression>
+              </HorizontalAngle>
+              <Elevation>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Elevation>
+              <VerticalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </VerticalAngle>
+              <Orientation>Current Direction</Orientation>
+            </SearchMethod>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.CombatModel">
+            <SelectedWeapon>Firearm10</SelectedWeapon>
+            <SelectedMount>Mount1</SelectedMount>
+            <SelectedMunitionCollection>Munition4</SelectedMunitionCollection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCasualtyAssessmentModel">
+            <SelectedProtection>Protection9</SelectedProtection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanPhysiologicalModel">
+            <Weight>70000000000</Weight>
+            <FatPercentage>14</FatPercentage>
+            <Sex>MALE</Sex>
+            <Age units="microseconds">568025136000000</Age>
+            <Height units="micrometers">1800000</Height>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanBodyModel">
+            <Location>
+              <X>1550.6385251575973</X>
+              <Y>1744.4205680510613</Y>
+              <Z>129.16170625551604</Z>
+            </Location>
+            <FacingDirection>
+              <X>0.826139197789049</X>
+              <Y>0.56346608227688966</Y>
+              <Z>0</Z>
+            </FacingDirection>
+            <Posture>Posture6</Posture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RateOfFireModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.SuppressionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanFlareReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.MuzzleFlashReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RiderModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DriverModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCommunicationReactionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanSoundReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RideableModel">
+            <CheckVehiclePosture>true</CheckVehiclePosture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.TaskDegradationModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.ChemBioModel">
+            <MOPPLevel>MOPPLevel1</MOPPLevel>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.GunnerModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.FlashBangEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.NonLethalEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.AcousticHailingEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DazzlerEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.EnergyDensityEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.PowerModel">
+            <PowerCapacity>
+              <Expression name="Energy">
+                <Energy>0</Energy>
+              </Expression>
+            </PowerCapacity>
+            <PowerConsumption>
+              <Expression name="Power">
+                <Power>0</Power>
+              </Expression>
+            </PowerConsumption>
+          </model>
+        </Agent>
+        <Agent AssemblyName="AgentFramework" ClassName="Sim.Agent.AgentFramework">
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.IdentifiersModel">
+            <Id>Agent9</Id>
+            <SystemId>System1</SystemId>
+            <TemplateId>UnitRole14</TemplateId>
+            <Name>Rifleman 2</Name>
+            <MemberType>UnitType1Member4</MemberType>
+            <UnitId>3</UnitId>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.KnowledgeModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.BehaviorEngineModel">
+            <Behavior>
+              <BehaviorId>1</BehaviorId>
+              <Parameters />
+            </Behavior>
+            <BehaviorParameters />
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanInventoryModel">
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.UDOPDevice">
+              <EquipmentDescriptorId>udopdevice1</EquipmentDescriptorId>
+              <Id>Equipment79</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Mount">
+              <EquipmentDescriptorId>Mount1</EquipmentDescriptorId>
+              <Id>Equipment80</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.ThrowingWeapon">
+              <EquipmentDescriptorId>ThrowingWeapon1</EquipmentDescriptorId>
+              <Id>Equipment81</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.VisualSensor">
+              <EquipmentDescriptorId>VisualSensor2</EquipmentDescriptorId>
+              <Id>Equipment82</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection1</EquipmentDescriptorId>
+              <Id>Equipment83</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection9</EquipmentDescriptorId>
+              <Id>Equipment84</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Firearm">
+              <EquipmentDescriptorId>Firearm2</EquipmentDescriptorId>
+              <Id>Equipment85</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition3</EquipmentDescriptorId>
+              <Id>Equipment86</Id>
+              <Quantity>210</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition25</EquipmentDescriptorId>
+              <Id>Equipment87</Id>
+              <Quantity>2</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+              <EquipmentDescriptorId>Munition29</EquipmentDescriptorId>
+              <Id>Equipment88</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.VisualSensorModel">
+            <SelectedVisualSensor>VisualSensor2</SelectedVisualSensor>
+            <Enabled>True</Enabled>
+            <AcquisitionInterval units="microseconds">1000000</AcquisitionInterval>
+            <SearchMethod name="Grid Sweep">
+              <EnableSmoothScanning>
+                <Expression name="Boolean">
+                  <Bool>false</Bool>
+                </Expression>
+              </EnableSmoothScanning>
+              <TimeToSpendInSector>
+                <Expression name="GetUniform">
+                  <Expression name="Time">
+                    <Time units="microseconds">1700000</Time>
+                  </Expression>
+                  <Expression name="Time">
+                    <Time units="microseconds">5400000</Time>
+                  </Expression>
+                </Expression>
+              </TimeToSpendInSector>
+              <Azimuth>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Azimuth>
+              <HorizontalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">1745329000000000</Angle>
+                </Expression>
+              </HorizontalAngle>
+              <Elevation>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Elevation>
+              <VerticalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </VerticalAngle>
+              <Orientation>Current Direction</Orientation>
+            </SearchMethod>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.CombatModel">
+            <SelectedWeapon>Firearm2</SelectedWeapon>
+            <SelectedMount>Mount1</SelectedMount>
+            <SelectedMunitionCollection>Munition3</SelectedMunitionCollection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCasualtyAssessmentModel">
+            <SelectedProtection>Protection9</SelectedProtection>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanPhysiologicalModel">
+            <Weight>77000000000</Weight>
+            <FatPercentage>14</FatPercentage>
+            <Sex>MALE</Sex>
+            <Age units="microseconds">568025136000000</Age>
+            <Height units="micrometers">1800000</Height>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanBodyModel">
+            <Location>
+              <X>1544.5707452950596</X>
+              <Y>1748.051277009348</Y>
+              <Z>129.48324331315234</Z>
+            </Location>
+            <FacingDirection>
+              <X>-0.28583629295477331</X>
+              <Y>0.958278463511454</Y>
+              <Z>0</Z>
+            </FacingDirection>
+            <Posture>Posture6</Posture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RateOfFireModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.SuppressionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanFlareReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.MuzzleFlashReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RiderModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DriverModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanCommunicationReactionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanSoundReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RideableModel">
+            <CheckVehiclePosture>true</CheckVehiclePosture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.TaskDegradationModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.ChemBioModel">
+            <MOPPLevel>MOPPLevel1</MOPPLevel>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.GunnerModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.FlashBangEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.NonLethalEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.AcousticHailingEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DazzlerEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.EnergyDensityEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.PowerModel">
+            <PowerCapacity>
+              <Expression name="Energy">
+                <Energy>0</Energy>
+              </Expression>
+            </PowerCapacity>
+            <PowerConsumption>
+              <Expression name="Power">
+                <Power>0</Power>
+              </Expression>
+            </PowerConsumption>
+          </model>
+        </Agent>
+        <Agent AssemblyName="AgentFramework" ClassName="Sim.Agent.AgentFramework">
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.IdentifiersModel">
+            <Id>Agent10</Id>
+            <SystemId>System4</SystemId>
+            <TemplateId>3947c6cf-eb4f-4b11-9322-ed882f5df36a</TemplateId>
+            <Name>Bradley Fighting Vehicle</Name>
+            <MemberType>UnitDescription1Member1</MemberType>
+            <UnitId>4</UnitId>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.VehicleBodyModel">
+            <Location>
+              <X>1556.7911376953125</X>
+              <Y>1677.75341796875</Y>
+              <Z>129.94221496582031</Z>
+            </Location>
+            <FacingDirection>
+              <X>-3.0914306640625</X>
+              <Y>-11.494140625</Y>
+              <Z>0.0096435546875</Z>
+            </FacingDirection>
+            <Posture>Posture9</Posture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DrivableModel">
+            <Remote value="False" />
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RideableModel">
+            <CheckVehiclePosture>true</CheckVehiclePosture>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.VehicleCasualtyAssessmentModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.VehicleCommunicationReactionModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.KnowledgeModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.BehaviorEngineModel">
+            <BehaviorParameters />
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.HumanSoundReaction" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.VehicleInventoryModel">
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+              <EquipmentDescriptorId>Protection1</EquipmentDescriptorId>
+              <Id>Equipment89</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Mount">
+              <EquipmentDescriptorId>Mount1</EquipmentDescriptorId>
+              <Id>Equipment90</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.ThrowingWeapon">
+              <EquipmentDescriptorId>ThrowingWeapon5</EquipmentDescriptorId>
+              <Id>Equipment91</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.COPAccessPoint">
+              <EquipmentDescriptorId>COPAccessPoint1</EquipmentDescriptorId>
+              <Id>Equipment92</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+            <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.VisualSensor" PointId="visualsensor.Front Camera">
+              <EquipmentDescriptorId>VisualSensor2</EquipmentDescriptorId>
+              <Id>Equipment93</Id>
+              <Quantity>1</Quantity>
+            </Equipment>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.AttachableModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.PowerModel">
+            <PowerCapacity>
+              <Expression name="Energy">
+                <Energy>0</Energy>
+              </Expression>
+            </PowerCapacity>
+            <PowerConsumption>
+              <Expression name="Power">
+                <Power>0</Power>
+              </Expression>
+            </PowerConsumption>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.VisualSensorModel">
+            <SelectedVisualSensor>VisualSensor2</SelectedVisualSensor>
+            <Enabled>True</Enabled>
+            <AcquisitionInterval units="microseconds">10000</AcquisitionInterval>
+            <SearchMethod name="Grid Sweep">
+              <EnableSmoothScanning>
+                <Expression name="Boolean">
+                  <Bool>false</Bool>
+                </Expression>
+              </EnableSmoothScanning>
+              <TimeToSpendInSector>
+                <Expression name="Time">
+                  <Time units="microseconds">1000000</Time>
+                </Expression>
+              </TimeToSpendInSector>
+              <Azimuth>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Azimuth>
+              <HorizontalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">1570796326794896</Angle>
+                </Expression>
+              </HorizontalAngle>
+              <Elevation>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">0</Angle>
+                </Expression>
+              </Elevation>
+              <VerticalAngle>
+                <Expression name="Angle">
+                  <Angle units="femtoradians">1570796326794896</Angle>
+                </Expression>
+              </VerticalAngle>
+              <Orientation>Current Direction</Orientation>
+            </SearchMethod>
+          </model>
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.DazzlerEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.NonLethalEffectModel" />
+          <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.GunnerModel" />
+          <Agent AssemblyName="AgentFramework" ClassName="Sim.Agent.AgentFramework">
+            <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.IdentifiersModel">
+              <Id>Agent11</Id>
+              <SystemId>System4</SystemId>
+              <TemplateId>9908002b-01b6-400f-9c17-16982c7f3d3f</TemplateId>
+              <Name>Bradley Main Turret</Name>
+              <MemberType>UnitDescription1Member1</MemberType>
+              <UnitId>7</UnitId>
+            </model>
+            <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.KnowledgeModel" />
+            <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.TurretBodyModel">
+              <Location>
+                <X>1556.7052216301117</X>
+                <Y>1678.2425175800158</Y>
+                <Z>132.10221496582031</Z>
+              </Location>
+              <FacingDirection>
+                <X>-0.25972704389908224</X>
+                <Y>-0.96568207121569993</Y>
+                <Z>0</Z>
+              </FacingDirection>
+              <Posture>Posture9</Posture>
+            </model>
+            <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.GunnableModel">
+              <Remote value="False" />
+            </model>
+            <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.AttachmentModel">
+              <OffsetDirection>
+                <X>1</X>
+                <Y>0</Y>
+                <Z>0</Z>
+              </OffsetDirection>
+              <AttachmentPointName>mainturret</AttachmentPointName>
+            </model>
+            <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.InventoryModel">
+              <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Mount">
+                <EquipmentDescriptorId>Mount1</EquipmentDescriptorId>
+                <Id>Equipment94</Id>
+                <Quantity>1</Quantity>
+              </Equipment>
+              <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Protection">
+                <EquipmentDescriptorId>Protection1</EquipmentDescriptorId>
+                <Id>Equipment95</Id>
+                <Quantity>1</Quantity>
+              </Equipment>
+              <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.VisualSensor">
+                <EquipmentDescriptorId>VisualSensor2</EquipmentDescriptorId>
+                <Id>Equipment96</Id>
+                <Quantity>1</Quantity>
+              </Equipment>
+              <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.ThrowingWeapon">
+                <EquipmentDescriptorId>ThrowingWeapon5</EquipmentDescriptorId>
+                <Id>Equipment97</Id>
+                <Quantity>1</Quantity>
+              </Equipment>
+              <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.MunitionCollection">
+                <EquipmentDescriptorId>Munition4</EquipmentDescriptorId>
+                <Id>Equipment98</Id>
+                <Quantity>100</Quantity>
+              </Equipment>
+              <Equipment AssemblyName="Equipment" ClassName="Sim.Agent.Equipment.Firearm">
+                <EquipmentDescriptorId>Firearm10</EquipmentDescriptorId>
+                <Id>Equipment99</Id>
+                <Quantity>1</Quantity>
+              </Equipment>
+            </model>
+            <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.CombatModel">
+              <SelectedWeapon>Firearm10</SelectedWeapon>
+              <SelectedMount>Mount1</SelectedMount>
+              <SelectedMunitionCollection>Munition4</SelectedMunitionCollection>
+            </model>
+            <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.RateOfFireModel" />
+            <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.ExcludeModel" />
+            <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.PowerModel">
+              <PowerCapacity>
+                <Expression name="Energy">
+                  <Energy>0</Energy>
+                </Expression>
+              </PowerCapacity>
+              <PowerConsumption>
+                <Expression name="Power">
+                  <Power>0</Power>
+                </Expression>
+              </PowerConsumption>
+            </model>
+            <model AssemblyName="AgentComponents" ClassName="Sim.Agent.Components.GunnerModel" />
+          </Agent>
+        </Agent>
+      </Agents>
+      <RulesOfEngagement>
+        <RuleOfEngagement>
+          <Id>RulesOfEngagement</Id>
+          <Name>Red</Name>
+          <Force>Force1</Force>
+          <Rules>
+            <Rule>
+              <EngagedForce>Force0</EngagedForce>
+              <EngagementRule>Engagement4</EngagementRule>
+            </Rule>
+            <Rule>
+              <EngagedForce>Force1</EngagedForce>
+              <EngagementRule>Engagement4</EngagementRule>
+            </Rule>
+            <Rule>
+              <EngagedForce>Force2</EngagedForce>
+              <EngagementRule>Engagement1</EngagementRule>
+            </Rule>
+            <Rule>
+              <EngagedForce>Force3</EngagedForce>
+              <EngagementRule>Engagement4</EngagementRule>
+            </Rule>
+          </Rules>
+        </RuleOfEngagement>
+        <RuleOfEngagement>
+          <Id>RulesOfEngagement</Id>
+          <Name>Blue</Name>
+          <Force>Force2</Force>
+          <Rules>
+            <Rule>
+              <EngagedForce>Force0</EngagedForce>
+              <EngagementRule>Engagement4</EngagementRule>
+            </Rule>
+            <Rule>
+              <EngagedForce>Force1</EngagedForce>
+              <EngagementRule>Engagement1</EngagementRule>
+            </Rule>
+            <Rule>
+              <EngagedForce>Force2</EngagedForce>
+              <EngagementRule>Engagement4</EngagementRule>
+            </Rule>
+            <Rule>
+              <EngagedForce>Force3</EngagedForce>
+              <EngagementRule>Engagement4</EngagementRule>
+            </Rule>
+          </Rules>
+        </RuleOfEngagement>
+        <RuleOfEngagement>
+          <Id>RulesOfEngagement</Id>
+          <Name>Civilian</Name>
+          <Force>Force3</Force>
+          <Rules>
+            <Rule>
+              <EngagedForce>Force0</EngagedForce>
+              <EngagementRule>Engagement4</EngagementRule>
+            </Rule>
+            <Rule>
+              <EngagedForce>Force1</EngagedForce>
+              <EngagementRule>Engagement4</EngagementRule>
+            </Rule>
+            <Rule>
+              <EngagedForce>Force2</EngagedForce>
+              <EngagementRule>Engagement4</EngagementRule>
+            </Rule>
+            <Rule>
+              <EngagedForce>Force3</EngagedForce>
+              <EngagementRule>Engagement4</EngagementRule>
+            </Rule>
+          </Rules>
+        </RuleOfEngagement>
+      </RulesOfEngagement>
+      <Units>
+        <Unit AssemblyName="Battlefield" ClassName="Sim.Battlefield.UnitInformation">
+          <Id>Unit1</Id>
+          <Name>Squad 1</Name>
+          <Force>Force2</Force>
+          <Formation>Formation6</Formation>
+          <UnitDescription>UnitType2</UnitDescription>
+          <UnitMembers>
+            <Unit AssemblyName="Battlefield" ClassName="Sim.Battlefield.UnitInformation">
+              <Id>Unit2</Id>
+              <Name>Fire Team A 1</Name>
+              <Force>Force2</Force>
+              <Formation>Formation1</Formation>
+              <UnitDescription>UnitType1</UnitDescription>
+              <UnitMemberType>UnitType2Member2</UnitMemberType>
+            </Unit>
+            <Unit AssemblyName="Battlefield" ClassName="Sim.Battlefield.UnitInformation">
+              <Id>Unit3</Id>
+              <Name>Fire Team B 1</Name>
+              <Force>Force2</Force>
+              <Formation>Formation1</Formation>
+              <UnitDescription>UnitType1</UnitDescription>
+              <UnitMemberType>UnitType2Member3</UnitMemberType>
+            </Unit>
+          </UnitMembers>
+        </Unit>
+        <Unit AssemblyName="Battlefield" ClassName="Sim.Battlefield.UnitInformation">
+          <Id>Unit4</Id>
+          <Name>Single Agent 1</Name>
+          <Force>Force2</Force>
+          <Formation>NoFormation</Formation>
+          <UnitDescription>UnitDescription1</UnitDescription>
+        </Unit>
+      </Units>
+    </Battlefield>
+  </Simulation>
+  <Database Name="Default IWARS Database" />
+  <OutputInfo />
+  <Duration units="microseconds">300000000</Duration>
+</Scenario>
