@@ -1,0 +1,43 @@
+Jack Perreault
+
+My roles and responsibilities are to work on understanding our sector’s PIRs and vulnerabilities to develop courses of action which respond to enemy attacks.
+I will take charge of the team in response to recognizing possible enemy activity within our network.
+
+Matteo Cordray
+
+My job is to develop, test, and deploy all the software in our sector!
+I also conduct the management and version control​ of our tools.
+
+Nicole Sacchinelli
+
+As a network engineer, I am responsible to build the basis for all our services.
+My job is to manage the IP space, configure routers and implement all the netplans for chemical sector.
+
+Ruben Calles
+
+My job is to implement services​ and manage all hosts that are working in the chemical sector network.
+I also take charge of installing and configuring software as needed.
+
+Kyle Patel
+
+My mission is to ensure the chemical systems keep functional, available and secure.
+I am responsible for managing the team and coordinate with the higher command of critical services.
+
+Mayara Mendonca
+
+I am responsible for defense architect and security policies in the chemical sector systems.
+My job is to ensure that all the defensibility principles are being applied successfully.
+
+Seth Benson
+
+Rafael Castellano
+
+My duty is to monitors the chemical services network looking for possible vulnerabilities and threats.
+I conduct all the Intelligence Preparation of the Environment.
+
+Alexis Martin
+
+As a network engineer, I am responsible to manage the basic availabily for all our services.
+My job is troubleshoots network-related issues as needed and ensure connectivity.
+
+
