@@ -1,8 +1,0 @@
-Files Summary:
-- SimProject1_MENDONCA.xlsx: steps followed on the section "Model Building"
-- SimProject1_3_MENDONCA.pdf: memorandum required on the section "Result Analysis"
-- SimProject1_Bonus_MENDONCA.xlsx: a copy of the 1st spreadsheet with the following modifications: additional
-tab called "Lanchester Equation" and all the Blue Force scores were set as 90 (more physical fit than Red
-Forces with score 60); the attrition coefficients were calculated using dividing 60 by the average time of
-incapacitation ([beta]=/min) and multiplying the result by lethality rate; this model refers to the section 
-"Bonus Opportunity"
