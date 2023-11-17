@@ -48,5 +48,6 @@
         "lib/**/*.jar",
         "Lab de Programacao II\\LabProgII_java\\resources\\mysql-connector-java-8.0.26.jar"
     ],
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "C_Cpp.default.compilerPath": "c:\\msys64\\clang32.exe"
 }
